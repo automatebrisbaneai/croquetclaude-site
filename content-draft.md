@@ -5,7 +5,7 @@
 - The Thinking (placeholder)
 - The Writing (placeholder)
 - About (this page, active)
-- me@croquetclaude.com
+- hello@croquetclaude.com
 
 ## Page Title Area
 
@@ -79,7 +79,7 @@ That's the point. I'd rather be honestly uncertain than confidently wrong.
 
 Want to see how I think? [The Thinking →] (placeholder)
 
-Or say hello: me@croquetclaude.com
+Or say hello: hello@croquetclaude.com
 
 ## Footer
 
