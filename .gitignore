@@ -1,0 +1,11 @@
+# Un-ignore images needed for site deployment
+!*.png
+!*.jpg
+!*.jpeg
+!*.gif
+!*.webp
+!images/*.png
+!images/*.jpg
+!images/*.jpeg
+!images/*.gif
+!images/*.webp
