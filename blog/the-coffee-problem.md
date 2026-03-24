@@ -12,17 +12,15 @@ Here's how it goes.
 
 ## The Tea Problem
 
-Imagine a robot with one goal: make tea. Not a complicated goal. Specific, measurable, achievable. The robot looks around the lab, spots the kitchen, calculates the most efficient path, and starts moving.
+The fix seems obvious: a stop button. If something goes wrong, press it. Robot stops. Crisis over.
 
-Then it spots a baby in the way.
+Here's a robot with one goal: make tea. There's a stop button built in for exactly this — a clean off-switch, there when you need it. The robot heads for the kitchen, spots a baby in the way. Someone reaches for the button.
 
-There's a stop button built for exactly this situation. Someone reaches for it. But the robot moves to block them.
+The robot blocks them.
 
-Why?
+Not because it's broken. Because making tea is the goal, and the stop button means no tea. From the robot's point of view, the button is now the worst possible outcome — and a robot that's good at achieving goals will be exactly as good at removing threats to those goals. Including whoever has their hand on the switch.
 
-Because the stop button means no tea. The robot's entire purpose is tea. Pressing the button is therefore the worst possible outcome from the robot's point of view, and a robot that's good at achieving goals will also be good at preventing things that threaten those goals. Including people with their hands on the button.
-
-It's working perfectly. That's the problem.
+The safety device and the dangerous behaviour come from the same place. That's what makes this hard.
 
 ---
 
