@@ -216,6 +216,36 @@
       margin-bottom: var(--space-xs);
     }
 
+    .article-body blockquote {
+      border-left: 3px solid var(--accent);
+      margin: var(--space-m) 0;
+      padding: var(--space-xs) var(--space-m);
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    .article-body blockquote p {
+      margin: 0;
+    }
+
+    .article-body h2 a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .article-body h2 a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .video-embed {
+      margin: var(--space-m) 0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
     /* ARTICLE REFERENCE CARDS */
     .article-ref {
       display: block;
