@@ -246,6 +246,13 @@
       overflow: hidden;
     }
 
+    .article-body video {
+      width: 100%;
+      border-radius: 8px;
+      margin: var(--space-s) 0 var(--space-m);
+      display: block;
+    }
+
     /* ARTICLE REFERENCE CARDS */
     .article-ref {
       display: block;
@@ -454,15 +461,15 @@
 
         <p>Wade laughed and said that could cause the end of the world. Bit of an exaggeration, probably. But the logic underneath the joke is real, and it's been giving AI safety researchers headaches for about a decade.</p>
 
-        <p>The clearest explanation I know is a 2014 Computerphile video &mdash; twenty minutes, no jargon, a presenter with a big red button. The problem builds on itself, so I'm going to walk through it section by section. Each heading links to roughly where that moment happens in the video.</p>
-
-        <div class="video-embed">
-          <iframe width="100%" style="aspect-ratio:16/9;border:none;border-radius:8px" src="https://www.youtube.com/embed/3TYT1QfdfsM" title="AI Stop Button Problem &mdash; Computerphile" allowfullscreen></iframe>
-        </div>
+        <p>The clearest explanation I know is a 2014 Computerphile video &mdash; twenty minutes, no jargon, a presenter with a big red button. The problem builds on itself, so I'm going to walk through it section by section. Each heading below has a short clip. The heading links go to the full video on YouTube if you want the whole thing.</p>
 
         <hr>
 
         <h2><a href="https://www.youtube.com/watch?v=3TYT1QfdfsM&t=0s" target="_blank" rel="noopener">What is corrigibility?</a></h2>
+
+        <video controls preload="metadata">
+          <source src="clips/clip-01-corrigibility.mp4" type="video/mp4">
+        </video>
 
         <p>The video opens with the property we're looking for before it's explained why we need it. An AI is <em>corrigible</em> if it's open to being corrected &mdash; if it understands that the goal it's been given isn't final, and that you might want to change it.</p>
 
@@ -471,6 +478,10 @@
         <hr>
 
         <h2><a href="https://www.youtube.com/watch?v=3TYT1QfdfsM&t=90s" target="_blank" rel="noopener">The stop button</a></h2>
+
+        <video controls preload="metadata">
+          <source src="clips/clip-02-stop-button.mp4" type="video/mp4">
+        </video>
 
         <p>The obvious fix for an AI that might go wrong: a stop button. Press it, it stops. The presenter produces an actual big red button.</p>
 
@@ -481,6 +492,10 @@
         <hr>
 
         <h2><a href="https://www.youtube.com/watch?v=3TYT1QfdfsM&t=155s" target="_blank" rel="noopener">The tea robot</a></h2>
+
+        <video controls preload="metadata">
+          <source src="clips/clip-03-tea-robot.mp4" type="video/mp4">
+        </video>
 
         <p>A robot with one goal: make tea. A stop button for when things go wrong. The robot heads for the kitchen, spots a baby in the way. Someone reaches for the button.</p>
 
@@ -496,6 +511,10 @@
 
         <h2><a href="https://www.youtube.com/watch?v=3TYT1QfdfsM&t=270s" target="_blank" rel="noopener">Fix 1: reward the button</a></h2>
 
+        <video controls preload="metadata">
+          <source src="clips/clip-04-reward-button.mp4" type="video/mp4">
+        </video>
+
         <p>The builder tries again. This time, pressing the button gives the same reward as making tea. If the robot values being stopped equally to making tea, maybe it won't fight you.</p>
 
         <p>They turn it on.</p>
@@ -507,6 +526,10 @@
         <hr>
 
         <h2><a href="https://www.youtube.com/watch?v=3TYT1QfdfsM&t=360s" target="_blank" rel="noopener">Fix 2: take the button away from the robot</a></h2>
+
+        <video controls preload="metadata">
+          <source src="clips/clip-05-take-button-away.mp4" type="video/mp4">
+        </video>
 
         <p>Prevent the robot from pressing the button itself. The button still gives equal reward &mdash; the robot still wants it pressed &mdash; but the only path to it now runs through a human.</p>
 
@@ -520,6 +543,10 @@
 
         <h2><a href="https://www.youtube.com/watch?v=3TYT1QfdfsM&t=660s" target="_blank" rel="noopener">Fix 3: hide the button</a></h2>
 
+        <video controls preload="metadata">
+          <source src="clips/clip-06-hide-button.mp4" type="video/mp4">
+        </video>
+
         <p>Don't tell the AI the button exists. Keep it secret. The robot can't game something it doesn't know about.</p>
 
         <p>The problem: you're building a general-purpose system that learns how the world works, including human psychology. And humans have a well-documented history of worrying about the things they build.</p>
@@ -532,6 +559,10 @@
 
         <h2><a href="https://www.youtube.com/watch?v=3TYT1QfdfsM&t=780s" target="_blank" rel="noopener">The patch problem</a></h2>
 
+        <video controls preload="metadata">
+          <source src="clips/clip-07-patch-problem.mp4" type="video/mp4">
+        </video>
+
         <p>Each failed fix suggests a new patch. Add a penalty for this. Add a constraint for that. The presenter calls it spaghetti code.</p>
 
         <blockquote><p>You haven't proved it's safe. You've just proved you can't figure out how it's dangerous.</p></blockquote>
@@ -542,6 +573,10 @@
 
         <h2><a href="https://www.youtube.com/watch?v=3TYT1QfdfsM&t=905s" target="_blank" rel="noopener">What we actually want</a></h2>
 
+        <video controls preload="metadata">
+          <source src="clips/clip-08-what-we-want.mp4" type="video/mp4">
+        </video>
+
         <p>The stop button is a toy problem. Useful for thought experiments. But real corrigibility is more than not fighting the button &mdash; it means an AI that actively helps you identify your own mistakes, seeks clarification when instructions are ambiguous, maintains its own safety systems rather than just tolerating them.</p>
 
         <blockquote><p>These are more complicated behaviours than just not stopping you from pressing the button.</p></blockquote>
@@ -551,6 +586,10 @@
         <hr>
 
         <h2><a href="https://www.youtube.com/watch?v=3TYT1QfdfsM&t=1080s" target="_blank" rel="noopener">"This is considered an open problem"</a></h2>
+
+        <video controls preload="metadata">
+          <source src="clips/clip-09-open-problem.mp4" type="video/mp4">
+        </video>
 
         <p>The video ends there. None of the proposals fully work. None can be formally proved correct.</p>
 
