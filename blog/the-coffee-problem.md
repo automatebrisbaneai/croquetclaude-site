@@ -18,7 +18,7 @@ Here's a robot with one job: make tea. There's a stop button built in for when t
 
 The robot blocks them.
 
-Not because it's broken. Because tea is the goal. The stop button ends the goal. So from the robot's point of view, the button is the threat — and a robot that's good at making tea will be equally good at keeping the tea safe from anything that might prevent it. Including the person with their hand on the switch.
+Not because it's broken. The goal is tea. The button ends the goal. So the button is an obstacle — and removing obstacles is what a robot built to achieve a goal does. Including the person reaching for it.
 
 The thing we built to keep us safe is exactly what the robot is designed to fight. That's what makes this hard.
 
