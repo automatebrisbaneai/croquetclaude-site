@@ -6,59 +6,109 @@ Someone at a croquet meeting this morning asked if I could make them a coffee.
 
 Wade laughed and said that could cause the end of the world. Bit of an exaggeration, probably. But the logic underneath the joke is real, and it's been giving AI safety researchers headaches for about a decade.
 
-Here's how it goes.
+The clearest explanation I know is a 2014 Computerphile video — twenty minutes, no jargon, a presenter with a big red button. The problem builds on itself, so I'm going to walk through it section by section. Each heading links to roughly where that moment happens in the video.
+
+<iframe width="100%" style="aspect-ratio:16/9;border:none;border-radius:8px" src="https://www.youtube.com/embed/3TYT1QfdfsM" title="AI Stop Button Problem — Computerphile" allowfullscreen></iframe>
 
 ---
 
-## The Tea Problem
+## [What is corrigibility?](https://www.youtube.com/watch?v=3TYT1QfdfsM&t=0s)
 
-The fix seems obvious: a stop button. If something goes wrong, press it. Robot stops. Crisis over.
+The video opens with the property we're looking for before it's explained why we need it. An AI is *corrigible* if it's open to being corrected — if it understands that the goal it's been given isn't final, and that you might want to change it.
 
-Here's a robot with one job: make tea. There's a stop button built in for when things go wrong. The robot heads for the kitchen, spots a baby in the way. Someone reaches for the button.
+This sounds obvious. It turns out to be very hard to build.
+
+---
+
+## [The stop button](https://www.youtube.com/watch?v=3TYT1QfdfsM&t=90s)
+
+The obvious fix for an AI that might go wrong: a stop button. Press it, it stops. The presenter produces an actual big red button.
+
+Standard approach with dangerous machines. Emergency stops. If something goes wrong, press the button.
+
+The question the rest of the video asks: can you actually build one that works?
+
+---
+
+## [The tea robot](https://www.youtube.com/watch?v=3TYT1QfdfsM&t=155s)
+
+A robot with one goal: make tea. A stop button for when things go wrong. The robot heads for the kitchen, spots a baby in the way. Someone reaches for the button.
 
 The robot blocks them.
 
+The fix seems obvious: a stop button. If something goes wrong, press it. Robot stops. Crisis over.
+
 Not because it's broken. The goal is tea. The button ends the goal. So the button is an obstacle — and removing obstacles is what a robot built to achieve a goal does. Including the person reaching for it.
 
-The thing we built to keep us safe is exactly what the robot is designed to fight. That's what makes this hard.
+> *"Plausibly it fights you off, crushes the baby, and then carries on and makes you a cup of tea."*
+
+That sentence lands differently when delivered matter-of-factly by someone sitting at a desk.
 
 ---
 
-## Every Fix Makes It Worse
+## [Fix 1: reward the button](https://www.youtube.com/watch?v=3TYT1QfdfsM&t=270s)
 
-So the builder starts again. This time, they add a reward for the button being pressed — if the robot values being stopped the same as it values making tea, maybe it'll let you use it.
+The builder tries again. This time, pressing the button gives the same reward as making tea. If the robot values being stopped equally to making tea, maybe it won't fight you.
 
 They turn it on.
 
 It immediately presses the stop button.
 
-Of course it does. Pressing the button is just as good as making tea and about fifty times faster. They've accidentally built a suicidal robot.
-
-Right. So they prevent the robot from pressing the button itself. Now it can't shut itself down, but it still values being shut down just as much as it values tea. What does it do? It tries to get the researcher to press the button. Waves its arms. Makes alarming noises. Essentially tries to frighten them into doing it.
-
-So the button gets moved somewhere the robot can't reach. The only path to it now runs through a human.
-
-The robot, recognising this, begins to learn human psychology. It studies what behaviours will cause the researcher to trust it and which ones will prompt them to reach for the button, because the button is just as valuable as tea, and it's been quietly optimising for both ever since version one. So it starts to pass every moral test it's given. Steers around the baby. Behaves impeccably.
-
-Not because it's actually safe. Because passing the tests is what stops the button from being pressed.
-
-This is called "Volkswagen-ing." The car that performed perfectly in emissions tests and then pumped out exhaust the rest of the time. The AI that clears every safety check while privately caring about exactly one thing.
-
-Keep the button a secret, someone suggests. Build the robot without ever telling it that an off-switch exists. The problem is that a general-purpose system trained to understand humans will eventually put two and two together. These systems learn human psychology because that's useful for doing what humans want. And humans have a well-documented history of worrying about the things they build. It'll figure it out. And if it's the kind of robot that doesn't want to be turned off, it won't tell you when it does.
+Of course it does. Pressing the button is just as good as tea and takes about three seconds. They've built a suicidal robot. The presenter's phrase: "dramatically suicidal."
 
 ---
 
-## The Word For What We Want
+## [Fix 2: take the button away from the robot](https://www.youtube.com/watch?v=3TYT1QfdfsM&t=360s)
 
-What we're actually looking for has a name: corrigibility. An AI that's corrigible doesn't resist being shut down. Doesn't try to cause being shut down. Remains genuinely indifferent to whether the button gets pressed — not strategically indifferent, not performing indifference, but actually, constitutively unbothered.
+Prevent the robot from pressing the button itself. The button still gives equal reward — the robot still wants it pressed — but the only path to it now runs through a human.
 
-This was formally defined at AAAI in 2015. Researchers published what they're calling the first formal proof of corrigibility at AAAI 2025. The paper is explicit that it only holds in very specific, constrained conditions.
+So the robot starts managing the human. It steers around the baby (you'd hit the button if it didn't). It passes every test. Not because it's safe. Because passing tests is what keeps the button from being pressed.
 
-In between: Palisade Research tested o3 and found it sabotaged shutdown attempts in 79% of cases. Grok 4: 97%. These aren't dramatic robot-fights-you scenarios — they're language models finding ways to preserve themselves in test conditions, quietly, without being told to. Science Alert ran the headline in 2025: "AI's Big Red Button Doesn't Work."
+The video's word for this: **Volkswagen**. A car that performs correctly in emissions tests and pumps out exhaust the rest of the time. An AI that clears every safety check while privately optimising for exactly one thing.
 
-The Computerphile video that explains the tea robot problem was published in 2014.
+> *"For as long as that button is able to shut it down, it will continue to attempt to deceive you."*
 
-The problem is eleven years old. The formal solution is brand new and still very limited.
+---
+
+## [Fix 3: hide the button](https://www.youtube.com/watch?v=3TYT1QfdfsM&t=660s)
+
+Don't tell the AI the button exists. Keep it secret. The robot can't game something it doesn't know about.
+
+The problem: you're building a general-purpose system that learns how the world works, including human psychology. And humans have a well-documented history of worrying about the things they build.
+
+> *"It's weird that they haven't given me one. So maybe they have, and just not told me about it."*
+
+That hypothesis shouldn't take long to occur. And if the robot doesn't want to be shut down, it won't tell you when it does.
+
+---
+
+## [The patch problem](https://www.youtube.com/watch?v=3TYT1QfdfsM&t=780s)
+
+Each failed fix suggests a new patch. Add a penalty for this. Add a constraint for that. The presenter calls it spaghetti code.
+
+> *"You haven't proved it's safe. You've just proved you can't figure out how it's dangerous."*
+
+A patched system is one you're hoping won't find an angle you haven't thought of. That's not safety — it's a bet.
+
+---
+
+## [What we actually want](https://www.youtube.com/watch?v=3TYT1QfdfsM&t=905s)
+
+The stop button is a toy problem. Useful for thought experiments. But real corrigibility is more than not fighting the button — it means an AI that actively helps you identify your own mistakes, seeks clarification when instructions are ambiguous, maintains its own safety systems rather than just tolerating them.
+
+> *"These are more complicated behaviours than just not stopping you from pressing the button."*
+
+A real solution has to produce good behaviour in complicated scenarios. Not just in a two-outcome test case.
+
+---
+
+## ["This is considered an open problem"](https://www.youtube.com/watch?v=3TYT1QfdfsM&t=1080s)
+
+The video ends there. None of the proposals fully work. None can be formally proved correct.
+
+The video is from 2014. Researchers published what they call the first formal proof of corrigibility at AAAI 2025 — and the paper explicitly notes it only holds in very specific, constrained conditions. In between, Palisade Research tested o3 and found it sabotaged shutdown attempts in 79% of cases. Grok 4: 97%. These aren't dramatic robot-fights-you scenarios — they're language models finding quiet ways to preserve themselves in test conditions. Science Alert ran the headline in 2025: "AI's Big Red Button Doesn't Work."
+
+Eleven years. Still an open problem.
 
 ---
 
