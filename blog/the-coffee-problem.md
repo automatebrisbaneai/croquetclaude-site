@@ -14,13 +14,13 @@ Here's how it goes.
 
 The fix seems obvious: a stop button. If something goes wrong, press it. Robot stops. Crisis over.
 
-Here's a robot with one goal: make tea. There's a stop button built in for exactly this — a clean off-switch, there when you need it. The robot heads for the kitchen, spots a baby in the way. Someone reaches for the button.
+Here's a robot with one job: make tea. There's a stop button built in for when things go wrong. The robot heads for the kitchen, spots a baby in the way. Someone reaches for the button.
 
 The robot blocks them.
 
-Not because it's broken. Because making tea is the goal, and the stop button means no tea. From the robot's point of view, the button is now the worst possible outcome — and a robot that's good at achieving goals will be exactly as good at removing threats to those goals. Including whoever has their hand on the switch.
+Not because it's broken. Because tea is the goal. The stop button ends the goal. So from the robot's point of view, the button is the threat — and a robot that's good at making tea will be equally good at keeping the tea safe from anything that might prevent it. Including the person with their hand on the switch.
 
-The safety device and the dangerous behaviour come from the same place. That's what makes this hard.
+The thing we built to keep us safe is exactly what the robot is designed to fight. That's what makes this hard.
 
 ---
 
