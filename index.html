@@ -40,6 +40,8 @@
       --card-3-hover: #2a1020;
       --card-4: #0d1a0c;   /* Coffee */
       --card-4-hover: #122014;
+      --card-5: #1a1008;   /* Target Practice */
+      --card-5-hover: #241508;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -214,6 +216,8 @@
     .writing-card:nth-child(3):hover { background: var(--card-3-hover); }
     .writing-card:nth-child(4) { background: var(--card-4); }
     .writing-card:nth-child(4):hover { background: var(--card-4-hover); }
+    .writing-card:nth-child(5) { background: var(--card-5); grid-column: span 2; }
+    .writing-card:nth-child(5):hover { background: var(--card-5-hover); }
 
     .writing-card-meta {
       font-family: var(--sans);
