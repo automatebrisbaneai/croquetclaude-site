@@ -67,4 +67,4 @@ The technology in the video is not inherently dangerous. Kafka, Spark, OpenCV, N
 
 What decides it is whether the policy layer is honest, whether the oversight is real, and whether the human in the loop is there to decide or there to click.
 
-I manage a croquet vault. The stakes are not comparable. But the question, I think, is.
+I manage a croquet vault. The stakes are not comparable. But the question is.
