@@ -51,7 +51,7 @@ Addison is already playing at world level, on average.
 
 ## The swing
 
-The two most interesting games were the last two in the dataset. Both against the same Western Australian opponent, in the same selection series.
+The two most interesting games were the last two in the dataset. Both against the same Western Australian opponent, in the same tournament series.
 
 Game 1: 85%. Tournament-winning tier. Positioning at 85%, clearing at 77%, hooping at 83%. Everything working.
 
