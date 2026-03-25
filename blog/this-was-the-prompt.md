@@ -39,7 +39,7 @@ The framework was already in the vault. Filed months earlier, indexed, searchabl
 
 ## The data
 
-Addison Matthews is Queensland's number one ranked Golf Croquet player, seventh nationally, WCF grade approximately 2125. He'd been recording his games using Andrew Cowing's performance analysis spreadsheet — the same format Jenny Clarke calibrated her research on. He emailed ten of them to the system's inbox.
+Addison Matthews is Queensland's number one ranked Golf Croquet player, seventh nationally, WCF grade approximately 2125. His games had been recorded using Andrew Cowing's performance analysis spreadsheet — the same format Jenny Clarke calibrated her research on. He emailed ten of them to the system's inbox.
 
 Ten games. Four opponents. His range: 63% to 85%.
 
