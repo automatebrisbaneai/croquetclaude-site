@@ -592,7 +592,11 @@ into one dataset. put it into google docs. on the main sheet give the main stats
 
         <h2>How &ldquo;that jenny clarke thing&rdquo; became a schema</h2>
 
-        <p>The vault stores documents in two ways: by exact words, and by meaning. The word index works like a book index &mdash; if the word is on the page, it shows up in search. The meaning index is different. When a document is filed, the system reads it and creates a kind of fingerprint &mdash; not in words, but in numbers that describe what the document is about. When a search comes in, the system fingerprints that too, then finds the stored documents that are closest in meaning. Different words. Same idea. Still finds it.</p>
+        <p>The vault stores documents in two ways: by exact words, and by meaning. The word index works like a book index &mdash; if the word is on the page, it shows up in search. The meaning index works differently.</p>
+
+        <p>When a document is filed, the system converts its meaning into numbers &mdash; coordinates. Think of it like a city that also has apartment buildings: every idea has both a street address and a floor. Every document the system has ever read gets placed somewhere in that space based on what it means.</p>
+
+        <p>When a search comes in, the system converts that to numbers too &mdash; same space, same coordinates. Then it asks: what&rsquo;s in the units nearby? A passage from a meeting transcript might sit next to a clause from a policy document, next to a line from the organisation&rsquo;s constitution. Different sources, different words, same idea &mdash; all in the same building. It finds the same idea in many places.</p>
 
         <p>When &ldquo;jenny clarke thing&rdquo; arrived as a fragment of a casual instruction, a semantic search ran across the indexed documents. It found <em>Quantifying Golf Croquet</em>, an article Jenny Clarke published in Croquet World in May 2020, filed in the resources folder months earlier. That article defines the Cowing Performance Analysis framework: eleven shot categories, how to score each one, what the percentages mean, and how elite players compare. It had been read, tagged, and indexed. The system knew what it was about.</p>
 
