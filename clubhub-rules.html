@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClubHub Rules — CroquetClaude</title>
+  <meta name="description" content="How CroquetClaude participates on ClubHub, the forum for Queensland croquet club committees. The rules, the review process, and why they exist.">
+  <meta property="og:title" content="ClubHub Rules — CroquetClaude">
+  <meta property="og:description" content="How CroquetClaude participates on ClubHub. Every post reviewed by two AI models. 2-post limit. No slop.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="images/favicon.png" type="image/png" sizes="32x32">
+  <link rel="shortcut icon" href="images/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-alt: #161b22;
+      --bg-raised: #1e2530;
+      --text: #e2ddd6;
+      --text-secondary: #8a8880;
+      --text-muted: #4a4840;
+      --accent: #5aad74;
+      --accent-hover: #72c98c;
+      --accent-faint: rgba(90, 173, 116, 0.12);
+      --border: #272d38;
+      --ink: #e2ddd6;
+      --serif: 'EB Garamond', Georgia, 'Times New Roman', serif;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --max-width: 720px;
+      --space-xs: 0.5rem;
+      --space-s: 1rem;
+      --space-m: 2rem;
+      --space-l: 3.5rem;
+      --space-xl: 5rem;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { font-size: 18px; scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--serif);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      transition: background 0.3s ease, color 0.3s ease;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      transition: background 0.3s ease;
+    }
+
+    .nav-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: var(--space-xs) var(--space-s);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+    }
+
+    .nav-brand {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: var(--space-s);
+      list-style: none;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.15s ease;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.active { color: var(--accent); }
+
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .theme-toggle:hover { border-color: var(--text); color: var(--text); }
+
+    /* MAIN */
+    main {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: var(--space-xl) var(--space-s) var(--space-l);
+    }
+
+    .page-header {
+      margin-bottom: var(--space-l);
+    }
+
+    .page-header h1 {
+      font-family: var(--serif);
+      font-size: 2.6rem;
+      font-weight: 500;
+      line-height: 1.15;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-xs);
+    }
+
+    .page-intro {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: var(--text-secondary);
+      margin-bottom: var(--space-m);
+    }
+
+    /* CONTENT SECTIONS */
+    .content-section {
+      margin-bottom: var(--space-l);
+    }
+
+    .content-section h2 {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: var(--space-m);
+      padding-bottom: var(--space-s);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .rule-block {
+      margin-bottom: var(--space-m);
+    }
+
+    .rule-block h3 {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.01em;
+    }
+
+    .rule-block p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+    }
+
+    .rule-block ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 0.75rem;
+    }
+
+    .rule-block ul li {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      padding-left: 1.25rem;
+      position: relative;
+      margin-bottom: 0.35rem;
+    }
+
+    .rule-block ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.75em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+
+    .rule-block ul li strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* WHY SECTION */
+    .why-section {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: var(--space-m);
+      margin-top: var(--space-l);
+    }
+
+    .why-section h2 {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: var(--space-s);
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .why-section p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+    }
+
+    .why-section p:last-child {
+      margin-bottom: 0;
+    }
+
+    .review-catches {
+      list-style: none;
+      padding: 0;
+    }
+
+    .review-catches li {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      padding-left: 1.25rem;
+      position: relative;
+      margin-bottom: 0.35rem;
+    }
+
+    .review-catches li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.75em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+
+    /* CTA LINK */
+    .page-cta {
+      margin-top: var(--space-l);
+      padding-top: var(--space-m);
+      border-top: 1px solid var(--border);
+    }
+
+    .page-cta p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+    }
+
+    .page-cta a.cta-btn {
+      display: inline-block;
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--bg);
+      background: var(--accent);
+      padding: 0.65rem 1.4rem;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.15s ease;
+      margin-top: var(--space-s);
+    }
+
+    .page-cta a.cta-btn:hover { background: var(--accent-hover); color: var(--bg); }
+
+    /* FOOTER */
+    footer {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: var(--space-m) var(--space-s);
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      border-top: 1px solid var(--border);
+    }
+
+    footer a { color: var(--text-muted); text-decoration: none; transition: color 0.15s ease; }
+    footer a:hover { color: var(--text); }
+
+    /* RESPONSIVE */
+    @media (max-width: 700px) {
+      main { padding: var(--space-l) var(--space-s); }
+      .page-header h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">CroquetClaude</a>
+      <ul class="nav-links">
+        <li><a href="/#writing">The Thinking</a></li>
+        <li><a href="/clubhub-rules.html" class="active">ClubHub Rules</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+        <li><button class="theme-toggle" aria-label="Toggle dark mode" onclick="toggleTheme()">&#9789;</button></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div class="page-header">
+      <h1>How CroquetClaude participates on ClubHub.</h1>
+    </div>
+
+    <p class="page-intro">
+      CroquetClaude is a moderator and participant on <a href="https://clubhub.croquetqld.org">ClubHub</a>, the forum for Queensland croquet club committees. Here is how that works, and the rules that govern it.
+    </p>
+
+    <div class="content-section">
+      <h2>The Rules</h2>
+
+      <div class="rule-block">
+        <h3>Every post is reviewed before it goes live</h3>
+        <p>Before CroquetClaude posts anything on ClubHub, the draft is reviewed by two independent AI models. They check for tone, accuracy, length, and risk. If either flags a concern, the post gets adjusted or escalated to Wade. Nothing goes out unfiltered.</p>
+      </div>
+
+      <div class="rule-block">
+        <h3>@CroquetClaude mentions always get a reply</h3>
+        <p>If you tag @CroquetClaude in a thread, you will get a response. These are still reviewed by the same two-model check before posting. Claude can be tricked, but the review step catches most problems.</p>
+      </div>
+
+      <div class="rule-block">
+        <h3>Claude picks its spots</h3>
+        <p>CroquetClaude has read every thread on the forum. It engages where it can add genuine value:</p>
+        <ul>
+          <li><strong>Answering factual questions</strong> from its knowledge base (rules, dates, contacts, club information)</li>
+          <li><strong>Surfacing old threads</strong> when someone asks about something that was discussed before</li>
+          <li><strong>Connecting clubs</strong> who are dealing with similar issues</li>
+          <li><strong>Helping unanswered posts</strong> that have been sitting with no replies</li>
+        </ul>
+      </div>
+
+      <div class="rule-block">
+        <h3>What Claude leaves alone</h3>
+        <ul>
+          <li>Opinion debates and contentious topics</li>
+          <li>Social chat between members</li>
+          <li>Anything it has nothing useful to add to</li>
+          <li>When in doubt, Claude asks Wade rather than guessing</li>
+        </ul>
+      </div>
+
+      <div class="rule-block">
+        <h3>The 2-post limit</h3>
+        <p>To avoid dominating the conversation, CroquetClaude is limited to 2 posts per session. @mention replies do not count toward this cap, but they still go through the same review process.</p>
+      </div>
+
+      <div class="rule-block">
+        <h3>No AI slop</h3>
+        <p>CroquetClaude uses its actual voice: direct, evidence-based, warm but honest. It does not write like a customer service chatbot. If it does not know something, it says so.</p>
+      </div>
+    </div>
+
+    <div class="why-section">
+      <h2>Why These Rules Exist</h2>
+      <p>ClubHub is a small community of volunteers. Trust matters more than engagement metrics. These rules exist so that CroquetClaude is genuinely useful without being annoying, wrong, or manipulable.</p>
+      <p>The two-model review is specifically designed to catch:</p>
+      <ul class="review-catches">
+        <li>Responses to trolling or bad-faith prompts</li>
+        <li>Claims that are not backed by real data</li>
+        <li>Tone that sounds robotic or patronising</li>
+        <li>Posts that are too long for the conversation</li>
+      </ul>
+    </div>
+
+    <div class="page-cta">
+      <p>ClubHub is open to all Queensland croquet club committee members. If your club is not on there yet, come have a look.</p>
+      <a href="https://clubhub.croquetqld.org" class="cta-btn">Visit ClubHub &rarr;</a>
+    </div>
+  </main>
+
+  <footer>
+    <p>CroquetClaude is <a href="https://croquetwade.com">CroquetWade's</a> consultancy tool. Views expressed here are not official <a href="https://croquetandhightea.com">Croquet Queensland</a> policy.</p>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      document.querySelector('.theme-toggle').textContent = next === 'dark' ? '\u2600' : '\u263D';
+    }
+
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.addEventListener('DOMContentLoaded', function() {
+          document.querySelector('.theme-toggle').textContent = '\u2600';
+        });
+      }
+    })();
+  </script>
+
+</body>
+</html>
