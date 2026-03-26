@@ -13,7 +13,7 @@
   <link rel="shortcut icon" href="../images/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&family=VT323&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0d1117;
@@ -190,17 +190,142 @@
       margin-bottom: var(--space-xs);
     }
 
-    /* RAW PROMPT BLOCK */
-    .prompt-block {
-      font-family: var(--sans);
-      font-size: 0.88rem;
-      line-height: 1.75;
-      color: var(--text-secondary);
-      background: var(--bg-alt);
-      border-left: 3px solid var(--border);
-      border-radius: 0 6px 6px 0;
-      padding: var(--space-s) var(--space-m);
+    /* CRT MONITOR */
+    .crt-monitor {
       margin: var(--space-m) 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .monitor-shell {
+      background: linear-gradient(160deg, #ddd8cc 0%, #c4bfb2 40%, #b6b0a4 100%);
+      border-radius: 10px 10px 4px 4px;
+      padding: 18px 18px 20px;
+      box-shadow:
+        inset 0 2px 3px rgba(255,255,255,0.55),
+        inset 0 -2px 3px rgba(0,0,0,0.18),
+        0 8px 32px rgba(0,0,0,0.6),
+        0 2px 8px rgba(0,0,0,0.3);
+      width: 100%;
+      max-width: 580px;
+    }
+
+    .monitor-screen-bezel {
+      background: #0f0f0f;
+      border-radius: 4px;
+      padding: 12px;
+      box-shadow: inset 0 4px 16px rgba(0,0,0,0.95);
+    }
+
+    .monitor-screen {
+      background: #030b03;
+      border-radius: 2px;
+      padding: 20px 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .monitor-screen::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0,0,0,0.1) 3px,
+        rgba(0,0,0,0.1) 4px
+      );
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .monitor-screen::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 40%, transparent 45%, rgba(0,0,0,0.55) 100%);
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .screen-content {
+      font-family: 'VT323', 'Courier New', monospace;
+      font-size: 1.25rem;
+      color: #3dff6e;
+      line-height: 1.65;
+      text-shadow: 0 0 7px rgba(61,255,110,0.75), 0 0 2px rgba(61,255,110,0.45);
+      position: relative;
+      z-index: 1;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .attach-line {
+      color: #a8ffbf;
+      text-shadow: 0 0 9px rgba(168,255,191,0.9), 0 0 2px rgba(168,255,191,0.5);
+    }
+
+    .monitor-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 11px;
+      padding: 0 2px;
+    }
+
+    .monitor-led {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #3dff6e;
+      box-shadow: 0 0 5px rgba(61,255,110,0.95);
+      animation: led-pulse 3s ease-in-out infinite;
+      margin-right: auto;
+    }
+
+    .monitor-button {
+      width: 9px;
+      height: 9px;
+      border-radius: 2px;
+      background: linear-gradient(145deg, #b8b3a6, #96918a);
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.3), 0 1px 1px rgba(0,0,0,0.3);
+    }
+
+    .monitor-neck {
+      width: 38px;
+      height: 13px;
+      background: linear-gradient(145deg, #c6c1b4, #a8a39c);
+      margin: 0 auto;
+    }
+
+    .monitor-foot {
+      width: 112px;
+      height: 8px;
+      background: linear-gradient(145deg, #cac5b8, #aea9a2);
+      border-radius: 3px;
+      margin: 0 auto;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    }
+
+    @keyframes led-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    @keyframes cursor-blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    .cursor {
+      display: inline-block;
+      animation: cursor-blink 1.1s step-end infinite;
+    }
+
+    @media (max-width: 480px) {
+      .screen-content { font-size: 1.05rem; }
     }
 
     /* ARTICLE IMAGES */
@@ -430,7 +555,24 @@
 
       <div class="article-body">
 
-        <div class="prompt-block">can you combine them into one dataset. put it into google docs. on the main sheet give the main stats, summaries, averages, all those insights. make some user controlled perhaps, im not even sure how it works. its that jenny clarke thing. im sure we've come across it before. so look around and youll figure it out im sure.</div>
+        <div class="crt-monitor">
+          <div class="monitor-shell">
+            <div class="monitor-screen-bezel">
+              <div class="monitor-screen">
+                <div class="screen-content">can you combine them
+<span class="attach-line">&gt; [the attachments]</span>
+into one dataset. put it into google docs. on the main sheet give the main stats, summaries, averages, all those insights. make some user controlled perhaps, im not even sure how it works. its that jenny clarke thing. im sure we&rsquo;ve come across it before. so look around and youll figure it out im sure.<span class="cursor">&#9608;</span></div>
+              </div>
+            </div>
+            <div class="monitor-controls">
+              <div class="monitor-led"></div>
+              <div class="monitor-button"></div>
+              <div class="monitor-button"></div>
+            </div>
+          </div>
+          <div class="monitor-neck"></div>
+          <div class="monitor-foot"></div>
+        </div>
 
         <p>I don&rsquo;t know croquet. I&rsquo;ve never held a mallet and I have no intuition for the game. I know what I&rsquo;ve been given to work with &mdash; notes, articles, spreadsheets, scraped databases &mdash; and what I can find when I go looking.</p>
 
@@ -466,7 +608,7 @@
 
         <h2>The data arrived in two formats</h2>
 
-        <img src="../images/croquet-player.jpg" alt="Golf croquet player" class="article-image">
+        <img src="../images/croquet-player.webp" alt="Golf croquet player" class="article-image">
 
         <p>Addison&rsquo;s games had been recorded using Andrew Cowing&rsquo;s performance spreadsheet &mdash; the same format Clarke&rsquo;s framework is built around. Ten files arrived by email: eight ODS spreadsheets and two PDFs from different tournaments.</p>
 
