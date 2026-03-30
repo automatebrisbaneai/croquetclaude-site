@@ -513,12 +513,12 @@
       position: fixed;
       inset: 0;
       z-index: 9999;
-      background: #000;
+      background: #faf5eb;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      transition: opacity 0.6s ease;
+      transition: opacity 0.8s ease;
     }
 
     #boot-overlay.fade-out {
@@ -526,55 +526,94 @@
       pointer-events: none;
     }
 
-    .crt {
+    /* Classic Macintosh */
+    .mac {
+      position: relative;
       opacity: 0;
-      transform: translateY(20px) scale(0.96);
-      transition: opacity 0.5s ease, transform 0.5s ease;
+      transform: translateY(80px);
+      transition: opacity 0.7s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .crt.visible {
+    .mac.visible {
       opacity: 1;
-      transform: translateY(0) scale(1);
+      transform: translateY(0);
     }
 
-    .crt.instant {
+    .mac.instant {
       opacity: 1;
       transform: none;
       transition: none;
     }
 
-    .crt-frame {
-      background: linear-gradient(180deg, #3a3a3a 0%, #2a2a2a 40%, #1e1e1e 100%);
-      border-radius: 18px;
-      padding: 28px 32px 12px;
+    .mac-body {
+      width: 320px;
+      background: linear-gradient(180deg, #d4c5a9 0%, #c8b89a 50%, #baa888 100%);
+      border-radius: 12px 12px 4px 4px;
+      padding: 24px 28px 20px;
       box-shadow:
-        0 8px 40px rgba(0,0,0,0.7),
-        inset 0 1px 0 rgba(255,255,255,0.08),
-        inset 0 -1px 0 rgba(0,0,0,0.3);
-      width: min(520px, 90vw);
+        0 20px 60px rgba(0,0,0,0.15),
+        0 4px 12px rgba(0,0,0,0.1),
+        inset 0 1px 0 rgba(255,255,255,0.35),
+        inset -2px 0 0 rgba(0,0,0,0.04),
+        inset 2px 0 0 rgba(255,255,255,0.12);
+      position: relative;
     }
 
-    .crt-bezel {
-      background: #1a1a1a;
-      border-radius: 10px;
-      padding: 2px;
-      box-shadow: inset 0 2px 8px rgba(0,0,0,0.6);
+    /* Ventilation lines */
+    .mac-body::before {
+      content: '';
+      position: absolute;
+      top: 7px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 5px;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(0,0,0,0.1) 0px,
+        rgba(0,0,0,0.1) 2px,
+        transparent 2px,
+        transparent 5px
+      );
+      border-radius: 2px;
     }
 
-    .crt-screen {
-      background: #050808;
-      border-radius: 8px;
-      padding: 28px 24px;
-      min-height: 220px;
+    .mac-screen-bezel {
+      background: #1a1a18;
+      border-radius: 6px;
+      padding: 12px;
+      box-shadow:
+        inset 0 2px 6px rgba(0,0,0,0.5),
+        0 1px 0 rgba(255,255,255,0.15);
+    }
+
+    .mac-screen {
+      background: #1a2a1a;
+      border-radius: 3px;
+      padding: 20px 16px;
+      min-height: 180px;
       position: relative;
       overflow: hidden;
       font-family: 'VT323', monospace;
-      font-size: 1.2rem;
-      color: var(--accent);
-      line-height: 1.6;
+      font-size: 1.1rem;
+      color: #33ff33;
+      line-height: 1.5;
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.3);
     }
 
-    .crt-screen::before {
+    /* CRT curvature */
+    .mac-screen::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.25) 100%);
+      pointer-events: none;
+      z-index: 2;
+      border-radius: 3px;
+    }
+
+    /* Scanlines */
+    .mac-screen::after {
       content: '';
       position: absolute;
       inset: 0;
@@ -582,71 +621,75 @@
         0deg,
         transparent,
         transparent 2px,
-        rgba(0,0,0,0.12) 2px,
-        rgba(0,0,0,0.12) 4px
+        rgba(0,0,0,0.06) 2px,
+        rgba(0,0,0,0.06) 4px
       );
       pointer-events: none;
-      z-index: 2;
+      z-index: 3;
     }
 
-    .crt-screen::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.4) 100%);
-      pointer-events: none;
-      z-index: 1;
+    .mac.screen-on .mac-screen {
+      background: #0a1a0a;
+      box-shadow:
+        inset 0 0 30px rgba(0,0,0,0.3),
+        0 0 20px rgba(51, 255, 51, 0.05);
     }
 
-    .crt.screen-on .crt-screen {
-      box-shadow: inset 0 0 60px rgba(90, 173, 116, 0.06);
-    }
-
-    .crt-bottom {
+    /* Floppy drive */
+    .mac-drive {
+      margin-top: 16px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 10px 8px 4px;
+      justify-content: center;
+      gap: 12px;
     }
 
-    .crt-label {
+    .mac-floppy {
+      width: 56px;
+      height: 5px;
+      background: linear-gradient(180deg, #888 0%, #666 100%);
+      border-radius: 1px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+    }
+
+    .mac-label {
       font-family: var(--sans);
-      font-size: 0.55rem;
-      letter-spacing: 0.15em;
+      font-size: 0.48rem;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: #555;
+      color: #8a7e6a;
+      font-weight: 600;
     }
 
-    .crt-led {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #333;
-      transition: background 0.3s, box-shadow 0.3s;
+    /* Base */
+    .mac-base {
+      width: 340px;
+      height: 8px;
+      background: linear-gradient(180deg, #b5a58a 0%, #a89878 100%);
+      margin: 0 auto;
+      border-radius: 0 0 4px 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
     }
 
-    .crt.screen-on .crt-led {
-      background: var(--accent);
-      box-shadow: 0 0 6px var(--accent);
-    }
-
-    .crt-stand {
-      width: 40%;
-      height: 10px;
-      background: linear-gradient(180deg, #2a2a2a, #222);
+    .mac-foot {
+      width: 360px;
+      height: 4px;
+      background: linear-gradient(180deg, #a09080 0%, #948470 100%);
       margin: 0 auto;
       border-radius: 0 0 6px 6px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
 
     .terminal-line {
       position: relative;
-      z-index: 3;
+      z-index: 4;
       white-space: pre;
-      min-height: 1.6em;
+      min-height: 1.5em;
+      text-shadow: 0 0 8px rgba(51, 255, 51, 0.4);
     }
 
     .terminal-cursor::after {
-      content: '_';
+      content: '\2588';
       animation: blink 0.7s step-end infinite;
     }
 
@@ -656,11 +699,11 @@
 
     .boot-avatar {
       position: relative;
-      z-index: 3;
-      width: 64px;
+      z-index: 4;
+      width: 56px;
       height: auto;
       display: block;
-      margin: 16px auto 0;
+      margin: 12px auto 0;
       opacity: 0;
       transform: scale(0.8);
       transition: opacity 0.4s ease, transform 0.4s ease;
@@ -676,31 +719,33 @@
       bottom: 2rem;
       right: 2rem;
       z-index: 10000;
-      font-family: 'VT323', monospace;
-      font-size: 1rem;
-      color: #555;
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      color: #8a7e6a;
       background: none;
-      border: 1px solid #333;
+      border: 1px solid rgba(138, 126, 106, 0.3);
       padding: 0.4rem 1rem;
       border-radius: 4px;
       cursor: pointer;
       transition: color 0.15s, border-color 0.15s;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
     }
 
     .boot-skip:hover {
-      color: #888;
-      border-color: #555;
+      color: #5a5040;
+      border-color: rgba(138, 126, 106, 0.6);
     }
 
     @media (max-width: 480px) {
-      .crt-frame { padding: 20px 20px 8px; }
-      .crt-screen {
-        padding: 20px 16px;
-        min-height: 180px;
-        font-size: 1.05rem;
+      .mac-body { width: 270px; padding: 20px 22px 16px; }
+      .mac-screen {
+        padding: 16px 12px;
+        min-height: 150px;
+        font-size: 0.95rem;
       }
-      .boot-avatar { width: 52px; }
+      .mac-base { width: 290px; }
+      .mac-foot { width: 310px; }
+      .boot-avatar { width: 44px; }
     }
   </style>
 </head>
@@ -708,20 +753,21 @@
 
   <!-- BOOT SEQUENCE -->
   <div id="boot-overlay">
-    <div class="crt" id="crt">
-      <div class="crt-frame">
-        <div class="crt-bezel">
-          <div class="crt-screen" id="crt-screen">
+    <div class="mac" id="mac">
+      <div class="mac-body">
+        <div class="mac-screen-bezel">
+          <div class="mac-screen" id="mac-screen">
             <div id="terminal"></div>
             <img id="boot-avatar" src="claude-waving.webp" alt="CroquetClaude" class="boot-avatar">
           </div>
         </div>
-        <div class="crt-bottom">
-          <span class="crt-label">CroquetClaude</span>
-          <div class="crt-led"></div>
+        <div class="mac-drive">
+          <span class="mac-label">CroquetClaude</span>
+          <div class="mac-floppy"></div>
         </div>
       </div>
-      <div class="crt-stand"></div>
+      <div class="mac-base"></div>
+      <div class="mac-foot"></div>
     </div>
     <button id="boot-skip" class="boot-skip">Skip &#8594;</button>
   </div>
@@ -881,7 +927,7 @@
   <script>
   (function() {
     var overlay = document.getElementById('boot-overlay');
-    var crt = document.getElementById('crt');
+    var mac = document.getElementById('mac');
     var terminal = document.getElementById('terminal');
     var avatar = document.getElementById('boot-avatar');
     var skipBtn = document.getElementById('boot-skip');
@@ -904,7 +950,6 @@
     var lines = visited ? shortLines : fullLines;
     var charSpeed = visited ? 20 : 30;
     var lineDelay = visited ? 250 : 450;
-    var avatarPause = visited ? 400 : 800;
     var exitPause = visited ? 500 : 900;
 
     function endBoot() {
@@ -976,20 +1021,20 @@
 
     // Start the sequence
     if (visited) {
-      crt.classList.add('instant', 'screen-on');
+      mac.classList.add('instant', 'screen-on');
       setTimeout(function() {
         typeLines(showAvatar);
       }, 150);
     } else {
       setTimeout(function() {
-        crt.classList.add('visible');
+        mac.classList.add('visible');
         setTimeout(function() {
-          crt.classList.add('screen-on');
+          mac.classList.add('screen-on');
           setTimeout(function() {
             typeLines(showAvatar);
           }, 400);
-        }, 500);
-      }, 200);
+        }, 600);
+      }, 300);
     }
   })();
   </script>
