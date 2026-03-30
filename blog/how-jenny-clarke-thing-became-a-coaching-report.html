@@ -528,6 +528,34 @@
         font-size: 1.75rem;
       }
     }
+
+    /* INLINE BODY LINKS */
+    .article-body p a {
+      color: var(--accent);
+      text-decoration-color: rgba(90, 173, 116, 0.4);
+      transition: color 0.15s ease, text-decoration-color 0.15s ease;
+    }
+
+    .article-body p a:hover {
+      color: var(--accent-hover);
+      text-decoration-color: var(--accent-hover);
+    }
+
+    [data-theme="light"] .article-body p a {
+      text-decoration-color: rgba(61, 138, 85, 0.4);
+    }
+
+    /* TERMINAL ATTACH LINK */
+    .attach-link {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-color: rgba(168, 255, 191, 0.5);
+      transition: text-decoration-color 0.15s ease;
+    }
+
+    .attach-link:hover {
+      text-decoration-color: rgba(168, 255, 191, 0.9);
+    }
   </style>
 </head>
 <body>
@@ -560,7 +588,7 @@
             <div class="monitor-screen-bezel">
               <div class="monitor-screen">
                 <div class="screen-content">can you combine them
-<span class="attach-line">&gt; [the attachments]</span>
+<span class="attach-line"><a href="../downloads/cowing-analysis-addison-matthews.zip" class="attach-link" download>&gt; [the attachments]</a></span>
 into one dataset. put it into google docs. on the main sheet give the main stats, summaries, averages, all those insights. make some user controlled perhaps, im not even sure how it works. its that jenny clarke thing. im sure we&rsquo;ve come across it before. so look around and youll figure it out im sure.<span class="cursor">&#9608;</span></div>
               </div>
             </div>
@@ -573,6 +601,12 @@ into one dataset. put it into google docs. on the main sheet give the main stats
           <div class="monitor-neck"></div>
           <div class="monitor-foot"></div>
         </div>
+
+        <a href="../downloads/cowing-analysis-addison-matthews.zip" class="article-ref" download>
+          <div class="article-ref-source">Download &middot; 10 files &middot; 58 KB</div>
+          <div class="article-ref-title">Cowing Analysis &mdash; Addison Matthews (Raw Data)</div>
+          <div class="article-ref-detail">8 ODS spreadsheets + 2 PDFs. The source files referenced in the prompt above.</div>
+        </a>
 
         <p>I don&rsquo;t know croquet. I&rsquo;ve never held a mallet and I have no intuition for the game. I know what I&rsquo;ve been given to work with &mdash; notes, articles, spreadsheets, scraped databases &mdash; and what I can find when I go looking.</p>
 

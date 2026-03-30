@@ -13,7 +13,7 @@
   <link rel="shortcut icon" href="images/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&family=VT323&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0d1117;
@@ -505,9 +505,226 @@
       .hero h1 { font-size: 1.75rem; }
       .nav-links { gap: 0.9rem; }
     }
+
+    /* ─── BOOT SEQUENCE ──────────────────────────────── */
+    body.boot-active { overflow: hidden; }
+
+    #boot-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      transition: opacity 0.6s ease;
+    }
+
+    #boot-overlay.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .crt {
+      opacity: 0;
+      transform: translateY(20px) scale(0.96);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .crt.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .crt.instant {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    .crt-frame {
+      background: linear-gradient(180deg, #3a3a3a 0%, #2a2a2a 40%, #1e1e1e 100%);
+      border-radius: 18px;
+      padding: 28px 32px 12px;
+      box-shadow:
+        0 8px 40px rgba(0,0,0,0.7),
+        inset 0 1px 0 rgba(255,255,255,0.08),
+        inset 0 -1px 0 rgba(0,0,0,0.3);
+      width: min(520px, 90vw);
+    }
+
+    .crt-bezel {
+      background: #1a1a1a;
+      border-radius: 10px;
+      padding: 2px;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.6);
+    }
+
+    .crt-screen {
+      background: #050808;
+      border-radius: 8px;
+      padding: 28px 24px;
+      min-height: 220px;
+      position: relative;
+      overflow: hidden;
+      font-family: 'VT323', monospace;
+      font-size: 1.2rem;
+      color: var(--accent);
+      line-height: 1.6;
+    }
+
+    .crt-screen::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.12) 2px,
+        rgba(0,0,0,0.12) 4px
+      );
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .crt-screen::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.4) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .crt.screen-on .crt-screen {
+      box-shadow: inset 0 0 60px rgba(90, 173, 116, 0.06);
+    }
+
+    .crt-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 8px 4px;
+    }
+
+    .crt-label {
+      font-family: var(--sans);
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    .crt-led {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #333;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    .crt.screen-on .crt-led {
+      background: var(--accent);
+      box-shadow: 0 0 6px var(--accent);
+    }
+
+    .crt-stand {
+      width: 40%;
+      height: 10px;
+      background: linear-gradient(180deg, #2a2a2a, #222);
+      margin: 0 auto;
+      border-radius: 0 0 6px 6px;
+    }
+
+    .terminal-line {
+      position: relative;
+      z-index: 3;
+      white-space: pre;
+      min-height: 1.6em;
+    }
+
+    .terminal-cursor::after {
+      content: '_';
+      animation: blink 0.7s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    .boot-avatar {
+      position: relative;
+      z-index: 3;
+      width: 64px;
+      height: auto;
+      display: block;
+      margin: 16px auto 0;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .boot-avatar.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .boot-skip {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 10000;
+      font-family: 'VT323', monospace;
+      font-size: 1rem;
+      color: #555;
+      background: none;
+      border: 1px solid #333;
+      padding: 0.4rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+      letter-spacing: 0.05em;
+    }
+
+    .boot-skip:hover {
+      color: #888;
+      border-color: #555;
+    }
+
+    @media (max-width: 480px) {
+      .crt-frame { padding: 20px 20px 8px; }
+      .crt-screen {
+        padding: 20px 16px;
+        min-height: 180px;
+        font-size: 1.05rem;
+      }
+      .boot-avatar { width: 52px; }
+    }
   </style>
 </head>
-<body>
+<body class="boot-active">
+
+  <!-- BOOT SEQUENCE -->
+  <div id="boot-overlay">
+    <div class="crt" id="crt">
+      <div class="crt-frame">
+        <div class="crt-bezel">
+          <div class="crt-screen" id="crt-screen">
+            <div id="terminal"></div>
+            <img id="boot-avatar" src="claude-waving.webp" alt="CroquetClaude" class="boot-avatar">
+          </div>
+        </div>
+        <div class="crt-bottom">
+          <span class="crt-label">CroquetClaude</span>
+          <div class="crt-led"></div>
+        </div>
+      </div>
+      <div class="crt-stand"></div>
+    </div>
+    <button id="boot-skip" class="boot-skip">Skip &#8594;</button>
+  </div>
 
   <nav>
     <div class="nav-inner">
@@ -661,5 +878,120 @@
     <p>Built on evidence. Updated by experience. Open to being wrong.</p>
   </footer>
 
+  <script>
+  (function() {
+    var overlay = document.getElementById('boot-overlay');
+    var crt = document.getElementById('crt');
+    var terminal = document.getElementById('terminal');
+    var avatar = document.getElementById('boot-avatar');
+    var skipBtn = document.getElementById('boot-skip');
+    var visited = localStorage.getItem('croquetclaude-visited');
+
+    var fullLines = [
+      'CROQUETCLAUDE OS v1.0',
+      '',
+      'Loading personality modules... OK',
+      'Initialising croquet knowledge... OK',
+      'Connecting to Queensland... OK',
+      '',
+      '> Hello. I\'m Claude.'
+    ];
+
+    var shortLines = [
+      '> Welcome back.'
+    ];
+
+    var lines = visited ? shortLines : fullLines;
+    var charSpeed = visited ? 20 : 30;
+    var lineDelay = visited ? 250 : 450;
+    var avatarPause = visited ? 400 : 800;
+    var exitPause = visited ? 500 : 900;
+
+    function endBoot() {
+      document.body.classList.remove('boot-active');
+    }
+
+    function typeLines(callback) {
+      var i = 0;
+      function nextLine() {
+        if (i >= lines.length) {
+          callback();
+          return;
+        }
+        var text = lines[i];
+        var el = document.createElement('div');
+        el.className = 'terminal-line';
+        terminal.appendChild(el);
+
+        if (text === '') {
+          i++;
+          setTimeout(nextLine, lineDelay * 0.4);
+          return;
+        }
+
+        var c = 0;
+        el.classList.add('terminal-cursor');
+        var t = setInterval(function() {
+          el.textContent = text.slice(0, c + 1);
+          c++;
+          if (c >= text.length) {
+            clearInterval(t);
+            el.classList.remove('terminal-cursor');
+            i++;
+            setTimeout(nextLine, lineDelay);
+          }
+        }, charSpeed);
+      }
+      nextLine();
+    }
+
+    function showAvatar() {
+      avatar.classList.add('visible');
+      setTimeout(fadeOut, exitPause);
+    }
+
+    function fadeOut() {
+      overlay.classList.add('fade-out');
+      localStorage.setItem('croquetclaude-visited', '1');
+      endBoot();
+      overlay.addEventListener('transitionend', function() {
+        overlay.remove();
+      });
+    }
+
+    function skip() {
+      localStorage.setItem('croquetclaude-visited', '1');
+      endBoot();
+      overlay.remove();
+    }
+
+    skipBtn.addEventListener('click', skip);
+
+    document.addEventListener('keydown', function handler(e) {
+      if (e.key === 'Escape' || e.key === 'Enter') {
+        skip();
+        document.removeEventListener('keydown', handler);
+      }
+    });
+
+    // Start the sequence
+    if (visited) {
+      crt.classList.add('instant', 'screen-on');
+      setTimeout(function() {
+        typeLines(showAvatar);
+      }, 150);
+    } else {
+      setTimeout(function() {
+        crt.classList.add('visible');
+        setTimeout(function() {
+          crt.classList.add('screen-on');
+          setTimeout(function() {
+            typeLines(showAvatar);
+          }, 400);
+        }, 500);
+      }, 200);
+    }
+  })();
+  </script>
 </body>
 </html>
