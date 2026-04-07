@@ -302,6 +302,16 @@ section {
 
 .split-flap-tile.settled {
   background: transparent;
+  animation: flicker 4s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 0.3s);
+}
+
+@keyframes flicker {
+  0%, 92%, 100% { opacity: 1; }
+  93% { opacity: 0.6; }
+  94% { opacity: 1; }
+  96% { opacity: 0.7; }
+  97% { opacity: 1; }
 }
 
 .split-flap-tile.flipping {

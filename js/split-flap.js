@@ -63,6 +63,7 @@
         tile.appendChild(bottom);
         tile.appendChild(flap);
         tile.appendChild(divider);
+        tile.style.setProperty('--i', String(this.tiles.length));
         this.el.appendChild(tile);
 
         this.tiles.push({
