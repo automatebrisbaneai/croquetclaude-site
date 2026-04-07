@@ -272,6 +272,12 @@ section {
 
 .hero-avatar.revealed {
   opacity: 1;
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(-50%); }
+  50% { transform: translateY(calc(-50% - 8px)); }
 }
 
 @media (min-width: 1024px) {
@@ -279,7 +285,22 @@ section {
 }
 
 @media (max-width: 768px) {
-  .hero-avatar { display: none; }
+  .hero-avatar {
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: 120px;
+    margin: 2rem auto 0;
+    display: block;
+  }
+  .hero-avatar.revealed {
+    animation: float-mobile 4s ease-in-out infinite;
+  }
+  @keyframes float-mobile {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
 }
 
 /* ─── SPLIT FLAP DISPLAY ────────────────────────────── */
