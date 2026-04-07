@@ -540,16 +540,15 @@ section {
 
 .projects-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  grid-auto-rows: 180px;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  grid-auto-rows: auto;
 }
 
 @media (min-width: 769px) {
   .projects-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-    grid-auto-rows: 200px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
   }
 }
 
@@ -607,18 +606,12 @@ section {
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--muted-fg);
-  line-height: 1.6;
-  max-width: 280px;
-  opacity: 0;
-  transform: translateY(0.5rem);
-  transition: all 0.5s;
+  line-height: 1.7;
+  max-width: 100%;
+  opacity: 1;
   position: relative;
   z-index: 1;
-}
-
-.project-card:hover .project-card-desc {
-  opacity: 1;
-  transform: translateY(0);
+  margin-top: 1rem;
 }
 
 .project-card-index {
@@ -759,6 +752,7 @@ h1 { margin: 0; padding: 0; line-height: 1; }
 /* ─── COLOPHON ──────────────────────────────────────── */
 .colophon {
   border-top: 1px solid rgba(0,0,0,0.06);
+  padding-bottom: 12rem;
 }
 
 .colophon-grid {
