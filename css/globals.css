@@ -1,15 +1,15 @@
 /* ─── DESIGN TOKENS ─────────────────────────────────── */
 :root {
-  --background: #f6f4f0;
+  --background: #f7f5f0;
   --foreground: #1a1a1a;
   --card: #ffffff;
-  --card-hover: #f0ede8;
+  --card-hover: #f2efe8;
   --muted: #c8c4be;
-  --muted-fg: #777770;
-  --accent: #3d8a56;
-  --accent-bright: #2e7a47;
-  --accent-faint: rgba(61, 138, 86, 0.08);
-  --border: #e0ddd8;
+  --muted-fg: #7a756d;
+  --accent: #c4784a;
+  --accent-bright: #a86540;
+  --accent-faint: rgba(196, 120, 74, 0.08);
+  --border: #e2ddd6;
   --font-display: 'Bebas Neue', sans-serif;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
@@ -313,7 +313,7 @@ section {
 
 .split-flap-tile.settled .char {
   color: var(--accent) !important;
-  text-shadow: 0 1px 2px rgba(61, 138, 86, 0.3);
+  text-shadow: 0 1px 2px rgba(196, 120, 74, 0.3);
 }
 
 @keyframes flicker {
@@ -470,7 +470,7 @@ section {
 .signal-card-line {
   width: 3rem;
   height: 1px;
-  background: rgba(90, 173, 116, 0.6);
+  background: rgba(196, 120, 74, 0.6);
   margin-bottom: 1.5rem;
   transition: width 0.5s;
 }
@@ -568,7 +568,7 @@ section {
 }
 
 .project-card:hover {
-  border-color: rgba(90, 173, 116, 0.6);
+  border-color: rgba(196, 120, 74, 0.6);
 }
 
 .project-card-bg {
