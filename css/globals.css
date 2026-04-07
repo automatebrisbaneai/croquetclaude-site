@@ -891,6 +891,55 @@ h1 { margin: 0; padding: 0; line-height: 1; }
 
 .mobile-nav-links a:hover { color: var(--foreground); }
 
+/* ─── SECTION AVATARS ──────────────────────────────── */
+.section-avatar {
+  position: absolute;
+  width: 140px;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.section-avatar-right {
+  right: 3rem;
+  top: 6rem;
+  animation: sway 5s ease-in-out infinite;
+}
+
+.section-avatar-left {
+  left: 7rem;
+  top: 6rem;
+  animation: tilt 6s ease-in-out infinite;
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(3deg); }
+}
+
+@keyframes tilt {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  33% { transform: rotate(-2deg) translateY(-4px); }
+  66% { transform: rotate(1deg) translateY(2px); }
+}
+
+@media (min-width: 1024px) {
+  .section-avatar { width: 180px; opacity: 0.2; }
+}
+
+@media (max-width: 768px) {
+  .section-avatar {
+    position: relative;
+    display: block;
+    margin: 0 auto 2rem;
+    right: auto;
+    left: auto;
+    top: auto;
+    width: 100px;
+    opacity: 0.8;
+  }
+}
+
 /* ─── UTILITIES ─────────────────────────────────────── */
 .sr-only {
   position: absolute;
