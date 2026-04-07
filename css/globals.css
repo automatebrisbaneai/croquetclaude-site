@@ -306,6 +306,11 @@ section {
   animation-delay: calc(var(--i, 0) * 0.3s);
 }
 
+.split-flap-tile.settled .char {
+  color: var(--accent-bright) !important;
+  text-shadow: 0 0 8px rgba(114, 201, 140, 0.6), 0 0 20px rgba(114, 201, 140, 0.3);
+}
+
 @keyframes flicker {
   0%, 92%, 100% { opacity: 1; }
   93% { opacity: 0.6; }
