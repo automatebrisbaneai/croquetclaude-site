@@ -265,12 +265,17 @@ section {
   top: 50%;
   transform: translateY(-50%);
   width: 180px;
-  opacity: 0.12;
+  opacity: 0.08;
   pointer-events: none;
+  transition: opacity 1.2s ease;
+}
+
+.hero-avatar.revealed {
+  opacity: 1;
 }
 
 @media (min-width: 1024px) {
-  .hero-avatar { width: 260px; opacity: 0.15; }
+  .hero-avatar { width: 260px; }
 }
 
 @media (max-width: 768px) {

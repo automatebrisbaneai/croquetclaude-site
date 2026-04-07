@@ -80,6 +80,7 @@
       }
       this._intervals = [];
       this._timeouts = [];
+      this._settled = 0;
 
       // Respect reduced motion — show final text immediately
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -91,6 +92,8 @@
           t.tile.classList.remove('flipping');
           t.tile.classList.add('settled');
         });
+        const avatar = document.querySelector('.hero-avatar');
+        if (avatar) avatar.classList.add('revealed');
         return;
       }
 
@@ -130,6 +133,13 @@
               this.flipFlap(flap, () => {
                 flap.style.transform = 'rotateX(0deg)';
               });
+
+              // Reveal avatar when all tiles have settled
+              this._settled++;
+              if (this._settled >= this.tiles.filter(t => t).length) {
+                const avatar = document.querySelector('.hero-avatar');
+                if (avatar) avatar.classList.add('revealed');
+              }
               return;
             }
 
