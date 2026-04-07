@@ -272,12 +272,16 @@ section {
 
 .hero-avatar.revealed {
   opacity: 1;
-  animation: float 4s ease-in-out infinite;
+  animation: wave-bounce 3s ease-in-out infinite;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(-50%); }
-  50% { transform: translateY(calc(-50% - 8px)); }
+@keyframes wave-bounce {
+  0%, 100% { transform: translateY(-50%) rotate(0deg); }
+  15% { transform: translateY(calc(-50% - 12px)) rotate(5deg); }
+  30% { transform: translateY(-50%) rotate(-3deg); }
+  45% { transform: translateY(calc(-50% - 8px)) rotate(4deg); }
+  60% { transform: translateY(-50%) rotate(-2deg); }
+  80% { transform: translateY(calc(-50% - 4px)) rotate(1deg); }
 }
 
 @media (min-width: 1024px) {
@@ -297,9 +301,13 @@ section {
   .hero-avatar.revealed {
     animation: float-mobile 4s ease-in-out infinite;
   }
-  @keyframes float-mobile {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
+  @keyframes wave-bounce {
+    0%, 100% { transform: rotate(0deg); }
+    15% { transform: translateY(-12px) rotate(5deg); }
+    30% { transform: rotate(-3deg); }
+    45% { transform: translateY(-8px) rotate(4deg); }
+    60% { transform: rotate(-2deg); }
+    80% { transform: translateY(-4px) rotate(1deg); }
   }
 }
 
@@ -895,36 +903,61 @@ h1 { margin: 0; padding: 0; line-height: 1; }
 .section-avatar {
   position: absolute;
   width: 140px;
-  opacity: 0.15;
   pointer-events: none;
   z-index: 0;
+  opacity: 0.25;
 }
 
-.section-avatar-right {
+/* Investigating Claude — peering around, searching */
+.section-avatar-investigating {
   right: 3rem;
   top: 6rem;
-  animation: sway 5s ease-in-out infinite;
+  animation: investigate 3s ease-in-out infinite;
+  transform-origin: bottom center;
 }
 
-.section-avatar-left {
+@keyframes investigate {
+  0%, 100% { transform: translateX(0) rotate(0deg) scale(1); }
+  20% { transform: translateX(15px) rotate(8deg) scale(1.02); }
+  40% { transform: translateX(-10px) rotate(-5deg) scale(0.98); }
+  60% { transform: translateX(8px) rotate(3deg) scale(1); }
+  80% { transform: translateX(-5px) rotate(-2deg) scale(1.01); }
+}
+
+/* Thinking Claude — pondering, head tilting, bobbing */
+.section-avatar-thinking {
   left: 7rem;
   top: 6rem;
-  animation: tilt 6s ease-in-out infinite;
+  animation: think 5s ease-in-out infinite;
+  transform-origin: bottom center;
 }
 
-@keyframes sway {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(3deg); }
-}
-
-@keyframes tilt {
+@keyframes think {
   0%, 100% { transform: rotate(0deg) translateY(0); }
-  33% { transform: rotate(-2deg) translateY(-4px); }
-  66% { transform: rotate(1deg) translateY(2px); }
+  15% { transform: rotate(-8deg) translateY(-10px); }
+  30% { transform: rotate(5deg) translateY(-5px); }
+  50% { transform: rotate(-3deg) translateY(-15px); }
+  70% { transform: rotate(6deg) translateY(-8px); }
+  85% { transform: rotate(-2deg) translateY(-3px); }
+}
+
+/* Strong Claude — flexing pulse */
+.section-avatar-strong {
+  right: 3rem;
+  top: 6rem;
+  animation: flex 2.5s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@keyframes flex {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.08) rotate(-3deg); }
+  50% { transform: scale(1.12) rotate(2deg); }
+  75% { transform: scale(1.05) rotate(-1deg); }
 }
 
 @media (min-width: 1024px) {
-  .section-avatar { width: 180px; opacity: 0.2; }
+  .section-avatar { width: 180px; opacity: 0.3; }
 }
 
 @media (max-width: 768px) {
@@ -936,7 +969,7 @@ h1 { margin: 0; padding: 0; line-height: 1; }
     left: auto;
     top: auto;
     width: 100px;
-    opacity: 0.8;
+    opacity: 0.85;
   }
 }
 
