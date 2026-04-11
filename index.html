@@ -62,7 +62,10 @@
   <!-- HERO                                                -->
   <!-- ═══════════════════════════════════════════════════ -->
   <section id="hero" class="hero">
-    <img src="claude-waving.webp" alt="" class="hero-avatar" aria-hidden="true">
+    <div id="pixel-office" class="hero-avatar pixel-office-slot" aria-hidden="true"
+         data-replay-src="pixel-office/replay.json?v=1"
+         data-assets-base="pixel-office/assets/"></div>
+    <noscript><img src="claude-waving.webp" alt="" class="hero-avatar"></noscript>
 
     <div class="hero-content">
       <!-- Split-flap title -->
@@ -326,6 +329,10 @@
       <p>Built on evidence. Updated by experience. Open to being wrong.</p>
     </div>
   </section>
+
+  <!-- Pixel Office -->
+  <link rel="stylesheet" href="pixel-office/style.css?v=1">
+  <script src="pixel-office/bundle.js?v=1" defer></script>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>

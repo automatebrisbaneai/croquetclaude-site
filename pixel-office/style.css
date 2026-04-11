@@ -1,0 +1,29 @@
+/* pixel-office embed styles */
+
+.pixel-office-slot {
+  width: 260px;
+  height: 260px;
+  opacity: 1;
+  image-rendering: pixelated;
+  background: transparent;
+  border-radius: inherit; /* inherit from .hero-avatar if any */
+}
+
+.pixel-office-slot canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .pixel-office-slot {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-office-slot {
+    display: none;
+  }
+}
