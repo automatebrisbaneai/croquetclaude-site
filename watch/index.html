@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude is working — CroquetClaude</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0d1117;
+    color: #c9d1d9;
+    font-family: 'Courier New', Courier, monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .wordmark {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #c4784a;
+    opacity: 0.7;
+  }
+
+  .terminal {
+    width: 100%;
+    max-width: 520px;
+    background: #161b22;
+    border: 1px solid rgba(196,120,74,0.35);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  }
+
+  .term-bar {
+    background: #0d1117;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(196,120,74,0.2);
+  }
+
+  .dots { display: flex; gap: 6px; }
+  .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+  }
+
+  .term-title {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #c4784a;
+    flex: 1;
+    text-align: center;
+  }
+
+  .term-body {
+    padding: 18px 20px 20px;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 5px;
+  }
+
+  .entry {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #7ee787;
+    animation: fadein 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .entry::before {
+    content: '> ';
+    color: #c4784a;
+    opacity: 0.8;
+  }
+
+  .entry.dim { color: #4a6040; }
+  .entry.dimmer { color: #2d3d28; }
+
+  .cursor-line {
+    font-size: 13px;
+    color: #c4784a;
+  }
+
+  .cursor {
+    display: inline-block;
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  @keyframes fadein {
+    from { opacity: 0; transform: translateY(3px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .footer {
+    font-size: 10px;
+    color: #4a5568;
+    letter-spacing: 0.1em;
+  }
+
+  .footer a { color: #c4784a; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="wordmark">CroquetClaude</div>
+
+<div class="terminal">
+  <div class="term-bar">
+    <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <div class="term-title">claude is working</div>
+  </div>
+  <div class="term-body" id="log">
+    <div class="cursor-line"><span class="cursor">▊</span></div>
+  </div>
+</div>
+
+<div class="footer">
+  Real work from real sessions &mdash; <a href="https://croquetclaude.com">croquetclaude.com</a>
+</div>
+
+<script>
+(function () {
+  var log = document.getElementById('log');
+  var cursor = log.querySelector('.cursor-line');
+  var MAX = 10;
+
+  var FALLBACK = [
+    'Reading resources', 'Editing daily', 'Searching',
+    'Browsing croquetqld.org', 'Running: python', 'Briefing team member',
+    'Reading system', 'Editing projects', 'Searching', 'Reading inbox',
+    'Running: node', 'Browsing github.com', 'Editing apps',
+    'Reading meetings', 'Briefing team member'
+  ];
+
+  function addLine(text) {
+    var entries = log.querySelectorAll('.entry');
+
+    // Dim older entries
+    entries.forEach(function (e, i) {
+      e.className = 'entry' + (i < entries.length - 3 ? ' dimmer' : i < entries.length - 1 ? ' dim' : '');
+    });
+
+    var d = document.createElement('div');
+    d.className = 'entry';
+    d.textContent = text;
+    log.insertBefore(d, cursor);
+
+    // Trim old entries
+    var all = log.querySelectorAll('.entry');
+    while (all.length > MAX) {
+      log.removeChild(all[0]);
+      all = log.querySelectorAll('.entry');
+    }
+  }
+
+  function startLoop(labels) {
+    var i = Math.floor(Math.random() * labels.length);
+    function next() {
+      addLine(labels[i % labels.length]);
+      i++;
+      setTimeout(next, 1000 + Math.random() * 1500);
+    }
+    setTimeout(next, 400);
+  }
+
+  fetch('replay.json')
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+    .then(function (replay) {
+      var seen = {};
+      var labels = [];
+      (replay.events || []).forEach(function (e) {
+        if (e.t === 'toolStart' && e.label && !seen[e.label]) {
+          seen[e.label] = 1;
+          labels.push(e.label);
+        }
+      });
+      startLoop(labels.length > 8 ? labels : FALLBACK);
+    })
+    .catch(function () { startLoop(FALLBACK); });
+})();
+</script>
+
+</body>
+</html>
