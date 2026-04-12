@@ -1,8 +1,17 @@
 /* pixel-office embed styles */
 
 #pixel-office {
+  position: absolute;
+  right: 3rem;
+  top: 50%;
+  transform: translateY(-50%);
   width: 220px;
   height: 200px;
+  pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+  #pixel-office { width: 260px; height: 230px; }
 }
 
 @media (max-width: 768px) {
