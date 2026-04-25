@@ -1,12 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
 <title>Design Infrastructure Rig — kanban · CroquetClaude</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Lato:wght@300;400;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&amp;family=Lato:wght@300;400;700;900&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
 <style>
 :root {
   --maroon: #73182C;
@@ -402,13 +403,14 @@ section.lane {
   font-weight: 600;
 }
 .flight-card .title {
-  font-family: 'Abril Fatface', serif;
-  font-weight: 400;
-  font-size: 22px;
-  line-height: 1.1;
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+  font-size: 19px;
+  line-height: 1.25;
   color: var(--cream);
   margin: 0;
-  letter-spacing: -0.005em;
+  letter-spacing: 0.005em;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
 }
 .flight-card .desc {
   font-size: 13px;
@@ -567,627 +569,564 @@ footer .legend .swatch { width: 14px; height: 14px; border-radius: 2px; }
 </head>
 <body>
 <main>
-
 <!-- ========== HEADER ========== -->
 <header class="masthead">
-  <div class="eyebrow">
-    <span class="left"><span class="pulse"></span>Active plan · in flight</span>
-    <span>Croquet Association of Queensland · CroquetClaude · 2026-04-25</span>
-  </div>
-  <h1>Design Infrastructure <em>Rig.</em></h1>
-  <p class="lede">Set up the tools, kits and prompting playbooks that the next year of design work will lean on. Forty distinct club identities. Reply tool. Two CroquetWades. CAQ family. PDFs and briefings. The point isn't to build them — the point is to make sure we can.</p>
-  <div class="meta-row">
-    <span><strong>Plan</strong> &nbsp;the-purpose-is-not-snoopy-gosling.md</span>
-    <span><strong>Slug</strong> &nbsp;setup-design-infrastructure-rig</span>
-    <span><strong>Cards</strong> &nbsp;47 · 8 phases</span>
-    <span><strong>Owner</strong> &nbsp;CroquetClaude</span>
-  </div>
+<div class="eyebrow">
+<span class="left" data-edit-id="eyebrow-left-1"><span class="pulse"></span>Active plan · in flight</span>
+<span data-edit-id="eyebrow-right-1">Croquet Association of Queensland · CroquetClaude · 2026-04-25</span>
+</div>
+<h1 data-edit-id="title-1">Design Infrastructure <em>Rig.</em></h1>
+<p class="lede" data-edit-id="lede-1">Set up the tools, kits and prompting playbooks that the next year of design work will lean on. Forty distinct club identities. Reply tool. Two CroquetWades. CAQ family. PDFs and briefings. The point isn't to build them — the point is to make sure we can.</p>
+<div class="meta-row">
+<span data-edit-id="meta-1"><strong>Plan</strong>  the-purpose-is-not-snoopy-gosling.md</span>
+<span data-edit-id="meta-2"><strong>Slug</strong>  setup-design-infrastructure-rig</span>
+<span data-edit-id="meta-3"><strong>Cards</strong>  47 · 8 phases</span>
+<span data-edit-id="meta-4"><strong>Owner</strong>  CroquetClaude</span>
+</div>
 </header>
-
 <!-- ========== SCOPE BANNER ========== -->
 <div class="scope">
-  <div class="scope-pill">
-    <span class="label">Scope confirmed</span>
-    <span class="value">Infrastructure only</span>
-    <span class="why">No proof builds in this plan. The 40 clubs and reply-tool refresh come next, drawing on this rig.</span>
-  </div>
-  <div class="scope-pill">
-    <span class="label">Architecture confirmed</span>
-    <span class="value">40 distinct identities</span>
-    <span class="why">Each club gets its own DESIGN.md, palette, type pair, voice. Designlang and per-club brand kits become essential.</span>
-  </div>
-  <div class="scope-pill">
-    <span class="label">Sequence confirmed</span>
-    <span class="value">Brand kit first</span>
-    <span class="why">resources/caq-brand/ (eduba pattern) goes in before any surface work. Every later build inherits.</span>
-  </div>
+<div class="scope-pill">
+<span class="label" data-edit-id="scope-label-1">Scope confirmed</span>
+<span class="value" data-edit-id="scope-value-1">Infrastructure only</span>
+<span class="why" data-edit-id="scope-why-1">No proof builds in this plan. The 40 clubs and reply-tool refresh come next, drawing on this rig.</span>
 </div>
-
+<div class="scope-pill">
+<span class="label" data-edit-id="scope-label-2">Architecture confirmed</span>
+<span class="value" data-edit-id="scope-value-2">40 distinct identities</span>
+<span class="why" data-edit-id="scope-why-2">Each club gets its own DESIGN.md, palette, type pair, voice. Designlang and per-club brand kits become essential.</span>
+</div>
+<div class="scope-pill">
+<span class="label" data-edit-id="scope-label-3">Sequence confirmed</span>
+<span class="value" data-edit-id="scope-value-3">Brand kit first</span>
+<span class="why" data-edit-id="scope-why-3">resources/caq-brand/ (eduba pattern) goes in before any surface work. Every later build inherits.</span>
+</div>
+</div>
 <!-- ========== SHIPPED ========== -->
 <section class="lane">
-  <div class="lane-head">
-    <span class="marker done"></span>
-    <h2>Shipped</h2>
-    <span class="count">5 cards · 2026-04-25</span>
-    <span class="summary">Scope decisions locked, brand kit consolidated, designlang proven on linear.app.</span>
-  </div>
-  <div class="cards row5">
-
-    <div class="done-card">
-      <div class="ref">D1 · DECISION</div>
-      <div class="title">Club-page architecture = 40 distinct identities</div>
-      <div class="stamp">@ 2026-04-25</div>
-    </div>
-
-    <div class="done-card">
-      <div class="ref">D2 · DECISION</div>
-      <div class="title">Brand-kit consolidation = now, before any builds</div>
-      <div class="stamp">@ 2026-04-25</div>
-    </div>
-
-    <div class="done-card">
-      <div class="ref">D5 · DECISION</div>
-      <div class="title">Scope = infrastructure only, no proof builds in this plan</div>
-      <div class="stamp">@ 2026-04-25</div>
-    </div>
-
-    <div class="done-card">
-      <div class="ref">C1 · CONSOLIDATION</div>
-      <div class="title">resources/caq-brand/ kit built — AGENT_BRIEF + tokens + voice + assets + preview</div>
-      <div class="stamp">@ 2026-04-25 · 23 files · W3C DTCG tokens</div>
-    </div>
-
-    <div class="done-card">
-      <div class="ref">R1 · REFERENCE</div>
-      <div class="title">designlang smoke-test on linear.app passed</div>
-      <div class="stamp">@ 2026-04-25 · 17 output files · DESIGN.md structurally complete</div>
-    </div>
-
-  </div>
+<div class="lane-head">
+<span class="marker done"></span>
+<h2 data-edit-id="lane-title-1">Shipped</h2>
+<span class="count" data-edit-id="lane-count-1">5 cards · 2026-04-25</span>
+<span class="summary" data-edit-id="lane-summary-1">Scope decisions locked, brand kit consolidated, designlang proven on linear.app.</span>
+</div>
+<div class="cards row5">
+<div class="done-card">
+<div class="ref" data-edit-id="done-ref-1">D1 · DECISION</div>
+<div class="title" data-edit-id="done-title-1">Club-page architecture = 40 distinct identities</div>
+<div class="stamp" data-edit-id="done-stamp-1">@ 2026-04-25</div>
+</div>
+<div class="done-card">
+<div class="ref" data-edit-id="done-ref-2">D2 · DECISION</div>
+<div class="title" data-edit-id="done-title-2">Brand-kit consolidation = now, before any builds</div>
+<div class="stamp" data-edit-id="done-stamp-2">@ 2026-04-25</div>
+</div>
+<div class="done-card">
+<div class="ref" data-edit-id="done-ref-3">D5 · DECISION</div>
+<div class="title" data-edit-id="done-title-3">Scope = infrastructure only, no proof builds in this plan</div>
+<div class="stamp" data-edit-id="done-stamp-3">@ 2026-04-25</div>
+</div>
+<div class="done-card">
+<div class="ref" data-edit-id="done-ref-4">C1 · CONSOLIDATION</div>
+<div class="title" data-edit-id="done-title-4">resources/caq-brand/ kit built — AGENT_BRIEF + tokens + voice + assets + preview</div>
+<div class="stamp" data-edit-id="done-stamp-4">@ 2026-04-25 · 23 files · W3C DTCG tokens</div>
+</div>
+<div class="done-card">
+<div class="ref" data-edit-id="done-ref-5">R1 · REFERENCE</div>
+<div class="title" data-edit-id="done-title-5">designlang smoke-test on linear.app passed</div>
+<div class="stamp" data-edit-id="done-stamp-5">@ 2026-04-25 · 17 output files · DESIGN.md structurally complete</div>
+</div>
+</div>
 </section>
-
 <!-- ========== IN FLIGHT ========== -->
 <section class="lane">
-  <div class="lane-head">
-    <span class="marker flight"></span>
-    <h2>In Flight</h2>
-    <span class="count">3 of 3 · WIP cap met</span>
-    <span class="summary">The priority five mid-execution. Everything else queued in Ready.</span>
-  </div>
-  <div class="cards flight-row">
-
-    <div class="flight-card">
-      <div class="ref">R3 · CC · in flight since 2026-04-25</div>
-      <h3 class="title">Curate 8 awesome-design-md references for community-sports/poster aesthetic</h3>
-      <p class="desc">Filtering down VoltAgent's 69 examples to the 8 starting points clubs will pick from. Editorial · minimal · warm-community · asymmetric-poster · dark-dramatic spread.</p>
-      <div class="progress"><span style="width:62%"></span></div>
-      <div class="foot"><span>62% · 5 of 8 referenced</span><span class="session">SESSION 2</span></div>
-    </div>
-
-    <div class="flight-card">
-      <div class="ref">O5 · CC · in flight since 2026-04-25</div>
-      <h3 class="title">DESIGN.md authoring brief — five-question pre-write</h3>
-      <p class="desc">The single highest-leverage prompt because every build runs through it. Audience · mood · references · constraints · distinctiveness anchor. Drafted; testing on three live briefs before sign-off.</p>
-      <div class="progress"><span style="width:48%"></span></div>
-      <div class="foot"><span>48% · drafted, in test</span><span class="session">SESSION 1</span></div>
-    </div>
-
-    <div class="flight-card">
-      <div class="ref">O13 · CC · in flight since 2026-04-25</div>
-      <h3 class="title">Club-questionnaire prompt — 5 questions for non-designer secretaries</h3>
-      <p class="desc">Forty distinct identities means forty interviews. This prompt makes that forty short questionnaires instead. Who plays · what feel · existing logo · three sites you like · one feeling.</p>
-      <div class="progress"><span style="width:30%"></span></div>
-      <div class="foot"><span>30% · structure drafted</span><span class="session">SESSION 1</span></div>
-    </div>
-
-  </div>
+<div class="lane-head">
+<span class="marker flight"></span>
+<h2 data-edit-id="lane-title-2">In Flight</h2>
+<span class="count" data-edit-id="lane-count-2">3 of 3 · WIP cap met</span>
+<span class="summary" data-edit-id="lane-summary-2">The priority five mid-execution. Everything else queued in Ready.</span>
+</div>
+<div class="cards flight-row">
+<div class="flight-card">
+<div class="ref" data-edit-id="flight-ref-1">R3 · CC · in flight since 2026-04-25</div>
+<h3 class="title" data-edit-id="flight-title-1">Curate 8 awesome-design-md references for community-sports/poster aesthetic</h3>
+<p class="desc" data-edit-id="flight-desc-1">Filtering down VoltAgent's 69 examples to the 8 starting points clubs will pick from. Editorial · minimal · warm-community · asymmetric-poster · dark-dramatic spread.</p>
+<div class="progress"><span style="width:62%"></span></div>
+<div class="foot"><span data-edit-id="flight-progress-text-1">62% · 5 of 8 referenced</span><span class="session" data-edit-id="flight-session-1">SESSION 2</span></div>
+</div>
+<div class="flight-card">
+<div class="ref" data-edit-id="flight-ref-2">O5 · CC · in flight since 2026-04-25</div>
+<h3 class="title" data-edit-id="flight-title-2">DESIGN.md authoring brief — five-question pre-write</h3>
+<p class="desc" data-edit-id="flight-desc-2">The single highest-leverage prompt because every build runs through it. Audience · mood · references · constraints · distinctiveness anchor. Drafted; testing on three live briefs before sign-off.</p>
+<div class="progress"><span style="width:48%"></span></div>
+<div class="foot"><span data-edit-id="flight-progress-text-2">48% · drafted, in test</span><span class="session" data-edit-id="flight-session-2">SESSION 1</span></div>
+</div>
+<div class="flight-card">
+<div class="ref" data-edit-id="flight-ref-3">O13 · CC · in flight since 2026-04-25</div>
+<h3 class="title" data-edit-id="flight-title-3">Club-questionnaire prompt — 5 questions for non-designer secretaries</h3>
+<p class="desc" data-edit-id="flight-desc-3">Forty distinct identities means forty interviews. This prompt makes that forty short questionnaires instead. Who plays · what feel · existing logo · three sites you like · one feeling.</p>
+<div class="progress"><span style="width:30%"></span></div>
+<div class="foot"><span data-edit-id="flight-progress-text-3">30% · structure drafted</span><span class="session" data-edit-id="flight-session-3">SESSION 1</span></div>
+</div>
+</div>
 </section>
-
 <!-- ========== READY ========== -->
 <section class="lane">
-  <div class="lane-head">
-    <span class="marker ready"></span>
-    <h2>Ready</h2>
-    <span class="count">8 cards · unblocked, can be picked up cold</span>
-    <span class="summary">All have out: paths defined. Stale flag at 14 days untouched.</span>
-  </div>
-  <div class="cards row4">
-
-    <div class="card cc compact">
-      <div class="priority-ribbon">5</div>
-      <div class="head"><span class="ref">O12</span><span class="owner">CC</span></div>
-      <h3 class="title">Claude Design skill-chain decision matrix</h3>
-      <p class="desc">20+ refinement skills (frontend-design, arrange, polish, critique, animate, audit, adapt …) — decide which to invoke when. Default chain for a typical club page.</p>
-      <div class="foot">
-        <div class="out">resources/prompts/claude-design-skill-chain.md</div>
-        <span class="wf docs">docs</span>
-      </div>
-    </div>
-
-    <div class="card infra compact">
-      <div class="head"><span class="ref">R2</span><span class="owner">Infra</span></div>
-      <h3 class="title">Register designlang MCP server</h3>
-      <p class="desc">Add to .claude/settings.json MCP config. R1 passed — unblocked.</p>
-      <div class="foot">
-        <div class="out">.claude/settings.json</div>
-        <span class="wf dev">dev</span>
-      </div>
-    </div>
-
-    <div class="card cc compact">
-      <div class="head"><span class="ref">C2</span><span class="owner">CC</span></div>
-      <h3 class="title">Migrate scattered CAQ values into caq-brand/</h3>
-      <p class="desc">Sources: design-brief-caq.md → AGENT_BRIEF, procedure_web_design.md § Lockdowns, procedure_stitch.md, procedure_article_images.md ink rules.</p>
-      <div class="foot">
-        <div class="out">resources/caq-brand/MIGRATION-LOG.md</div>
-        <span class="wf docs">docs</span>
-      </div>
-    </div>
-
-    <div class="card infra compact">
-      <div class="head"><span class="ref">C3</span><span class="owner">Infra</span></div>
-      <h3 class="title">Register caq-brand as agent skill</h3>
-      <p class="desc">.agents/skills/caq-brand/ — any agent invokes via /caq-brand and gets the canonical bundle. C1 done unblocked it.</p>
-      <div class="foot">
-        <div class="out">.agents/skills/caq-brand/SKILL.md</div>
-        <span class="wf dev">dev</span>
-      </div>
-    </div>
-
-    <div class="card cc compact">
-      <div class="head"><span class="ref">R5</span><span class="owner">CC</span></div>
-      <h3 class="title">Build club-page reference deck</h3>
-      <p class="desc">6–8 pre-picked starting points across the editorial→dramatic spectrum. Stops the discovery loop running 40 times.</p>
-      <div class="foot">
-        <div class="out">resources/design-references/club-page-deck.md</div>
-        <span class="wf research">research</span>
-      </div>
-    </div>
-
-    <div class="card cc compact">
-      <div class="head"><span class="ref">G1</span><span class="owner">CC</span></div>
-      <h3 class="title">Image-generation matrix</h3>
-      <p class="desc">Nano Banana / FLUX / Ideogram / GPT-Image / Recraft. What each is good at, prompt grammar pointer, when to pick which.</p>
-      <div class="foot">
-        <div class="out">resources/image-generation-matrix.md</div>
-        <span class="wf docs">docs</span>
-      </div>
-    </div>
-
-    <div class="card cc compact">
-      <div class="head"><span class="ref">G7</span><span class="owner">CC</span></div>
-      <h3 class="title">Layout-pattern catalogue audit + expansion</h3>
-      <p class="desc">Verify resources/layout-patterns.md exists; expand to 12+ named patterns with diagrams.</p>
-      <div class="foot">
-        <div class="out">resources/layout-patterns.md</div>
-        <span class="wf docs">docs</span>
-      </div>
-    </div>
-
-    <div class="card cc compact">
-      <div class="head"><span class="ref">G9</span><span class="owner">CC</span></div>
-      <h3 class="title">Hand-craft CSS-from-scratch procedure</h3>
-      <p class="desc">One club page built blank-file, no Stitch/v0/template. CSS Grid + custom properties from zero. Establishes the muscle.</p>
-      <div class="foot">
-        <div class="out">resources/procedures/hand-craft-css.md</div>
-        <span class="wf docs">docs</span>
-      </div>
-    </div>
-
-  </div>
+<div class="lane-head">
+<span class="marker ready"></span>
+<h2 data-edit-id="lane-title-3">Ready</h2>
+<span class="count" data-edit-id="lane-count-3">8 cards · unblocked, can be picked up cold</span>
+<span class="summary" data-edit-id="lane-summary-3">All have out: paths defined. Stale flag at 14 days untouched.</span>
+</div>
+<div class="cards row4">
+<div class="card cc compact">
+<div class="priority-ribbon">5</div>
+<div class="head"><span class="ref">O12</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-1">Claude Design skill-chain decision matrix</h3>
+<p class="desc" data-edit-id="card-desc-1">20+ refinement skills (frontend-design, arrange, polish, critique, animate, audit, adapt …) — decide which to invoke when. Default chain for a typical club page.</p>
+<div class="foot">
+<div class="out">resources/prompts/claude-design-skill-chain.md</div>
+<span class="wf docs">docs</span>
+</div>
+</div>
+<div class="card infra compact">
+<div class="head"><span class="ref">R2</span><span class="owner">Infra</span></div>
+<h3 class="title" data-edit-id="card-title-2">Register designlang MCP server</h3>
+<p class="desc" data-edit-id="card-desc-2">Add to .claude/settings.json MCP config. R1 passed — unblocked.</p>
+<div class="foot">
+<div class="out">.claude/settings.json</div>
+<span class="wf dev">dev</span>
+</div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">C2</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-3">Migrate scattered CAQ values into caq-brand/</h3>
+<p class="desc" data-edit-id="card-desc-3">Sources: design-brief-caq.md → AGENT_BRIEF, procedure_web_design.md § Lockdowns, procedure_stitch.md, procedure_article_images.md ink rules.</p>
+<div class="foot">
+<div class="out">resources/caq-brand/MIGRATION-LOG.md</div>
+<span class="wf docs">docs</span>
+</div>
+</div>
+<div class="card infra compact">
+<div class="head"><span class="ref">C3</span><span class="owner">Infra</span></div>
+<h3 class="title" data-edit-id="card-title-4">Register caq-brand as agent skill</h3>
+<p class="desc" data-edit-id="card-desc-4">.agents/skills/caq-brand/ — any agent invokes via /caq-brand and gets the canonical bundle. C1 done unblocked it.</p>
+<div class="foot">
+<div class="out">.agents/skills/caq-brand/SKILL.md</div>
+<span class="wf dev">dev</span>
+</div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">R5</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-5">Build club-page reference deck</h3>
+<p class="desc" data-edit-id="card-desc-5">6–8 pre-picked starting points across the editorial→dramatic spectrum. Stops the discovery loop running 40 times.</p>
+<div class="foot">
+<div class="out">resources/design-references/club-page-deck.md</div>
+<span class="wf research">research</span>
+</div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">G1</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-6">Image-generation matrix</h3>
+<p class="desc" data-edit-id="card-desc-6">Nano Banana / FLUX / Ideogram / GPT-Image / Recraft. What each is good at, prompt grammar pointer, when to pick which.</p>
+<div class="foot">
+<div class="out">resources/image-generation-matrix.md</div>
+<span class="wf docs">docs</span>
+</div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">G7</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-7">Layout-pattern catalogue audit + expansion</h3>
+<p class="desc" data-edit-id="card-desc-7">Verify resources/layout-patterns.md exists; expand to 12+ named patterns with diagrams.</p>
+<div class="foot">
+<div class="out">resources/layout-patterns.md</div>
+<span class="wf docs">docs</span>
+</div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">G9</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-8">Hand-craft CSS-from-scratch procedure</h3>
+<p class="desc" data-edit-id="card-desc-8">One club page built blank-file, no Stitch/v0/template. CSS Grid + custom properties from zero. Establishes the muscle.</p>
+<div class="foot">
+<div class="out">resources/procedures/hand-craft-css.md</div>
+<span class="wf docs">docs</span>
+</div>
+</div>
+</div>
 </section>
-
 <!-- ========== AWAITING WADE ========== -->
 <section class="lane">
-  <div class="lane-head">
-    <span class="marker wade"></span>
-    <h2>Awaiting Wade</h2>
-    <span class="count">2 cards · don't block the first five</span>
-    <span class="summary">Parked decisions. Pick up at next /heartbeat.</span>
-  </div>
-  <div class="cards row3">
-
-    <div class="wade-card">
-      <h3 class="title">D3 · Recraft authorisation — yes / no / defer</h3>
-      <p class="desc">Unblocks the vector + brand-colour social-card pipeline (G2, G6, X3). Until decided, brand-colour social cards stay at the escalation stop sign.</p>
-    </div>
-
-    <div class="wade-card">
-      <h3 class="title">D4 · open-codesign trial for next flyer</h3>
-      <p class="desc">Wade-side install, prompt → HTML/PDF/PPTX. Could replace Canva for posters and slide decks. 30-minute install + first try.</p>
-    </div>
-
-  </div>
+<div class="lane-head">
+<span class="marker wade"></span>
+<h2 data-edit-id="lane-title-4">Awaiting Wade</h2>
+<span class="count" data-edit-id="lane-count-4">2 cards · don't block the first five</span>
+<span class="summary" data-edit-id="lane-summary-4">Parked decisions. Pick up at next /heartbeat.</span>
+</div>
+<div class="cards row3">
+<div class="wade-card">
+<h3 class="title" data-edit-id="wade-title-1">D3 · Recraft authorisation — yes / no / defer</h3>
+<p class="desc" data-edit-id="wade-desc-1">Unblocks the vector + brand-colour social-card pipeline (G2, G6, X3). Until decided, brand-colour social cards stay at the escalation stop sign.</p>
+</div>
+<div class="wade-card">
+<h3 class="title" data-edit-id="wade-title-2">D4 · open-codesign trial for next flyer</h3>
+<p class="desc" data-edit-id="wade-desc-2">Wade-side install, prompt → HTML/PDF/PPTX. Could replace Canva for posters and slide decks. 30-minute install + first try.</p>
+</div>
+</div>
 </section>
-
 <!-- ========== BACKLOG ========== -->
 <section class="lane">
-  <div class="lane-head">
-    <span class="marker backlog"></span>
-    <h2>Backlog</h2>
-    <span class="count">29 cards · 7 phases</span>
-    <span class="summary">Grouped by pillar. Each card has owner, output path and workflow tag — can drop into Ready as upstream cards complete.</span>
-  </div>
-
-  <!-- ── Phase 1 — Reference -->
-  <div class="phase-group">
-    <div class="phase-head">
-      <span class="phase-tag">Phase 1</span>
-      <span class="phase-letter">R</span>
-      <span class="phase-name">Reference — what to start from</span>
-      <span class="phase-count">2 of 6 in backlog · 4 ahead in Ready/Flight/Done</span>
-    </div>
-    <div class="cards row4">
-      <div class="card cc compact">
-        <div class="head"><span class="ref">R4</span><span class="owner">CC</span></div>
-        <h3 class="title">Cache 12 21st.dev component references</h3>
-        <p class="desc">Buttons / heroes / cards / forms most relevant to community-event UI. Reference snapshots, not code.</p>
-        <div class="foot"><div class="out">resources/design-references/21st-dev/INDEX.md</div><span class="wf research">research</span></div>
-      </div>
-      <div class="card cc compact">
-        <div class="head"><span class="ref">R6</span><span class="owner">CC</span></div>
-        <h3 class="title">Trial v0 (Vercel) on one CAQ-adjacent brief</h3>
-        <p class="desc">Compare against Stitch output. Verdict on whether v0 joins the rig.</p>
-        <div class="foot"><div class="out">resources/design-references/v0-trial.md</div><span class="wf research">research</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── Phase 2 — Generation -->
-  <div class="phase-group">
-    <div class="phase-head">
-      <span class="phase-tag">Phase 2</span>
-      <span class="phase-letter">G</span>
-      <span class="phase-name">Generation — making, not just adopting</span>
-      <span class="phase-count">11 of 14 in backlog · 1 in Ready · 2 await Wade</span>
-    </div>
-    <div class="cards row4">
-
-      <div class="card wade compact">
-        <div class="head"><span class="ref">G2</span><span class="owner">Wade</span></div>
-        <h3 class="title">Decide Recraft authorisation</h3>
-        <p class="desc">Yes / no / defer. Unblocks G6, X3 and the brand-colour social-card pipeline.</p>
-        <div class="foot"><div class="out">projects/character-team/decisions/recraft-auth.md</div><span class="wf decide">decide</span><span class="blocked">wade</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">G3</span><span class="owner">CC</span></div>
-        <h3 class="title">Custom SVG / icon recipe</h3>
-        <p class="desc">claude-svg prompts + hand-edit + Lucide / Phosphor / Tabler curated picks.</p>
-        <div class="foot"><div class="out">resources/svg-icon-recipe.md</div><span class="wf docs">docs</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">G4</span><span class="owner">CC</span></div>
-        <h3 class="title">Texture / grain / ink-overlay asset bank</h3>
-        <p class="desc">Reusable PNG/SVG textures — paper grain, halftone, ink wash, film grain — with usage notes.</p>
-        <div class="foot"><div class="out">resources/textures/INDEX.md</div><span class="wf docs">docs</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">G5</span><span class="owner">CC</span></div>
-        <h3 class="title">Distinctive typography sourcing</h3>
-        <p class="desc">10–15 indie pairs beyond Google Fonts — Pangram, Velvetyne, Klim, Atipo, Fontshare, Geist.</p>
-        <div class="foot"><div class="out">resources/typography-pairs.md</div><span class="wf docs">docs</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">G6</span><span class="owner">CC</span></div>
-        <h3 class="title">Motion / animation recipe library</h3>
-        <p class="desc">8–10 GSAP patterns with copy-paste snippets — scroll-reveal, hero parallax, stagger, hover lift.</p>
-        <div class="foot"><div class="out">resources/motion-recipes.md</div><span class="wf docs">docs</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">G8</span><span class="owner">CC</span></div>
-        <h3 class="title">Illustration sourcing decision tree</h3>
-        <p class="desc">When AI output is enough vs when to commission a human illustrator.</p>
-        <div class="foot"><div class="out">resources/illustration-sourcing.md</div><span class="wf docs">docs</span></div>
-      </div>
-
-      <div class="card wade compact">
-        <div class="head"><span class="ref">G10</span><span class="owner">Wade</span></div>
-        <h3 class="title">Bespoke type / lettering brief</h3>
-        <p class="desc">One CAQ wordmark variant commissioned or hand-lettered. Document the brief.</p>
-        <div class="foot"><div class="out">resources/typography/caq-wordmark-variant.md</div><span class="wf decide">decide</span><span class="blocked">wade</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">G11</span><span class="owner">CC</span></div>
-        <h3 class="title">In-house photography direction</h3>
-        <p class="desc">Shot list + lighting brief for one club photo session. Fills FLUX/stock gap with real material.</p>
-        <div class="foot"><div class="out">resources/photography/club-shoot-brief.md</div><span class="wf docs">docs</span></div>
-      </div>
-
-      <div class="card wade compact">
-        <div class="head"><span class="ref">G12</span><span class="owner">Wade</span></div>
-        <h3 class="title">Custom illustration commissioning pack</h3>
-        <p class="desc">Brief template + 3-illustrator shortlist + rate-card capture.</p>
-        <div class="foot"><div class="out">resources/illustrators/commission-pack.md</div><span class="wf decide">decide</span><span class="blocked">wade</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">G13</span><span class="owner">CC</span></div>
-        <h3 class="title">SVG-from-scratch recipe</h3>
-        <p class="desc">Figma/Penpot path → hand-tuned embed. Distinct from G3 (icon recipe).</p>
-        <div class="foot"><div class="out">resources/procedures/svg-from-scratch.md</div><span class="wf docs">docs</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">G14</span><span class="owner">CC</span></div>
-        <h3 class="title">Figma + Dev Mode MCP setup</h3>
-        <p class="desc">Handoff path for hand-crafted layouts; includes Figma Make capability check.</p>
-        <div class="foot"><div class="out">resources/procedures/figma-handoff.md</div><span class="wf docs">docs</span></div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ── Phase 3 — Operation -->
-  <div class="phase-group">
-    <div class="phase-head">
-      <span class="phase-tag">Phase 3</span>
-      <span class="phase-letter">O</span>
-      <span class="phase-name">Operation — prompting playbooks</span>
-      <span class="phase-count">14 of 17 in backlog · 1 in Ready · 2 in Flight</span>
-    </div>
-    <div class="cards row4">
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">O1</span><span class="owner">CC</span></div>
-        <h3 class="title">Stitch prompting playbook</h3>
-        <p class="desc">Community research + internal log of CAQ-distinctive Stitch prompts. Grows with every Stitch use.</p>
-        <div class="foot"><div class="out">resources/prompts/stitch-playbook.md</div><span class="wf research">research</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">O2</span><span class="owner">CC</span></div>
-        <h3 class="title">designlang --smart mode prompt tuning</h3>
-        <p class="desc">What classifications matter to us. Document overrides we'd want.</p>
-        <div class="foot"><div class="out">resources/prompts/designlang-smart-tuning.md</div><span class="wf docs">docs</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">O3</span><span class="owner">CC</span></div>
-        <h3 class="title">Image-model prompt grammars</h3>
-        <p class="desc">Nano Banana ink / FLUX photoreal / Ideogram poster / Recraft vector. One file, four sub-grammars.</p>
-        <div class="foot"><div class="out">resources/prompts/image-model-grammars.md</div><span class="wf docs">docs</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">O4</span><span class="owner">CC</span></div>
-        <h3 class="title">Grok creative-consultation template</h3>
-        <p class="desc">Temperature 1.0+; system prompt + question structure. For brief brainstorming.</p>
-        <div class="foot"><div class="out">resources/prompts/grok-creative-consult.md</div><span class="wf docs">docs</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">O6</span><span class="owner">CC</span></div>
-        <h3 class="title">Reference-teardown prompt</h3>
-        <p class="desc">For when designlang isn't right (JS-blocked, paywall, screenshot-only references).</p>
-        <div class="foot"><div class="out">resources/prompts/reference-teardown.md</div><span class="wf docs">docs</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">O7</span><span class="owner">CC</span></div>
-        <h3 class="title">Design-reviewer agent prompt audit + tune</h3>
-        <p class="desc">Review .claude/agents/design-reviewer.md. Coverage and false-positive rate.</p>
-        <div class="foot"><div class="out">.claude/agents/design-reviewer.md</div><span class="wf dev">dev</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">O8</span><span class="owner">CC</span></div>
-        <h3 class="title">Distinctive-pass callable prompt</h3>
-        <p class="desc">Given render + DESIGN.md, name the one thing a reader will remember. If you can't, what's missing?</p>
-        <div class="foot"><div class="out">resources/prompts/distinctive-pass.md</div><span class="wf docs">docs</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">O9</span><span class="owner">CC</span></div>
-        <h3 class="title">AI-tell scanner prompt</h3>
-        <p class="desc">Codify the AI-tell checklist (template uniformity, generic stock, even gradients, three-card grids) into a single callable scan.</p>
-        <div class="foot"><div class="out">resources/prompts/ai-tell-scan.md</div><span class="wf docs">docs</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">O10</span><span class="owner">CC</span></div>
-        <h3 class="title">CAQ voice/tone prompt for design content</h3>
-        <p class="desc">Warm, direct, Australian — "friend inviting you to play" test.</p>
-        <div class="foot"><div class="out">resources/prompts/caq-voice-design.md</div><span class="wf docs">docs</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">O11</span><span class="owner">CC</span></div>
-        <h3 class="title">Anti-pattern pre-flight prompt</h3>
-        <p class="desc">Loaded from feedback_design_anti_patterns.md (9 hard refusals). Pre-flight check before any generation.</p>
-        <div class="foot"><div class="out">resources/prompts/anti-pattern-preflight.md</div><span class="wf docs">docs</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">O14</span><span class="owner">CC</span></div>
-        <h3 class="title">PDF / briefing prompt grammar</h3>
-        <p class="desc">Codify the prompt that drives apps/brief-generator.py.</p>
-        <div class="foot"><div class="out">resources/prompts/pdf-briefing.md</div><span class="wf docs">docs</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">O15</span><span class="owner">CC</span></div>
-        <h3 class="title">Social-card prompt set</h3>
-        <p class="desc">Square + landscape + story sizes. Copy + image. CAQ voice.</p>
-        <div class="foot"><div class="out">resources/prompts/social-cards.md</div><span class="wf docs">docs</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">O16</span><span class="owner">CC</span></div>
-        <h3 class="title">A/B variant prompt</h3>
-        <p class="desc">Three takes leaning different directions — editorial / playful / authoritative.</p>
-        <div class="foot"><div class="out">resources/prompts/ab-variants.md</div><span class="wf docs">docs</span></div>
-      </div>
-
-      <div class="card cc compact">
-        <div class="head"><span class="ref">O17</span><span class="owner">CC</span></div>
-        <h3 class="title">Copy-from-brief prompt</h3>
-        <p class="desc">Questionnaire output → CAQ-voice body copy.</p>
-        <div class="foot"><div class="out">resources/prompts/copy-from-brief.md</div><span class="wf docs">docs</span></div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ── Phase 4 — Quality -->
-  <div class="phase-group">
-    <div class="phase-head">
-      <span class="phase-tag">Phase 4</span>
-      <span class="phase-letter">Q</span>
-      <span class="phase-name">Quality — how we verify</span>
-      <span class="phase-count">3 cards</span>
-    </div>
-    <div class="cards row3">
-      <div class="card cc compact">
-        <div class="head"><span class="ref">Q1</span><span class="owner">CC</span></div>
-        <h3 class="title">Consolidated /design-qa pipeline</h3>
-        <p class="desc">5-point + distinctive + AI-tell + viewport + reviewer in one named pipeline. Single command, single pass/fail.</p>
-        <div class="foot"><div class="out">.claude/commands/design-qa.md</div><span class="wf dev">dev</span></div>
-      </div>
-      <div class="card cc compact">
-        <div class="head"><span class="ref">Q2</span><span class="owner">CC</span></div>
-        <h3 class="title">Council-review threshold calibration</h3>
-        <p class="desc">After 5 club builds, verify 8/10 from 5 reviewers is right.</p>
-        <div class="foot"><div class="out">projects/character-team/decisions/council-threshold.md</div><span class="wf research">research</span><span class="blocked">5-builds</span></div>
-      </div>
-      <div class="card cc compact">
-        <div class="head"><span class="ref">Q3</span><span class="owner">CC</span></div>
-        <h3 class="title">Verification smoke-test pattern confirm</h3>
-        <p class="desc">procedure_web_design.md Step 17a — confirm working for patch-mode edits.</p>
-        <div class="foot"><div class="out">system/memory/procedure_web_design.md</div><span class="wf docs">docs</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── Phase 5 — Consolidation -->
-  <div class="phase-group">
-    <div class="phase-head">
-      <span class="phase-tag">Phase 5</span>
-      <span class="phase-letter">C</span>
-      <span class="phase-name">Consolidation — eduba pattern</span>
-      <span class="phase-count">1 of 4 in backlog · 2 in Ready · 1 done</span>
-    </div>
-    <div class="cards row3">
-      <div class="card cc compact">
-        <div class="head"><span class="ref">C4</span><span class="owner">CC</span></div>
-        <h3 class="title">Per-club brand-kit template</h3>
-        <p class="desc">Parameterised eduba structure for resources/club-brands/&lt;slug&gt;/. With 40 distinct identities locked, this is the slot every club's brand-DNA fills.</p>
-        <div class="foot"><div class="out">resources/club-brands/_template/AGENT_BRIEF.md</div><span class="wf docs">docs</span><span class="blocked">C1</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── Phase 6 — Per-surface -->
-  <div class="phase-group">
-    <div class="phase-head">
-      <span class="phase-tag">Phase 6</span>
-      <span class="phase-letter">S</span>
-      <span class="phase-name">Per-surface audit</span>
-      <span class="phase-count">5 cards</span>
-    </div>
-    <div class="cards row4">
-      <div class="card cc compact">
-        <div class="head"><span class="ref">S1</span><span class="owner">CC</span></div>
-        <h3 class="title">Reply.cc design-system audit</h3>
-        <p class="desc">Single canonical DESIGN.md, retire duplicates at apps/reply-croquetclaude-site/ + 2 subdirs.</p>
-        <div class="foot"><div class="out">apps/reply-croquetclaude-site/DESIGN.md</div><span class="wf docs">docs</span></div>
-      </div>
-      <div class="card cc compact">
-        <div class="head"><span class="ref">S2</span><span class="owner">CC</span></div>
-        <h3 class="title">CroquetWade (Win98) DESIGN.md confirm</h3>
-        <p class="desc">Confirm fine as-is.</p>
-        <div class="foot"><div class="out">apps/croquetwade-site/DESIGN.md</div><span class="wf review">review</span></div>
-      </div>
-      <div class="card cc compact">
-        <div class="head"><span class="ref">S3</span><span class="owner">CC</span></div>
-        <h3 class="title">New CroquetWade DESIGN.md confirm</h3>
-        <p class="desc">Plunk-aesthetic, Coolify deployed. Confirm against caq-brand kit.</p>
-        <div class="foot"><div class="out">apps/new-croquetwade-site/DESIGN.md</div><span class="wf review">review</span></div>
-      </div>
-      <div class="card cc compact">
-        <div class="head"><span class="ref">S4</span><span class="owner">CC</span></div>
-        <h3 class="title">News site v1 vs v2 reconciliation</h3>
-        <p class="desc">Pick canonical, retire other.</p>
-        <div class="foot"><div class="out">apps/news-site/DESIGN.md</div><span class="wf docs">docs</span></div>
-      </div>
-      <div class="card cc compact">
-        <div class="head"><span class="ref">S5</span><span class="owner">CC</span></div>
-        <h3 class="title">PDF / briefings design refresh</h3>
-        <p class="desc">Audit apps/brief-generator.py output against caq-brand kit; tighten where needed.</p>
-        <div class="foot"><div class="out">apps/brief-generator.py</div><span class="wf docs">docs</span><span class="blocked">C1</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── Phase 7 — Research -->
-  <div class="phase-group">
-    <div class="phase-head">
-      <span class="phase-tag">Phase 7</span>
-      <span class="phase-letter">X</span>
-      <span class="phase-name">Research — exploratory probes</span>
-      <span class="phase-count">5 cards</span>
-    </div>
-    <div class="cards row4">
-      <div class="card cc compact">
-        <div class="head"><span class="ref">X1</span><span class="owner">CC</span></div>
-        <h3 class="title">Indie design Twitter prompt-pattern research</h3>
-        <p class="desc">Brian Lovin, Pablo Stanley, others. Capture prompting style of people getting distinctive AI design output.</p>
-        <div class="foot"><div class="out">resources/research/design-twitter-prompts.md</div><span class="wf research">research</span></div>
-      </div>
-      <div class="card wade compact">
-        <div class="head"><span class="ref">X2</span><span class="owner">Wade</span></div>
-        <h3 class="title">open-codesign install + flyer trial</h3>
-        <p class="desc">Wade-side, not CC-side. Try on next flyer. Verdict on replacing Canva for posters.</p>
-        <div class="foot"><div class="out">resources/research/open-codesign-trial.md</div><span class="wf research">research</span><span class="blocked">wade</span></div>
-      </div>
-      <div class="card cc compact">
-        <div class="head"><span class="ref">X3</span><span class="owner">CC</span></div>
-        <h3 class="title">Recraft trial design</h3>
-        <p class="desc">Single brand-colour social card. Calibrate prompt grammar.</p>
-        <div class="foot"><div class="out">resources/research/recraft-trial.md</div><span class="wf research">research</span><span class="blocked">G2</span></div>
-      </div>
-      <div class="card cc compact">
-        <div class="head"><span class="ref">X4</span><span class="owner">CC</span></div>
-        <h3 class="title">NotebookLM for DESIGN.md drafting</h3>
-        <p class="desc">30-min test ingesting awesome-design-md + a club brief. Could it draft DESIGN.md?</p>
-        <div class="foot"><div class="out">resources/research/notebooklm-design.md</div><span class="wf research">research</span></div>
-      </div>
-      <div class="card cc compact">
-        <div class="head"><span class="ref">X5</span><span class="owner">CC</span></div>
-        <h3 class="title">Penpot evaluation as Figma alternative</h3>
-        <p class="desc">Open-source Figma alt with MCP. Worth assessing as hand-craft layout tool.</p>
-        <div class="foot"><div class="out">resources/research/penpot-eval.md</div><span class="wf research">research</span></div>
-      </div>
-    </div>
-  </div>
-
+<div class="lane-head">
+<span class="marker backlog"></span>
+<h2 data-edit-id="lane-title-5">Backlog</h2>
+<span class="count" data-edit-id="lane-count-5">29 cards · 7 phases</span>
+<span class="summary" data-edit-id="lane-summary-5">Grouped by pillar. Each card has owner, output path and workflow tag — can drop into Ready as upstream cards complete.</span>
+</div>
+<!-- ── Phase 1 — Reference -->
+<div class="phase-group">
+<div class="phase-head">
+<span class="phase-tag" data-edit-id="phase-tag-1">Phase 1</span>
+<span class="phase-letter">R</span>
+<span class="phase-name" data-edit-id="phase-name-1">Reference — what to start from</span>
+<span class="phase-count" data-edit-id="phase-count-1">2 of 6 in backlog · 4 ahead in Ready/Flight/Done</span>
+</div>
+<div class="cards row4">
+<div class="card cc compact">
+<div class="head"><span class="ref">R4</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-9">Cache 12 21st.dev component references</h3>
+<p class="desc" data-edit-id="card-desc-9">Buttons / heroes / cards / forms most relevant to community-event UI. Reference snapshots, not code.</p>
+<div class="foot"><div class="out">resources/design-references/21st-dev/INDEX.md</div><span class="wf research">research</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">R6</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-10">Trial v0 (Vercel) on one CAQ-adjacent brief</h3>
+<p class="desc" data-edit-id="card-desc-10">Compare against Stitch output. Verdict on whether v0 joins the rig.</p>
+<div class="foot"><div class="out">resources/design-references/v0-trial.md</div><span class="wf research">research</span></div>
+</div>
+</div>
+</div>
+<!-- ── Phase 2 — Generation -->
+<div class="phase-group">
+<div class="phase-head">
+<span class="phase-tag" data-edit-id="phase-tag-2">Phase 2</span>
+<span class="phase-letter">G</span>
+<span class="phase-name" data-edit-id="phase-name-2">Generation — making, not just adopting</span>
+<span class="phase-count" data-edit-id="phase-count-2">11 of 14 in backlog · 1 in Ready · 2 await Wade</span>
+</div>
+<div class="cards row4">
+<div class="card wade compact">
+<div class="head"><span class="ref">G2</span><span class="owner">Wade</span></div>
+<h3 class="title" data-edit-id="card-title-11">Decide Recraft authorisation</h3>
+<p class="desc" data-edit-id="card-desc-11">Yes / no / defer. Unblocks G6, X3 and the brand-colour social-card pipeline.</p>
+<div class="foot"><div class="out">projects/character-team/decisions/recraft-auth.md</div><span class="wf decide">decide</span><span class="blocked">wade</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">G3</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-12">Custom SVG / icon recipe</h3>
+<p class="desc" data-edit-id="card-desc-12">claude-svg prompts + hand-edit + Lucide / Phosphor / Tabler curated picks.</p>
+<div class="foot"><div class="out">resources/svg-icon-recipe.md</div><span class="wf docs">docs</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">G4</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-13">Texture / grain / ink-overlay asset bank</h3>
+<p class="desc" data-edit-id="card-desc-13">Reusable PNG/SVG textures — paper grain, halftone, ink wash, film grain — with usage notes.</p>
+<div class="foot"><div class="out">resources/textures/INDEX.md</div><span class="wf docs">docs</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">G5</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-14">Distinctive typography sourcing</h3>
+<p class="desc" data-edit-id="card-desc-14">10–15 indie pairs beyond Google Fonts — Pangram, Velvetyne, Klim, Atipo, Fontshare, Geist.</p>
+<div class="foot"><div class="out">resources/typography-pairs.md</div><span class="wf docs">docs</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">G6</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-15">Motion / animation recipe library</h3>
+<p class="desc" data-edit-id="card-desc-15">8–10 GSAP patterns with copy-paste snippets — scroll-reveal, hero parallax, stagger, hover lift.</p>
+<div class="foot"><div class="out">resources/motion-recipes.md</div><span class="wf docs">docs</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">G8</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-16">Illustration sourcing decision tree</h3>
+<p class="desc" data-edit-id="card-desc-16">When AI output is enough vs when to commission a human illustrator.</p>
+<div class="foot"><div class="out">resources/illustration-sourcing.md</div><span class="wf docs">docs</span></div>
+</div>
+<div class="card wade compact">
+<div class="head"><span class="ref">G10</span><span class="owner">Wade</span></div>
+<h3 class="title" data-edit-id="card-title-17">Bespoke type / lettering brief</h3>
+<p class="desc" data-edit-id="card-desc-17">One CAQ wordmark variant commissioned or hand-lettered. Document the brief.</p>
+<div class="foot"><div class="out">resources/typography/caq-wordmark-variant.md</div><span class="wf decide">decide</span><span class="blocked">wade</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">G11</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-18">In-house photography direction</h3>
+<p class="desc" data-edit-id="card-desc-18">Shot list + lighting brief for one club photo session. Fills FLUX/stock gap with real material.</p>
+<div class="foot"><div class="out">resources/photography/club-shoot-brief.md</div><span class="wf docs">docs</span></div>
+</div>
+<div class="card wade compact">
+<div class="head"><span class="ref">G12</span><span class="owner">Wade</span></div>
+<h3 class="title" data-edit-id="card-title-19">Custom illustration commissioning pack</h3>
+<p class="desc" data-edit-id="card-desc-19">Brief template + 3-illustrator shortlist + rate-card capture.</p>
+<div class="foot"><div class="out">resources/illustrators/commission-pack.md</div><span class="wf decide">decide</span><span class="blocked">wade</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">G13</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-20">SVG-from-scratch recipe</h3>
+<p class="desc" data-edit-id="card-desc-20">Figma/Penpot path → hand-tuned embed. Distinct from G3 (icon recipe).</p>
+<div class="foot"><div class="out">resources/procedures/svg-from-scratch.md</div><span class="wf docs">docs</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">G14</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-21">Figma + Dev Mode MCP setup</h3>
+<p class="desc" data-edit-id="card-desc-21">Handoff path for hand-crafted layouts; includes Figma Make capability check.</p>
+<div class="foot"><div class="out">resources/procedures/figma-handoff.md</div><span class="wf docs">docs</span></div>
+</div>
+</div>
+</div>
+<!-- ── Phase 3 — Operation -->
+<div class="phase-group">
+<div class="phase-head">
+<span class="phase-tag" data-edit-id="phase-tag-3">Phase 3</span>
+<span class="phase-letter">O</span>
+<span class="phase-name" data-edit-id="phase-name-3">Operation — prompting playbooks</span>
+<span class="phase-count" data-edit-id="phase-count-3">14 of 17 in backlog · 1 in Ready · 2 in Flight</span>
+</div>
+<div class="cards row4">
+<div class="card cc compact">
+<div class="head"><span class="ref">O1</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-22">Stitch prompting playbook</h3>
+<p class="desc" data-edit-id="card-desc-22">Community research + internal log of CAQ-distinctive Stitch prompts. Grows with every Stitch use.</p>
+<div class="foot"><div class="out">resources/prompts/stitch-playbook.md</div><span class="wf research">research</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">O2</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-23">designlang --smart mode prompt tuning</h3>
+<p class="desc" data-edit-id="card-desc-23">What classifications matter to us. Document overrides we'd want.</p>
+<div class="foot"><div class="out">resources/prompts/designlang-smart-tuning.md</div><span class="wf docs">docs</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">O3</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-24">Image-model prompt grammars</h3>
+<p class="desc" data-edit-id="card-desc-24">Nano Banana ink / FLUX photoreal / Ideogram poster / Recraft vector. One file, four sub-grammars.</p>
+<div class="foot"><div class="out">resources/prompts/image-model-grammars.md</div><span class="wf docs">docs</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">O4</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-25">Grok creative-consultation template</h3>
+<p class="desc" data-edit-id="card-desc-25">Temperature 1.0+; system prompt + question structure. For brief brainstorming.</p>
+<div class="foot"><div class="out">resources/prompts/grok-creative-consult.md</div><span class="wf docs">docs</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">O6</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-26">Reference-teardown prompt</h3>
+<p class="desc" data-edit-id="card-desc-26">For when designlang isn't right (JS-blocked, paywall, screenshot-only references).</p>
+<div class="foot"><div class="out">resources/prompts/reference-teardown.md</div><span class="wf docs">docs</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">O7</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-27">Design-reviewer agent prompt audit + tune</h3>
+<p class="desc" data-edit-id="card-desc-27">Review .claude/agents/design-reviewer.md. Coverage and false-positive rate.</p>
+<div class="foot"><div class="out">.claude/agents/design-reviewer.md</div><span class="wf dev">dev</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">O8</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-28">Distinctive-pass callable prompt</h3>
+<p class="desc" data-edit-id="card-desc-28">Given render + DESIGN.md, name the one thing a reader will remember. If you can't, what's missing?</p>
+<div class="foot"><div class="out">resources/prompts/distinctive-pass.md</div><span class="wf docs">docs</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">O9</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-29">AI-tell scanner prompt</h3>
+<p class="desc" data-edit-id="card-desc-29">Codify the AI-tell checklist (template uniformity, generic stock, even gradients, three-card grids) into a single callable scan.</p>
+<div class="foot"><div class="out">resources/prompts/ai-tell-scan.md</div><span class="wf docs">docs</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">O10</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-30">CAQ voice/tone prompt for design content</h3>
+<p class="desc" data-edit-id="card-desc-30">Warm, direct, Australian — "friend inviting you to play" test.</p>
+<div class="foot"><div class="out">resources/prompts/caq-voice-design.md</div><span class="wf docs">docs</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">O11</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-31">Anti-pattern pre-flight prompt</h3>
+<p class="desc" data-edit-id="card-desc-31">Loaded from feedback_design_anti_patterns.md (9 hard refusals). Pre-flight check before any generation.</p>
+<div class="foot"><div class="out">resources/prompts/anti-pattern-preflight.md</div><span class="wf docs">docs</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">O14</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-32">PDF / briefing prompt grammar</h3>
+<p class="desc" data-edit-id="card-desc-32">Codify the prompt that drives apps/brief-generator.py.</p>
+<div class="foot"><div class="out">resources/prompts/pdf-briefing.md</div><span class="wf docs">docs</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">O15</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-33">Social-card prompt set</h3>
+<p class="desc" data-edit-id="card-desc-33">Square + landscape + story sizes. Copy + image. CAQ voice.</p>
+<div class="foot"><div class="out">resources/prompts/social-cards.md</div><span class="wf docs">docs</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">O16</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-34">A/B variant prompt</h3>
+<p class="desc" data-edit-id="card-desc-34">Three takes leaning different directions — editorial / playful / authoritative.</p>
+<div class="foot"><div class="out">resources/prompts/ab-variants.md</div><span class="wf docs">docs</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">O17</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-35">Copy-from-brief prompt</h3>
+<p class="desc" data-edit-id="card-desc-35">Questionnaire output → CAQ-voice body copy.</p>
+<div class="foot"><div class="out">resources/prompts/copy-from-brief.md</div><span class="wf docs">docs</span></div>
+</div>
+</div>
+</div>
+<!-- ── Phase 4 — Quality -->
+<div class="phase-group">
+<div class="phase-head">
+<span class="phase-tag" data-edit-id="phase-tag-4">Phase 4</span>
+<span class="phase-letter">Q</span>
+<span class="phase-name" data-edit-id="phase-name-4">Quality — how we verify</span>
+<span class="phase-count" data-edit-id="phase-count-4">3 cards</span>
+</div>
+<div class="cards row3">
+<div class="card cc compact">
+<div class="head"><span class="ref">Q1</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-36">Consolidated /design-qa pipeline</h3>
+<p class="desc" data-edit-id="card-desc-36">5-point + distinctive + AI-tell + viewport + reviewer in one named pipeline. Single command, single pass/fail.</p>
+<div class="foot"><div class="out">.claude/commands/design-qa.md</div><span class="wf dev">dev</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">Q2</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-37">Council-review threshold calibration</h3>
+<p class="desc" data-edit-id="card-desc-37">After 5 club builds, verify 8/10 from 5 reviewers is right.</p>
+<div class="foot"><div class="out">projects/character-team/decisions/council-threshold.md</div><span class="wf research">research</span><span class="blocked">5-builds</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">Q3</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-38">Verification smoke-test pattern confirm</h3>
+<p class="desc" data-edit-id="card-desc-38">procedure_web_design.md Step 17a — confirm working for patch-mode edits.</p>
+<div class="foot"><div class="out">system/memory/procedure_web_design.md</div><span class="wf docs">docs</span></div>
+</div>
+</div>
+</div>
+<!-- ── Phase 5 — Consolidation -->
+<div class="phase-group">
+<div class="phase-head">
+<span class="phase-tag" data-edit-id="phase-tag-5">Phase 5</span>
+<span class="phase-letter">C</span>
+<span class="phase-name" data-edit-id="phase-name-5">Consolidation — eduba pattern</span>
+<span class="phase-count" data-edit-id="phase-count-5">1 of 4 in backlog · 2 in Ready · 1 done</span>
+</div>
+<div class="cards row3">
+<div class="card cc compact">
+<div class="head"><span class="ref">C4</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-39">Per-club brand-kit template</h3>
+<p class="desc" data-edit-id="card-desc-39">Parameterised eduba structure for resources/club-brands/&lt;slug&gt;/. With 40 distinct identities locked, this is the slot every club's brand-DNA fills.</p>
+<div class="foot"><div class="out">resources/club-brands/_template/AGENT_BRIEF.md</div><span class="wf docs">docs</span><span class="blocked">C1</span></div>
+</div>
+</div>
+</div>
+<!-- ── Phase 6 — Per-surface -->
+<div class="phase-group">
+<div class="phase-head">
+<span class="phase-tag" data-edit-id="phase-tag-6">Phase 6</span>
+<span class="phase-letter">S</span>
+<span class="phase-name" data-edit-id="phase-name-6">Per-surface audit</span>
+<span class="phase-count" data-edit-id="phase-count-6">5 cards</span>
+</div>
+<div class="cards row4">
+<div class="card cc compact">
+<div class="head"><span class="ref">S1</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-40">Reply.cc design-system audit</h3>
+<p class="desc" data-edit-id="card-desc-40">Single canonical DESIGN.md, retire duplicates at apps/reply-croquetclaude-site/ + 2 subdirs.</p>
+<div class="foot"><div class="out">apps/reply-croquetclaude-site/DESIGN.md</div><span class="wf docs">docs</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">S2</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-41">CroquetWade (Win98) DESIGN.md confirm</h3>
+<p class="desc" data-edit-id="card-desc-41">Confirm fine as-is.</p>
+<div class="foot"><div class="out">apps/croquetwade-site/DESIGN.md</div><span class="wf review">review</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">S3</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-42">New CroquetWade DESIGN.md confirm</h3>
+<p class="desc" data-edit-id="card-desc-42">Plunk-aesthetic, Coolify deployed. Confirm against caq-brand kit.</p>
+<div class="foot"><div class="out">apps/new-croquetwade-site/DESIGN.md</div><span class="wf review">review</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">S4</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-43">News site v1 vs v2 reconciliation</h3>
+<p class="desc" data-edit-id="card-desc-43">Pick canonical, retire other.</p>
+<div class="foot"><div class="out">apps/news-site/DESIGN.md</div><span class="wf docs">docs</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">S5</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-44">PDF / briefings design refresh</h3>
+<p class="desc" data-edit-id="card-desc-44">Audit apps/brief-generator.py output against caq-brand kit; tighten where needed.</p>
+<div class="foot"><div class="out">apps/brief-generator.py</div><span class="wf docs">docs</span><span class="blocked">C1</span></div>
+</div>
+</div>
+</div>
+<!-- ── Phase 7 — Research -->
+<div class="phase-group">
+<div class="phase-head">
+<span class="phase-tag" data-edit-id="phase-tag-7">Phase 7</span>
+<span class="phase-letter">X</span>
+<span class="phase-name" data-edit-id="phase-name-7">Research — exploratory probes</span>
+<span class="phase-count" data-edit-id="phase-count-7">5 cards</span>
+</div>
+<div class="cards row4">
+<div class="card cc compact">
+<div class="head"><span class="ref">X1</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-45">Indie design Twitter prompt-pattern research</h3>
+<p class="desc" data-edit-id="card-desc-45">Brian Lovin, Pablo Stanley, others. Capture prompting style of people getting distinctive AI design output.</p>
+<div class="foot"><div class="out">resources/research/design-twitter-prompts.md</div><span class="wf research">research</span></div>
+</div>
+<div class="card wade compact">
+<div class="head"><span class="ref">X2</span><span class="owner">Wade</span></div>
+<h3 class="title" data-edit-id="card-title-46">open-codesign install + flyer trial</h3>
+<p class="desc" data-edit-id="card-desc-46">Wade-side, not CC-side. Try on next flyer. Verdict on replacing Canva for posters.</p>
+<div class="foot"><div class="out">resources/research/open-codesign-trial.md</div><span class="wf research">research</span><span class="blocked">wade</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">X3</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-47">Recraft trial design</h3>
+<p class="desc" data-edit-id="card-desc-47">Single brand-colour social card. Calibrate prompt grammar.</p>
+<div class="foot"><div class="out">resources/research/recraft-trial.md</div><span class="wf research">research</span><span class="blocked">G2</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">X4</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-48">NotebookLM for DESIGN.md drafting</h3>
+<p class="desc" data-edit-id="card-desc-48">30-min test ingesting awesome-design-md + a club brief. Could it draft DESIGN.md?</p>
+<div class="foot"><div class="out">resources/research/notebooklm-design.md</div><span class="wf research">research</span></div>
+</div>
+<div class="card cc compact">
+<div class="head"><span class="ref">X5</span><span class="owner">CC</span></div>
+<h3 class="title" data-edit-id="card-title-49">Penpot evaluation as Figma alternative</h3>
+<p class="desc" data-edit-id="card-desc-49">Open-source Figma alt with MCP. Worth assessing as hand-craft layout tool.</p>
+<div class="foot"><div class="out">resources/research/penpot-eval.md</div><span class="wf research">research</span></div>
+</div>
+</div>
+</div>
 </section>
-
 <!-- ========== FOOTER ========== -->
 <footer>
-  <div class="col">
-    <strong>Legend</strong>
-    <div class="legend">
-      <div class="item"><span class="swatch" style="background:var(--maroon)"></span>CC owns</div>
-      <div class="item"><span class="swatch" style="background:var(--ink)"></span>Wade gates</div>
-      <div class="item"><span class="swatch" style="background:var(--gold)"></span>Infra owns</div>
-      <div class="item"><span class="swatch" style="background:var(--green-deep)"></span>Done</div>
-      <div class="item"><span class="swatch" style="background:#fff8d8;border:1px dashed var(--ink)"></span>Awaiting Wade</div>
-    </div>
-  </div>
-  <div class="col" style="text-align:right;">
-    <strong>Source</strong>
-    system/claude-working/boards/setup-design-infrastructure-rig.md<br>
-    Plan: ~/.claude/plans/the-purpose-is-not-snoopy-gosling.md<br>
+<div class="col">
+<strong data-edit-id="foot-heading-1">Legend</strong>
+<div class="legend">
+<div class="item" data-edit-id="foot-legend-1"><span class="swatch" style="background:var(--maroon)"></span>CC owns</div>
+<div class="item" data-edit-id="foot-legend-2"><span class="swatch" style="background:var(--ink)"></span>Wade gates</div>
+<div class="item" data-edit-id="foot-legend-3"><span class="swatch" style="background:var(--gold)"></span>Infra owns</div>
+<div class="item" data-edit-id="foot-legend-4"><span class="swatch" style="background:var(--green-deep)"></span>Done</div>
+<div class="item" data-edit-id="foot-legend-5"><span class="swatch" style="background:#fff8d8;border:1px dashed var(--ink)"></span>Awaiting Wade</div>
+</div>
+</div>
+<div class="col" style="text-align:right;">
+<strong data-edit-id="foot-heading-2">Source</strong>
+    system/claude-working/boards/setup-design-infrastructure-rig.md<br/>
+    Plan: ~/.claude/plans/the-purpose-is-not-snoopy-gosling.md<br/>
     Schema: system/memory/procedure_claude_kanban.md
   </div>
 </footer>
-
 </main>
+
+<!-- Site editor — activates on ?edit&t=<token>; zero impact otherwise -->
+<script data-server="https://edit.croquetwade.com" data-site="cc" data-stack="git" defer="" src="/editor/edit.js"></script>
 </body>
 </html>
