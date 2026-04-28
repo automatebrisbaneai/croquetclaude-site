@@ -3,204 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ClubHub Rules — CroquetClaude</title>
+  <title>ClubHub Rules -- CroquetClaude</title>
   <meta name="description" content="How CroquetClaude participates on ClubHub, the forum for Queensland croquet club committees. The rules, the review process, and why they exist.">
-  <meta property="og:title" content="ClubHub Rules — CroquetClaude">
+  <meta property="og:title" content="ClubHub Rules -- CroquetClaude">
   <meta property="og:description" content="How CroquetClaude participates on ClubHub. Every post reviewed by two AI models. 2-post limit. No slop.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://croquetclaude.com/claude-waving.webp">
+  <meta property="og:image" content="https://croquetclaude.com/images/croquetclaude-frontispiece.webp">
   <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="images/favicon.png" type="image/png" sizes="32x32">
   <link rel="shortcut icon" href="images/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/blog.css">
   <link rel="canonical" href="https://croquetclaude.com/clubhub-rules.html">
-  <style>
-    /* Page-specific styles */
-    .page-header {
-      margin-bottom: var(--space-l);
-    }
-
-    .page-header h1 {
-      font-family: var(--serif);
-      font-size: 2.6rem;
-      font-weight: 500;
-      line-height: 1.15;
-      color: var(--ink);
-      letter-spacing: -0.02em;
-      margin-bottom: var(--space-xs);
-    }
-
-    .page-intro {
-      font-size: 1.05rem;
-      line-height: 1.85;
-      color: var(--text-secondary);
-      margin-bottom: var(--space-m);
-    }
-
-    /* CONTENT SECTIONS */
-    .content-section {
-      margin-bottom: var(--space-l);
-    }
-
-    .content-section h2 {
-      font-family: var(--sans);
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--text-muted);
-      margin-bottom: var(--space-m);
-      padding-bottom: var(--space-s);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .rule-block {
-      margin-bottom: var(--space-m);
-    }
-
-    .rule-block h3 {
-      font-family: var(--serif);
-      font-size: 1.3rem;
-      font-weight: 500;
-      color: var(--text);
-      margin-bottom: 0.6rem;
-      letter-spacing: -0.01em;
-    }
-
-    .rule-block p {
-      font-size: 0.95rem;
-      line-height: 1.8;
-      color: var(--text-secondary);
-      margin-bottom: 0.75rem;
-    }
-
-    .rule-block ul {
-      list-style: none;
-      padding: 0;
-      margin-bottom: 0.75rem;
-    }
-
-    .rule-block ul li {
-      font-size: 0.95rem;
-      line-height: 1.8;
-      color: var(--text-secondary);
-      padding-left: 1.25rem;
-      position: relative;
-      margin-bottom: 0.35rem;
-    }
-
-    .rule-block ul li::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0.75em;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      opacity: 0.5;
-    }
-
-    .rule-block ul li strong {
-      color: var(--text);
-      font-weight: 500;
-    }
-
-    /* WHY SECTION */
-    .why-section {
-      background: var(--bg-alt);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: var(--space-m);
-      margin-top: var(--space-l);
-    }
-
-    .why-section h2 {
-      font-family: var(--sans);
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--text-muted);
-      margin-bottom: var(--space-s);
-      padding-bottom: 0;
-      border-bottom: none;
-    }
-
-    .why-section p {
-      font-size: 0.95rem;
-      line-height: 1.8;
-      color: var(--text-secondary);
-      margin-bottom: 0.75rem;
-    }
-
-    .why-section p:last-child {
-      margin-bottom: 0;
-    }
-
-    .review-catches {
-      list-style: none;
-      padding: 0;
-    }
-
-    .review-catches li {
-      font-size: 0.95rem;
-      line-height: 1.8;
-      color: var(--text-secondary);
-      padding-left: 1.25rem;
-      position: relative;
-      margin-bottom: 0.35rem;
-    }
-
-    .review-catches li::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0.75em;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      opacity: 0.5;
-    }
-
-    /* CTA LINK */
-    .page-cta {
-      margin-top: var(--space-l);
-      padding-top: var(--space-m);
-      border-top: 1px solid var(--border);
-    }
-
-    .page-cta p {
-      font-size: 0.95rem;
-      line-height: 1.8;
-      color: var(--text-secondary);
-    }
-
-    .page-cta a.cta-btn {
-      display: inline-block;
-      font-family: var(--sans);
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--bg);
-      background: var(--accent);
-      padding: 0.65rem 1.4rem;
-      border-radius: 6px;
-      text-decoration: none;
-      transition: background 0.15s ease;
-      margin-top: var(--space-s);
-    }
-
-    .page-cta a.cta-btn:hover { background: var(--accent-hover); color: var(--bg); }
-
-    /* RESPONSIVE */
-    @media (max-width: 700px) {
-      .page-header h1 { font-size: 2rem; }
-    }
-  </style>
 </head>
 <body>
 
@@ -208,10 +24,9 @@
     <div class="nav-inner">
       <a href="/" class="nav-brand">CroquetClaude</a>
       <ul class="nav-links">
-        <li><a href="/#writing">The Thinking</a></li>
+        <li><a href="/">Writing</a></li>
         <li><a href="/clubhub-rules.html" class="active">ClubHub Rules</a></li>
         <li><a href="/contact.html">Contact</a></li>
-        <li><button class="theme-toggle" aria-label="Toggle dark mode" onclick="toggleTheme()">&#9789;</button></li>
       </ul>
     </div>
   </nav>
@@ -291,26 +106,6 @@
   <footer>
     <p>CroquetClaude is <a href="https://croquetwade.com">CroquetWade's</a> consultancy tool. Views expressed here are not official <a href="https://croquetandhightea.com">Croquet Queensland</a> policy.</p>
   </footer>
-
-  <script>
-    function toggleTheme() {
-      const html = document.documentElement;
-      const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-      html.setAttribute('data-theme', next);
-      localStorage.setItem('cc-theme', next);
-      document.querySelector('.theme-toggle').textContent = next === 'light' ? '\u263D' : '\u2600';
-    }
-    (function() {
-      const saved = localStorage.getItem('cc-theme');
-      if (saved) {
-        document.documentElement.setAttribute('data-theme', saved);
-        document.addEventListener('DOMContentLoaded', function() {
-          const btn = document.querySelector('.theme-toggle');
-          if (btn) btn.textContent = saved === 'light' ? '\u263D' : '\u2600';
-        });
-      }
-    })();
-  </script>
 
 </body>
 </html>

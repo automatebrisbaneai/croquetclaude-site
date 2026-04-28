@@ -1,39 +1,31 @@
-/* blog.css — Shared styles for CroquetClaude blog posts, contact, and standalone pages */
+/* blog.css — Shared frame styles for CroquetClaude blog posts, contact, and standalone pages */
+/* CLI / terminal aesthetic — JetBrains Mono, cream paper, terracotta prompt */
 
 :root {
-  --bg: #0d1117;
-  --bg-alt: #161b22;
-  --text: #e2ddd6;
-  --text-secondary: #8a8880;
-  --text-muted: #4a4840;
-  --accent: #5aad74;
-  --accent-hover: #72c98c;
-  --accent-faint: rgba(90, 173, 116, 0.12);
-  --border: #272d38;
-  --ink: #e2ddd6;
-  --serif: 'EB Garamond', Georgia, 'Times New Roman', serif;
-  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* Frame palette — matches globals.css */
+  --bg:              #f4ede0;
+  --bg-alt:          #ede4d1;
+  --text:            #1f1a14;
+  --text-secondary:  #6f665a;
+  --text-muted:      #9a9086;
+  --accent:          #b85f3d;
+  --accent-hover:    #9c4f30;
+  --accent-faint:    rgba(184, 95, 61, 0.08);
+  --border:          #d6cdbb;
+  --ink:             #1f1a14;
+
+  /* Semantic space tokens */
+  --serif: 'JetBrains Mono', 'Courier New', monospace;
+  --sans:  'JetBrains Mono', 'Courier New', monospace;
   --max-width: 720px;
   --space-xs: 0.5rem;
-  --space-s: 1rem;
-  --space-m: 2rem;
-  --space-l: 3.5rem;
+  --space-s:  1rem;
+  --space-m:  2rem;
+  --space-l:  3.5rem;
   --space-xl: 5rem;
 }
 
-/* LIGHT THEME */
-[data-theme="light"] {
-  --bg: #faf8f5;
-  --bg-alt: #f0ece6;
-  --text: #2a2620;
-  --text-secondary: #6b6660;
-  --text-muted: #b0a89e;
-  --accent: #3d8a55;
-  --accent-hover: #2d6e42;
-  --accent-faint: rgba(61, 138, 85, 0.08);
-  --border: #ddd8d0;
-  --ink: #1a1814;
-}
+/* No dark theme on this frame — light only */
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -43,15 +35,14 @@
 
 html {
   font-size: 18px;
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 body {
-  font-family: var(--serif);
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   background: var(--bg);
   color: var(--text);
-  line-height: 1.7;
-  transition: background 0.3s ease, color 0.3s ease;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -61,34 +52,44 @@ body {
   outline-offset: 2px;
 }
 
-/* NAV */
+/* ── NAV ──────────────────────────────────────────────── */
 nav {
   position: sticky;
   top: 0;
   background: var(--bg);
   border-bottom: 1px solid var(--border);
   z-index: 100;
-  transition: background 0.3s ease;
 }
 
 .nav-inner {
-  max-width: 900px;
+  max-width: 760px;
   margin: 0 auto;
-  padding: var(--space-xs) var(--space-s);
+  padding: 0.75rem var(--space-s);
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: var(--space-xs);
+  gap: 0.5rem;
 }
 
 .nav-brand {
-  font-family: var(--sans);
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-weight: 600;
-  font-size: 0.9rem;
-  letter-spacing: 0.02em;
+  font-size: 0.85rem;
+  letter-spacing: -0.01em;
   color: var(--text);
   text-decoration: none;
+}
+
+.nav-brand:hover {
+  color: var(--accent);
+}
+
+/* Simulate the prompt look on nav-brand */
+.nav-brand::before {
+  content: '$ ';
+  color: var(--accent);
+  font-weight: 600;
 }
 
 .nav-links {
@@ -100,66 +101,60 @@ nav {
 }
 
 .nav-links a {
-  font-family: var(--sans);
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-size: 0.78rem;
   color: var(--text-secondary);
   text-decoration: none;
-  letter-spacing: 0.01em;
-  transition: color 0.15s ease;
+  transition: color 120ms ease;
 }
 
-.nav-links a:hover {
-  color: var(--text);
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--accent);
 }
 
+/* Remove theme toggle — CLI sites are light only */
 .theme-toggle {
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  transition: border-color 0.15s ease, color 0.15s ease;
+  display: none;
 }
 
-.theme-toggle:hover {
-  border-color: var(--text);
-  color: var(--text);
-}
-
-/* ARTICLE */
+/* ── MAIN ─────────────────────────────────────────────── */
 main {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: var(--space-xl) var(--space-s) var(--space-l);
 }
 
+/* ── ARTICLE HEADER (frame only) ──────────────────────── */
 .article-header {
   margin-bottom: var(--space-l);
 }
 
 .article-header h1 {
-  font-family: var(--serif);
-  font-size: 2.6rem;
-  font-weight: 500;
-  line-height: 1.15;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 600;
+  line-height: 1.2;
   color: var(--ink);
   letter-spacing: -0.02em;
   margin-bottom: var(--space-xs);
 }
 
+/* Prompt decoration on article titles */
+.article-header h1::before {
+  content: '$ ';
+  color: var(--accent);
+  font-weight: 600;
+}
+
 .article-meta {
-  font-family: var(--sans);
-  font-size: 0.8rem;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.78rem;
   color: var(--text-muted);
   display: flex;
   gap: var(--space-s);
   align-items: center;
+  padding-left: 1.4rem; /* align with post-$ body */
 }
 
 .article-meta span {
@@ -172,13 +167,17 @@ main {
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: var(--text-muted);
+  background: var(--border);
 }
 
-/* PROSE */
+/* ── ARTICLE BODY (content — do not alter prose) ─────── */
+/* These styles govern the post prose. Font is kept as a
+   monospace stack to match the CLI frame, but all prose
+   structure, spacing, and content is preserved. */
 .article-body {
-  line-height: 1.85;
-  font-size: 1.05rem;
+  line-height: 1.75;
+  font-size: 1rem;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
 }
 
 .article-body p {
@@ -200,9 +199,9 @@ main {
 }
 
 .article-body h2 {
-  font-family: var(--serif);
-  font-size: 1.6rem;
-  font-weight: 500;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 1.1rem;
+  font-weight: 600;
   color: var(--ink);
   margin-top: var(--space-m);
   margin-bottom: var(--space-s);
@@ -210,9 +209,9 @@ main {
 }
 
 .article-body h3 {
-  font-family: var(--serif);
-  font-size: 1.3rem;
-  font-weight: 500;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 1rem;
+  font-weight: 600;
   color: var(--ink);
   margin-top: var(--space-m);
   margin-bottom: var(--space-xs);
@@ -220,8 +219,8 @@ main {
 
 .article-body p a {
   color: var(--accent);
-  text-decoration-color: rgba(90, 173, 116, 0.4);
-  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+  text-decoration-color: rgba(184, 95, 61, 0.4);
+  transition: color 120ms ease, text-decoration-color 120ms ease;
 }
 
 .article-body p a:hover {
@@ -229,14 +228,9 @@ main {
   text-decoration-color: var(--accent-hover);
 }
 
-[data-theme="light"] .article-body p a {
-  text-decoration-color: rgba(61, 138, 85, 0.4);
-}
-
 /* ARTICLE IMAGES */
 .article-image {
   max-width: 100%;
-  border-radius: 6px;
   margin: var(--space-s) 0;
   display: block;
 }
@@ -246,32 +240,30 @@ main {
   display: block;
   background: var(--bg-alt);
   border-left: 3px solid var(--accent);
-  border-radius: 0 8px 8px 0;
   padding: var(--space-s) var(--space-m);
   margin: var(--space-m) 0;
   text-decoration: none;
   color: var(--text);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 120ms ease;
 }
 
 .article-ref:hover {
   transform: translateX(3px);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
 }
 
 .article-ref-source {
-  font-family: var(--sans);
-  font-size: 0.7rem;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.72rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   color: var(--accent);
   margin-bottom: 0.35rem;
 }
 
 .article-ref-title {
-  font-family: var(--serif);
-  font-size: 1.1rem;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 1rem;
   font-weight: 500;
   line-height: 1.4;
   color: var(--ink);
@@ -279,7 +271,7 @@ main {
 }
 
 .article-ref-detail {
-  font-family: var(--sans);
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-size: 0.75rem;
   color: var(--text-muted);
 }
@@ -287,29 +279,10 @@ main {
 /* VIDEO */
 .article-body video {
   width: 100%;
-  border-radius: 6px;
   margin: var(--space-s) 0;
 }
 
-.video-embed {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-  overflow: hidden;
-  border-radius: 6px;
-  margin: var(--space-m) 0;
-}
-.video-embed iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  border-radius: 6px;
-}
-
-/* FURTHER READING */
+/* FURTHER READING (frame) */
 .further-reading {
   margin-top: var(--space-xl);
   padding-top: var(--space-l);
@@ -317,13 +290,20 @@ main {
 }
 
 .further-reading h2 {
-  font-family: var(--sans);
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.78rem;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--accent);
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
   margin-bottom: var(--space-m);
+}
+
+/* Prompt prefix on further reading heading */
+.further-reading h2::before {
+  content: '$ ';
+  color: var(--accent);
+  font-weight: 600;
 }
 
 .post-links {
@@ -335,20 +315,20 @@ main {
 .post-link {
   display: block;
   background: var(--bg-alt);
-  border-radius: 8px;
-  padding: var(--space-s) var(--space-m);
+  padding: var(--space-s);
   text-decoration: none;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: background 120ms ease;
+  border-left: 2px solid var(--border);
 }
 
 .post-link:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  background: var(--bg);
+  border-left-color: var(--accent);
 }
 
 .post-link-title {
-  font-family: var(--serif);
-  font-size: 1.05rem;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.9rem;
   font-weight: 500;
   color: var(--ink);
   line-height: 1.35;
@@ -356,7 +336,7 @@ main {
 }
 
 .post-link-date {
-  font-family: var(--sans);
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-size: 0.72rem;
   color: var(--text-muted);
 }
@@ -365,53 +345,348 @@ main {
 .back-link {
   display: inline-block;
   margin-top: var(--space-m);
-  font-family: var(--sans);
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-size: 0.85rem;
-  color: var(--accent);
+  color: var(--text-muted);
   text-decoration: none;
-  transition: color 0.15s ease;
+  transition: color 120ms ease;
 }
 
 .back-link:hover {
-  color: var(--accent-hover);
+  color: var(--accent);
 }
 
 /* CLOSING CTA */
 .closing-cta {
   background: var(--bg-alt);
-  border-radius: 8px;
-  padding: var(--space-m);
+  border-left: 2px solid var(--accent);
+  padding: var(--space-s) var(--space-m);
   margin-top: var(--space-m);
   font-style: italic;
   color: var(--text-secondary);
-  line-height: 1.75;
+  line-height: 1.7;
+  font-size: 0.92rem;
 }
 
-/* FOOTER */
+/* ── FOOTER (frame) ───────────────────────────────────── */
 footer {
-  max-width: 900px;
+  max-width: 760px;
   margin: 0 auto;
   padding: var(--space-m) var(--space-s);
-  font-family: var(--sans);
+  border-top: 1px solid var(--border);
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
   font-size: 0.75rem;
   color: var(--text-muted);
-  line-height: 1.7;
+  line-height: 1.6;
 }
 
 footer a {
   color: var(--text-muted);
   text-decoration: none;
-  transition: color 0.15s ease;
+  transition: color 120ms ease;
 }
 
 footer a:hover {
-  color: var(--text);
+  color: var(--accent);
 }
 
-/* RESPONSIVE */
+/* ── PAGE-SPECIFIC: CONTACT / CLUBHUB RULES ───────────── */
+
+/* Page headers on non-article pages */
+.page-header {
+  margin-bottom: var(--space-l);
+}
+
+.page-header h1 {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-xs);
+}
+
+.page-header h1::before {
+  content: '$ ';
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.page-intro {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-m);
+}
+
+/* FORM */
+.contact-form {
+  margin-top: var(--space-m);
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+
+.form-group label .optional {
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-left: 0.35rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.9rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  padding: 0.7rem 1rem;
+  color: var(--text);
+  transition: border-color 120ms ease;
+  appearance: none;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 140px;
+  line-height: 1.6;
+}
+
+.submit-btn {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--bg);
+  background: var(--accent);
+  border: none;
+  border-radius: 0;
+  padding: 0.65rem 1.5rem;
+  cursor: pointer;
+  transition: background 120ms ease;
+  letter-spacing: 0.02em;
+}
+
+.submit-btn:hover:not(:disabled) { background: var(--accent-hover); }
+
+.submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* STATUS MESSAGES */
+.form-status {
+  display: none;
+  padding: var(--space-m);
+  margin-top: var(--space-m);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  border-left: 3px solid;
+}
+
+.form-status.success {
+  background: var(--accent-faint);
+  border-color: var(--accent);
+  color: var(--text-secondary);
+}
+
+.form-status.error {
+  background: rgba(184, 95, 61, 0.06);
+  border-color: #b85f3d;
+  color: var(--text-secondary);
+}
+
+.form-status strong {
+  color: var(--text);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+/* CONTENT SECTIONS (clubhub-rules) */
+.content-section {
+  margin-bottom: var(--space-l);
+}
+
+.content-section h2 {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-m);
+  padding-bottom: var(--space-s);
+  border-bottom: 1px solid var(--border);
+}
+
+.rule-block {
+  margin-bottom: var(--space-m);
+}
+
+.rule-block h3 {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.6rem;
+}
+
+/* Prompt indicator on rule headings */
+.rule-block h3::before {
+  content: '> ';
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.rule-block p {
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.rule-block ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 0.75rem;
+}
+
+.rule-block ul li {
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  padding-left: 1.25rem;
+  position: relative;
+  margin-bottom: 0.35rem;
+}
+
+.rule-block ul li::before {
+  content: '--';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 0.78rem;
+}
+
+.rule-block ul li strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* WHY SECTION */
+.why-section {
+  background: var(--bg-alt);
+  border-left: 3px solid var(--accent);
+  padding: var(--space-m);
+  margin-top: var(--space-l);
+}
+
+.why-section h2 {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-s);
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.why-section p {
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.why-section p:last-child {
+  margin-bottom: 0;
+}
+
+.review-catches {
+  list-style: none;
+  padding: 0;
+}
+
+.review-catches li {
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  padding-left: 1.25rem;
+  position: relative;
+  margin-bottom: 0.35rem;
+}
+
+.review-catches li::before {
+  content: '--';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 0.78rem;
+}
+
+/* CTA LINK */
+.page-cta {
+  margin-top: var(--space-l);
+  padding-top: var(--space-m);
+  border-top: 1px solid var(--border);
+}
+
+.page-cta p {
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+}
+
+.page-cta a.cta-btn {
+  display: inline-block;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--bg);
+  background: var(--accent);
+  padding: 0.65rem 1.4rem;
+  border-radius: 0;
+  text-decoration: none;
+  transition: background 120ms ease;
+  margin-top: var(--space-s);
+}
+
+.page-cta a.cta-btn:hover { background: var(--accent-hover); color: var(--bg); }
+
+/* ── RESPONSIVE ───────────────────────────────────────── */
 @media (max-width: 700px) {
   .post-links {
     grid-template-columns: 1fr;
+  }
+
+  .page-header h1 {
+    font-size: 1.4rem;
   }
 }
 
@@ -419,11 +694,11 @@ footer a:hover {
   html { font-size: 16px; }
 
   .article-header h1 {
-    font-size: 2rem;
+    font-size: 1.3rem;
   }
 
   .nav-inner {
-    padding: var(--space-xs) 0.75rem;
+    padding: 0.5rem 0.75rem;
   }
 
   main {
@@ -433,11 +708,11 @@ footer a:hover {
 
 @media (max-width: 375px) {
   .article-header h1 {
-    font-size: 1.75rem;
+    font-size: 1.2rem;
   }
 }
 
-/* REDUCED MOTION */
+/* ── REDUCED MOTION ───────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -445,6 +720,3 @@ footer a:hover {
     scroll-behavior: auto !important;
   }
 }
-
-/* THEME TOGGLE SCRIPT — shared across all blog pages */
-/* Include blog-theme.js after this stylesheet */
