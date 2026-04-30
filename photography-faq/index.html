@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Photography &amp; Filming at the Club — A Plain-English Guide for Croquet Queensland Committees</title>
+<meta name="description" content="The Croquet Queensland plain-English guide to photography and filming at clubs. Ten common questions answered for committees, secretaries, and members.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700&family=Caveat:wght@500;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.65;
+    color: #2a2520;
+    background: #FAF6E8;
+  }
+
+  /* Reading progress bar */
+  .progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #b9742a, #1a3c2e);
+    z-index: 100;
+    width: 0%;
+    transition: width 0.1s ease-out;
+  }
+
+  /* Top bar */
+  .topbar {
+    position: sticky;
+    top: 0;
+    background: rgba(250, 246, 232, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(26, 60, 46, 0.18);
+    z-index: 50;
+    padding: 14px 0;
+  }
+  .topbar-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+  }
+  .topbar .pub {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    color: #1a3c2e;
+    text-transform: uppercase;
+  }
+  .topbar .ctaprint {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #5b6f5e;
+    text-decoration: none;
+    border: 1px solid rgba(26, 60, 46, 0.3);
+    padding: 6px 14px;
+    border-radius: 999px;
+    transition: all 0.2s;
+  }
+  .topbar .ctaprint:hover { background: #1a3c2e; color: #FAF6E8; border-color: #1a3c2e; }
+
+  /* Hero */
+  .hero {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 24px 30px;
+    text-align: center;
+  }
+  .hero .kicker {
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    font-size: 12px;
+    color: #b9742a;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: clamp(40px, 7vw, 84px);
+    line-height: 0.95;
+    color: #1a3c2e;
+    letter-spacing: -0.025em;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: #b9742a;
+    font-weight: 500;
+  }
+  .hero .deck {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(18px, 2.4vw, 24px);
+    color: #3d3a30;
+    line-height: 1.45;
+    max-width: 700px;
+    margin: 22px auto 0;
+  }
+  .hero-image {
+    max-width: 1080px;
+    margin: 40px auto 0;
+    padding: 0 24px;
+  }
+  .hero-image img {
+    width: 100%;
+    height: auto;
+    mix-blend-mode: multiply;
+    display: block;
+  }
+  .hero-meta {
+    max-width: 700px;
+    margin: 30px auto 0;
+    padding: 0 24px;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #5b6f5e;
+    letter-spacing: 0.06em;
+    border-top: 1px solid rgba(26, 60, 46, 0.25);
+    border-bottom: 1px solid rgba(26, 60, 46, 0.25);
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  /* Layout: sticky TOC + article */
+  .layout {
+    max-width: 1200px;
+    margin: 60px auto 80px;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 60px;
+  }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; gap: 30px; }
+  }
+
+  .toc {
+    position: sticky;
+    top: 80px;
+    align-self: start;
+    font-family: 'Inter', sans-serif;
+  }
+  .toc-head {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: #b9742a;
+    font-weight: 700;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(26, 60, 46, 0.3);
+  }
+  .toc ol { list-style: none; counter-reset: tocq; }
+  .toc li {
+    counter-increment: tocq;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  .toc li::before {
+    content: "Q" counter(tocq);
+    display: inline-block;
+    color: #b9742a;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    width: 28px;
+  }
+  .toc a {
+    color: #2a2520;
+    text-decoration: none;
+    transition: color 0.2s;
+    line-height: 1.4;
+  }
+  .toc a:hover, .toc a.active { color: #1a3c2e; font-weight: 600; }
+  .toc-foot {
+    margin-top: 24px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(26, 60, 46, 0.18);
+    font-size: 12px;
+    color: #5b6f5e;
+    line-height: 1.5;
+  }
+  .toc-foot a { color: #1a3c2e; text-decoration: underline; }
+  @media (max-width: 900px) {
+    .toc { position: relative; top: auto; padding: 16px; background: rgba(26,60,46,0.05); border-radius: 4px; }
+  }
+
+  /* Article */
+  .article { max-width: 720px; }
+  .article .editors-note {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.55;
+    color: #3d3a30;
+    margin-bottom: 50px;
+    border-left: 3px solid #b9742a;
+    padding-left: 22px;
+  }
+  .article .editors-note .signoff {
+    font-family: 'Caveat', cursive;
+    font-style: normal;
+    font-size: 24px;
+    color: #1a3c2e;
+    display: block;
+    margin-top: 18px;
+  }
+
+  .qa { margin: 0 0 56px; scroll-margin-top: 80px; }
+  .qa .qnum {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: #b9742a;
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .qa h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1.05;
+    color: #1a3c2e;
+    margin-bottom: 14px;
+    letter-spacing: -0.015em;
+  }
+  .qa .lede {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: #b9742a;
+    margin-bottom: 18px;
+    letter-spacing: -0.005em;
+  }
+  .qa p { margin-bottom: 16px; }
+  .qa ol, .qa ul { margin: 14px 0 14px 22px; }
+  .qa li { margin-bottom: 6px; }
+  .qa strong { color: #1a3c2e; font-weight: 600; }
+
+  /* Pull quote */
+  .pull {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(22px, 3vw, 30px);
+    line-height: 1.25;
+    color: #1a3c2e;
+    text-align: center;
+    margin: 40px -20px;
+    padding: 32px 32px;
+    border-top: 1px solid #1a3c2e;
+    border-bottom: 1px solid #1a3c2e;
+    position: relative;
+  }
+  .pull::before {
+    content: "“";
+    position: absolute;
+    left: 18px;
+    top: -10px;
+    font-size: 72px;
+    color: #b9742a;
+    line-height: 1;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  /* Watercolour figure */
+  figure.wc {
+    margin: 32px 0;
+    text-align: center;
+  }
+  figure.wc img {
+    width: 100%;
+    height: auto;
+    mix-blend-mode: multiply;
+    display: block;
+  }
+  figure.wc figcaption {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #5b6f5e;
+    margin-top: 12px;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+  }
+
+  /* Callout */
+  .callout {
+    background: rgba(26, 60, 46, 0.05);
+    border-left: 4px solid #1a3c2e;
+    padding: 22px 26px;
+    margin: 28px 0;
+  }
+  .callout .callout-head {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    color: #1a3c2e;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  .callout p { margin-bottom: 8px; font-size: 17px; }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout ul { margin: 8px 0 0 22px; }
+  .callout li { font-size: 17px; margin-bottom: 6px; }
+
+  /* Section dividers */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 60px 0 40px;
+  }
+  .section-divider .line { flex: 1; height: 1px; background: rgba(26, 60, 46, 0.3); }
+  .section-divider .label {
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    font-size: 11px;
+    color: #b9742a;
+    font-weight: 700;
+  }
+
+  /* End block */
+  .end-block {
+    max-width: 800px;
+    margin: 80px auto;
+    padding: 0 24px;
+    text-align: center;
+  }
+  .end-block .kicker {
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    font-size: 12px;
+    color: #b9742a;
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+  .end-block h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: clamp(32px, 5vw, 50px);
+    line-height: 1.05;
+    color: #1a3c2e;
+    margin-bottom: 30px;
+  }
+  .end-block h2 em { font-style: italic; color: #b9742a; }
+  .end-image { margin: 40px 0; }
+  .end-image img { width: 100%; max-width: 800px; height: auto; mix-blend-mode: multiply; }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 30px 0;
+    text-align: left;
+  }
+  @media (max-width: 600px) { .contact-grid { grid-template-columns: 1fr; } }
+  .contact-card {
+    background: rgba(255,255,255,0.5);
+    padding: 22px 26px;
+    border: 1px solid rgba(26, 60, 46, 0.25);
+    border-top: 4px solid #1a3c2e;
+  }
+  .contact-card .role {
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 12px;
+    color: #b9742a;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .contact-card .body { font-size: 17px; line-height: 1.55; }
+
+  .related {
+    background: rgba(26, 60, 46, 0.05);
+    padding: 26px 30px;
+    margin: 40px auto;
+    max-width: 720px;
+    text-align: left;
+  }
+  .related .related-head {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    color: #1a3c2e;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+  .related ul { margin: 0 0 0 22px; list-style: '— '; }
+  .related li { font-size: 16px; line-height: 1.55; margin-bottom: 8px; padding-left: 6px; }
+  .related strong { color: #1a3c2e; }
+
+  /* Footer */
+  .footer {
+    background: #1a3c2e;
+    color: #c5d4ca;
+    padding: 50px 24px;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    line-height: 1.7;
+  }
+  .footer .colophon {
+    max-width: 720px;
+    margin: 0 auto 14px;
+    line-height: 1.6;
+  }
+  .footer strong { color: #FAF6E8; }
+  .footer .small {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #9dc4b0;
+    margin-top: 18px;
+  }
+
+  @media print {
+    .topbar, .toc, .progress { display: none; }
+    .layout { grid-template-columns: 1fr; }
+    body { background: white; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="pub">CROQUET QUEENSLAND</div>
+    <a class="ctaprint" href="magazine.pdf" target="_blank">Download PDF ↓</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="kicker">A Committee Guide · March 2026</div>
+  <h1>Photography <em>&amp;</em><br>Filming at the Club</h1>
+  <p class="deck">A plain-English companion to the CAQ Filming and Photography Policy. Ten common questions, answered for committees, secretaries, and members.</p>
+  <div class="hero-image">
+    <img src="wc-cover-hero.png" alt="Watercolour of players on an outdoor croquet lawn">
+  </div>
+  <div class="hero-meta">
+    Companion to the CAQ Filming &amp; Photography Policy v1.0 &nbsp;·&nbsp; Illustrations by CroquetClaude
+  </div>
+</section>
+
+<div class="layout">
+
+  <aside class="toc">
+    <div class="toc-head">Inside</div>
+    <ol>
+      <li><a href="#q1">Members taking photos</a></li>
+      <li><a href="#q2">Filming coaching sessions</a></li>
+      <li><a href="#q3">Visitors with cameras</a></li>
+      <li><a href="#q4">Livestreaming tournaments</a></li>
+      <li><a href="#q5">Photographing children</a></li>
+      <li><a href="#q6">Putting up signs</a></li>
+      <li><a href="#q7">Take-down requests</a></li>
+      <li><a href="#q8">Filming that won't stop</a></li>
+      <li><a href="#q9">Photos on website &amp; Facebook</a></li>
+      <li><a href="#q10">Where to find the consent form</a></li>
+    </ol>
+    <div class="toc-foot">
+      Need the formal answer? <a href="#related">Related documents ↓</a>
+    </div>
+  </aside>
+
+  <main class="article">
+
+    <div class="editors-note">
+      Most of what happens with cameras at a croquet club is fine, friendly, and uncomplicated. A member takes a picture of their friend lining up a hoop. A grandkid films Nana winning a game. The committee posts a Facebook update with a few smiling faces. None of this needs paperwork.
+      <br><br>
+      The reason this guide exists is for the rare moments when something does need to be sorted — a parent who wants their child kept off the website, a visitor with a camera in places they shouldn't be, a livestream that no one quite signed off on. This document covers those moments in plain language. The full policy sits behind it for when you need the formal answer.
+      <span class="signoff">— CroquetClaude, on behalf of CAQ</span>
+    </div>
+
+    <div class="section-divider"><span class="line"></span><span class="label">The Everyday Stuff</span><span class="line"></span></div>
+
+    <article class="qa" id="q1">
+      <div class="qnum">Question One</div>
+      <h2>Can members take photos at our club?</h2>
+      <div class="lede">Yes — for personal use, no permission needed.</div>
+      <p>Members can take photos or short videos for their own use — to share with family, for personal social media, or just to remember an event. They only need to respect other members. If someone asks not to be photographed, be considerate.</p>
+      <p>The rules that apply to everyone are simple: no filming in change rooms or toilets, ever, and don't film in a way that's intended to embarrass or mock anyone.</p>
+    </article>
+
+    <article class="qa" id="q2">
+      <div class="qnum">Question Two</div>
+      <h2>Can we film coaching sessions?</h2>
+      <div class="lede">Yes — and it's encouraged.</div>
+      <p>Coaches and players can film sessions for development purposes — reviewing technique, sharing with a coach for feedback, and so on. For anything that will be posted publicly, on a club website, YouTube, or Facebook, participants should be told before filming starts.</p>
+      <p>If your club is producing coaching content for public audiences, tell people what it's for before you hit record. That's all that's needed.</p>
+      <figure class="wc">
+        <img src="wc-individual-player.png" alt="Watercolour of a single player at the lawn">
+        <figcaption>A coaching session can be filmed for the player's own development without ceremony — public posting is the point at which a quick word is needed.</figcaption>
+      </figure>
+    </article>
+
+    <div class="section-divider"><span class="line"></span><span class="label">Visitors, Spectators &amp; Livestreaming</span><span class="line"></span></div>
+
+    <article class="qa" id="q3">
+      <div class="qnum">Question Three</div>
+      <h2>What about visitors and spectators who bring cameras?</h2>
+      <div class="lede">They can take personal photos — your club can set conditions on anything beyond that.</div>
+      <p>As a private venue, your club can set and enforce rules about photography for everyone on your property — members and non-members alike. For those conditions to be enforceable, two things need to be true:</p>
+      <ol>
+        <li>Your club has formally adopted this policy.</li>
+        <li>The conditions are displayed — a notice at the entrance or on your website.</li>
+      </ol>
+      <p>If someone is filming in a way that's intrusive or commercial without permission, you can ask them to stop and cite the club's conditions of entry. If they refuse, you can ask them to leave the premises.</p>
+      <p>People filming from a public footpath or road outside your boundary are outside your jurisdiction.</p>
+    </article>
+
+    <div class="pull">As a private venue, your club has the same authority over conditions of entry as any other private property.</div>
+
+    <article class="qa" id="q4">
+      <div class="qnum">Question Four</div>
+      <h2>Can we livestream our club tournaments?</h2>
+      <div class="lede">Yes — with a couple of steps first.</div>
+      <p>For club events: get permission from your club committee and notify players before the event.</p>
+      <p>For CAQ state championships and other CAQ-run events: the streaming organiser needs written permission from the CAQ Events Manager (or equivalent). This protects both the club and the players, and it's a straightforward process for legitimate sporting broadcasts.</p>
+      <p>The one hard rule: players cannot livestream themselves during competitive play using their own phone or action camera.</p>
+      <figure class="wc">
+        <img src="wc-tournament-lawn.png" alt="Watercolour of a tournament-style croquet lawn">
+        <figcaption>Club tournaments can be streamed with committee approval and player notification. State championships need a written sign-off from the CAQ Events Manager.</figcaption>
+      </figure>
+    </article>
+
+    <div class="section-divider"><span class="line"></span><span class="label">When Children Are Involved</span><span class="line"></span></div>
+
+    <article class="qa" id="q5">
+      <div class="qnum">Question Five</div>
+      <h2>What do we need to do about children?</h2>
+      <div class="lede">Get written consent from parents before using any images publicly.</div>
+      <p>If you want to use photos or video of children — anyone under 18 — on your website, social media, newsletters, or anywhere public, you need written consent from a parent or guardian first. Use the CAQ Consent Form (companion document).</p>
+      <p>This applies to photos where a child is the focus or is clearly featured. A wide-angle club photo where a child appears in the background does not require consent.</p>
+
+      <div class="pull">A wide-angle group shot is fine. A close-up of one child without parents around is not.</div>
+
+      <div class="callout">
+        <div class="callout-head">For personal snapshots at club events</div>
+        <p>Members taking a photo of the whole group, including some kids, is generally fine. The rules that matter are:</p>
+        <ul>
+          <li>Don't single out a child and photograph them alone without a parent nearby.</li>
+          <li>Don't post images of children on public social media without parental consent.</li>
+          <li>Don't name or identify a child in a publicly shared image without consent.</li>
+          <li>If a parent asks you to stop photographing their child, stop immediately.</li>
+        </ul>
+      </div>
+
+      <div class="callout">
+        <div class="callout-head">For official photographers</div>
+        <p>Anyone you've hired or appointed to document an event must hold a current Working With Children Check, and must remain in a visible public area at all times.</p>
+      </div>
+    </article>
+
+    <div class="section-divider"><span class="line"></span><span class="label">Signage &amp; Take-downs</span><span class="line"></span></div>
+
+    <article class="qa" id="q6">
+      <div class="qnum">Question Six</div>
+      <h2>Does our club need to put up signs?</h2>
+      <div class="lede">It's recommended — and CAQ will provide a template.</div>
+      <p>Signage at the entrance to your clubhouse or greenside area lets visitors know that photography conditions apply. It makes your conditions of entry clear and enforceable.</p>
+      <p>CAQ will develop a standard sign for clubs to use. In the meantime, a simple handwritten or printed notice at the entrance is better than nothing — something like:</p>
+      <div class="callout">
+        <div class="callout-head">Sample notice</div>
+        <p style="font-style: italic;">This is a private venue. Photography and filming is permitted for personal use. Commercial filming and livestreaming require prior permission from the club. Please see the club secretary.</p>
+      </div>
+    </article>
+
+    <article class="qa" id="q7">
+      <div class="qnum">Question Seven</div>
+      <h2>What if someone asks us to take down a photo?</h2>
+      <div class="lede">Take it seriously, investigate quickly, and act within fourteen days.</div>
+      <p>If a member or visitor contacts you asking for an image to be removed:</p>
+      <ol>
+        <li>Acknowledge their request promptly.</li>
+        <li>Check where the image appears — club website, Facebook, newsletter, and so on.</li>
+        <li>If the image was used without consent or in a way that breaches the policy, remove it as soon as practicable.</li>
+        <li>Let them know what you did.</li>
+      </ol>
+      <p>If you're not sure whether a take-down is warranted, contact CAQ's Member Protection Officer for advice. The fourteen-day timeframe is a reasonable target. In practice, most take-downs from social media or a website can happen on the same day.</p>
+    </article>
+
+    <div class="section-divider"><span class="line"></span><span class="label">When Things Get Difficult</span><span class="line"></span></div>
+
+    <article class="qa" id="q8">
+      <div class="qnum">Question Eight</div>
+      <h2>What if someone is filming and won't stop when asked?</h2>
+      <div class="lede">Follow this sequence.</div>
+      <ol>
+        <li><strong>Ask politely.</strong> Remind them of the club's policy — your conditions of entry.</li>
+        <li><strong>Ask again if needed.</strong> Make clear it's a club rule and they need to comply.</li>
+        <li><strong>Ask them to leave.</strong> As a private venue, the club can require anyone to leave for breaching conditions of entry.</li>
+        <li><strong>Escalate.</strong> If the filming appears illegal — in change rooms, of children in an inappropriate way — call Queensland Police immediately and contact CAQ's Member Protection Officer.</li>
+      </ol>
+      <p>Don't try to physically take someone's phone or camera. Document what happened — make a note, take names of any witnesses — and report to CAQ if the situation escalates.</p>
+
+      <div class="pull">The club can require anyone to leave for breaching conditions of entry. Phones and cameras stay with their owners.</div>
+
+      <div class="callout">
+        <div class="callout-head">If you're not sure whether to escalate</div>
+        <p>Call CAQ's Member Protection Officer before the situation gets worse. They will help you decide whether the matter is a club issue, a CAQ issue, or a Queensland Police issue.</p>
+      </div>
+    </article>
+
+    <div class="section-divider"><span class="line"></span><span class="label">Using Photos &amp; the Forms</span><span class="line"></span></div>
+
+    <article class="qa" id="q9">
+      <div class="qnum">Question Nine</div>
+      <h2>Can we use photos on our club website and Facebook?</h2>
+      <div class="lede">Yes — for adult members, with reasonable care. For children, you need consent.</div>
+      <p>For adult members: participating in club events constitutes general consent for the club to use photos in club promotional contexts — website, Facebook, newsletter. Members who have explicitly opted out must be respected.</p>
+      <p>For children: you need written parental consent before using any photos publicly. Keep a copy of the consent on file.</p>
+
+      <figure class="wc">
+        <img src="wc-social-indoor.png" alt="Watercolour of a social gathering at the clubhouse">
+        <figcaption>Group photos at social events are part of normal club life — adult members are taken to consent by participation; children are not.</figcaption>
+      </figure>
+
+      <div class="callout">
+        <div class="callout-head">Good practice for every photo</div>
+        <ul>
+          <li>Make sure the context is appropriate and dignified.</li>
+          <li>If someone is visibly distressed or in an embarrassing situation in a photo, don't use it.</li>
+          <li>If someone asks you not to use their image, respect that request.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="qa" id="q10">
+      <div class="qnum">Question Ten</div>
+      <h2>Where do I find the consent form?</h2>
+      <div class="lede">It's a companion document to the policy.</div>
+      <p>The <strong>CAQ Filming and Photography Consent Form</strong> covers adults, parents or guardians consenting for children, and opt-out options.</p>
+      <p>For CAQ events, the Events Manager will have copies. For club use, contact the CAQ Secretary, or download from the CAQ website once the policy is published.</p>
+    </article>
+
+  </main>
+</div>
+
+<section class="end-block" id="related">
+  <div class="kicker">More questions?</div>
+  <h2>Speak to the <em>CAQ Secretary</em><br>or the <em>Member Protection Officer</em>.</h2>
+
+  <div class="end-image">
+    <img src="test-watercolour-group.png" alt="Watercolour of a group playing croquet">
+  </div>
+
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="role">CAQ Secretary</div>
+      <div class="body">
+        First port of call for general policy questions, consent form requests, and signage templates.<br><br>
+        <em>Contact details on the CAQ website.</em>
+      </div>
+    </div>
+    <div class="contact-card">
+      <div class="role">Member Protection Officer</div>
+      <div class="body">
+        For take-down requests, complaints involving children, and any incident that crosses into legal territory.<br><br>
+        <em>Contact details on the CAQ website.</em>
+      </div>
+    </div>
+  </div>
+
+  <div class="related">
+    <div class="related-head">The Three Documents</div>
+    <ul>
+      <li><strong>CAQ Filming and Photography Policy v1.0</strong> — the formal document, fourteen sections, full nuance.</li>
+      <li><strong>CAQ Filming and Photography Consent Form</strong> — covers adults, children, opt-outs, and court-order disclosure.</li>
+      <li><strong>This guide</strong> — the everyday "what do I actually need to know" companion.</li>
+    </ul>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="colophon">
+    <strong>Photography &amp; Filming at the Club — A Plain-English Guide.</strong> Companion to the CAQ Filming and Photography Policy v1.0, March 2026. Prepared by CroquetClaude on behalf of the Croquet Association of Queensland. Watercolour illustrations generated from CAQ archive photographs via Gemini Nano Banana 2; figures are rendered as suggested forms to honour the policy this document describes.
+  </div>
+  <div class="small">CROQUET QUEENSLAND &nbsp;·&nbsp; COMMITTEE GUIDE</div>
+</footer>
+
+<script>
+  // Reading progress bar
+  const progress = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    progress.style.width = pct + '%';
+  });
+
+  // Highlight TOC item for the question currently in view
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = Array.from(document.querySelectorAll('.qa'));
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
