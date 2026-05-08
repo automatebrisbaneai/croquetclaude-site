@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quadrant — CroquetClaude</title>
+<meta name="description" content="A live, shared importance/urgency quadrant for meeting brainstorms.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f5f0;
+  --fg: #1a1a1a;
+  --card: #ffffff;
+  --muted: #c8c4be;
+  --muted-fg: #7a756d;
+  --accent: #c4784a;
+  --accent-bright: #a86540;
+  --accent-faint: rgba(196,120,74,0.10);
+  --border: #e2ddd6;
+  --rule: #d8d3ca;
+  --do: #2d6a4f;
+  --plan: #b8923c;
+  --delegate: #4a6b8a;
+  --drop: #8a6a4a;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--fg);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header */
+header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1.5rem;
+  border-bottom: 1px solid var(--rule);
+  background: var(--card);
+  flex-shrink: 0;
+}
+.title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: 0.04em;
+  color: var(--fg);
+}
+.title small {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--muted-fg);
+  letter-spacing: 0.05em;
+  margin-left: 0.5rem;
+  text-transform: uppercase;
+}
+.room-info {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted-fg);
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.room-info .room-name { color: var(--fg); }
+.room-info .live-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--do);
+  animation: pulse 2s infinite;
+  margin-right: 0.35rem;
+  vertical-align: middle;
+}
+.room-info .live-dot.dead { background: #c44; animation: none; }
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+.room-info button {
+  font: inherit;
+  color: var(--accent);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.room-info button:hover { color: var(--accent-bright); }
+
+/* Input row */
+.input-row {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid var(--rule);
+  background: var(--card);
+  flex-shrink: 0;
+}
+.input-row input {
+  flex: 1;
+  font: inherit;
+  font-size: 1rem;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--fg);
+  outline: none;
+}
+.input-row input:focus {
+  border-color: var(--accent);
+  background: var(--card);
+}
+.input-row button {
+  font: inherit;
+  font-weight: 500;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 4px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+.input-row button:hover { background: var(--accent-bright); }
+.input-row button:disabled {
+  background: var(--muted);
+  cursor: not-allowed;
+}
+
+/* Main board */
+main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 36px 1fr 220px;
+  grid-template-rows: 1fr 36px;
+  min-height: 0;
+}
+
+/* Y-axis label */
+.axis-y {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  border-right: 1px solid var(--rule);
+}
+.axis-y span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--muted-fg);
+  text-transform: uppercase;
+}
+.axis-y::before {
+  content: '↑';
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--muted-fg);
+  font-size: 0.9rem;
+}
+
+/* X-axis label */
+.axis-x {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid var(--rule);
+  position: relative;
+}
+.axis-x span {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--muted-fg);
+  text-transform: uppercase;
+}
+.axis-x::after {
+  content: '→';
+  position: absolute;
+  right: 0.6rem;
+  color: var(--muted-fg);
+}
+
+/* The 2×2 grid */
+.grid {
+  grid-column: 2;
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0;
+}
+.quadrant {
+  position: relative;
+  padding: 1rem 1rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--card);
+}
+.quadrant + .quadrant { border-left: 1px solid var(--rule); }
+.quadrant.bottom-row {
+  border-top: 1px solid var(--rule);
+}
+/* explicit borders since :nth-child positioning across grid is awkward */
+.q-top-left    { border-right: 1px solid var(--rule); }
+.q-bottom-left { border-right: 1px solid var(--rule); border-top: 1px solid var(--rule); }
+.q-bottom-right { border-top: 1px solid var(--rule); }
+
+.quadrant-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  flex-shrink: 0;
+}
+.quadrant-label {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+.quadrant-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: #fff;
+}
+.q-top-right    .quadrant-tag { background: var(--do); }
+.q-top-left     .quadrant-tag { background: var(--plan); }
+.q-bottom-right .quadrant-tag { background: var(--delegate); }
+.q-bottom-left  .quadrant-tag { background: var(--drop); }
+
+.cards {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  overflow-y: auto;
+  padding-right: 4px;
+  min-height: 0;
+}
+.cards.drop-active {
+  background: var(--accent-faint);
+  outline: 2px dashed var(--accent);
+  outline-offset: -4px;
+  border-radius: 4px;
+}
+
+/* Cards */
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.92rem;
+  line-height: 1.35;
+  cursor: grab;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.4rem;
+  transition: box-shadow 0.1s, transform 0.1s;
+}
+.card:hover { box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+.card.dragging { opacity: 0.4; cursor: grabbing; }
+.card-text { flex: 1; word-break: break-word; }
+.card-del {
+  background: none;
+  border: none;
+  color: var(--muted-fg);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0 2px;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+.card:hover .card-del { opacity: 1; }
+.card-del:hover { color: #c44; }
+
+/* Unsorted tray */
+.tray {
+  grid-column: 3;
+  grid-row: 1 / 3;
+  border-left: 1px solid var(--rule);
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.tray-head {
+  padding: 0.85rem 1rem 0.5rem;
+  border-bottom: 1px dashed var(--rule);
+  flex-shrink: 0;
+}
+.tray-head .label {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+.tray-head .hint {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--muted-fg);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.tray-cards {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  overflow-y: auto;
+}
+.tray-cards.drop-active {
+  background: var(--accent-faint);
+  outline: 2px dashed var(--accent);
+  outline-offset: -4px;
+}
+.empty-hint {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted-fg);
+  font-style: italic;
+  text-align: center;
+  padding: 1rem 0.5rem;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--fg);
+  color: var(--bg);
+  padding: 0.6rem 1.1rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 100;
+}
+.toast.show { opacity: 1; }
+
+/* Mobile */
+@media (max-width: 720px) {
+  main {
+    grid-template-columns: 28px 1fr;
+    grid-template-rows: minmax(0, 1fr) 28px minmax(160px, 30vh);
+  }
+  .axis-y { grid-column: 1; grid-row: 1; }
+  .axis-x { grid-column: 2; grid-row: 2; }
+  .grid   { grid-column: 2; grid-row: 1; }
+  .tray   { grid-column: 1 / 3; grid-row: 3; border-left: none; border-top: 1px solid var(--rule); }
+  .quadrant { padding: 0.6rem; }
+  .quadrant-label { font-size: 0.85rem; }
+  .quadrant-tag { font-size: 0.55rem; }
+  body { font-size: 14px; }
+  header { flex-direction: column; align-items: flex-start; gap: 0.3rem; padding: 0.7rem 1rem; }
+  .input-row { padding: 0.6rem 1rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="title">QUADRANT <small>importance × urgency</small></div>
+  <div class="room-info">
+    <span><span class="live-dot" id="live-dot"></span><span id="live-text">live</span></span>
+    <span>room: <span class="room-name" id="room-name">—</span></span>
+    <button id="copy-btn" title="Copy share link">share link</button>
+    <button id="rename-btn" title="Switch room">switch room</button>
+    <button id="clear-btn" title="Clear all cards in this room">clear room</button>
+  </div>
+</header>
+
+<form class="input-row" id="add-form" autocomplete="off">
+  <input id="add-input" type="text" placeholder="Type a task and press Enter — it lands in the unsorted tray" maxlength="280" required>
+  <button type="submit">Add</button>
+</form>
+
+<main>
+  <div class="axis-y"><span>Importance</span></div>
+
+  <div class="grid">
+    <div class="quadrant q-top-left" data-quadrant="not-urgent-important">
+      <div class="quadrant-head">
+        <span class="quadrant-label">Important · Not urgent</span>
+        <span class="quadrant-tag">PLAN</span>
+      </div>
+      <div class="cards" data-quadrant="not-urgent-important"></div>
+    </div>
+    <div class="quadrant q-top-right" data-quadrant="urgent-important">
+      <div class="quadrant-head">
+        <span class="quadrant-label">Important · Urgent</span>
+        <span class="quadrant-tag">DO NOW</span>
+      </div>
+      <div class="cards" data-quadrant="urgent-important"></div>
+    </div>
+    <div class="quadrant q-bottom-left bottom-row" data-quadrant="not-urgent-not-important">
+      <div class="quadrant-head">
+        <span class="quadrant-label">Not important · Not urgent</span>
+        <span class="quadrant-tag">DROP</span>
+      </div>
+      <div class="cards" data-quadrant="not-urgent-not-important"></div>
+    </div>
+    <div class="quadrant q-bottom-right bottom-row" data-quadrant="urgent-not-important">
+      <div class="quadrant-head">
+        <span class="quadrant-label">Not important · Urgent</span>
+        <span class="quadrant-tag">DELEGATE</span>
+      </div>
+      <div class="cards" data-quadrant="urgent-not-important"></div>
+    </div>
+  </div>
+
+  <div class="axis-x"><span>Urgency</span></div>
+
+  <aside class="tray">
+    <div class="tray-head">
+      <div class="label">Unsorted</div>
+      <div class="hint">Drag into a quadrant</div>
+    </div>
+    <div class="tray-cards" data-quadrant="unsorted"></div>
+  </aside>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/pocketbase@0.21.5/dist/pocketbase.umd.js"></script>
+<script>
+const PB_URL = 'https://util.croquetwade.com';
+const COLLECTION = 'quadrant_tasks';
+
+const pb = new PocketBase(PB_URL);
+pb.autoCancellation(false);
+
+// ---------- room ----------
+function getRoom() {
+  let room = (location.hash || '').replace(/^#/, '').trim();
+  if (!room) {
+    room = 'meeting-' + new Date().toISOString().slice(0,10);
+    location.hash = room;
+  }
+  return room.replace(/[^a-z0-9-]/gi, '').toLowerCase().slice(0, 64) || 'default';
+}
+let ROOM = getRoom();
+document.getElementById('room-name').textContent = ROOM;
+
+// ---------- state ----------
+const tasks = new Map(); // id -> record
+
+function render() {
+  const buckets = {
+    'unsorted': [],
+    'urgent-important': [],
+    'not-urgent-important': [],
+    'urgent-not-important': [],
+    'not-urgent-not-important': [],
+  };
+  for (const t of tasks.values()) {
+    if (buckets[t.quadrant]) buckets[t.quadrant].push(t);
+  }
+  for (const [q, list] of Object.entries(buckets)) {
+    list.sort((a, b) => (a.created || '').localeCompare(b.created || ''));
+    const container = document.querySelector(`[data-quadrant="${q}"].cards, [data-quadrant="${q}"].tray-cards`);
+    if (!container) continue;
+    container.innerHTML = '';
+    if (list.length === 0 && q === 'unsorted') {
+      const hint = document.createElement('div');
+      hint.className = 'empty-hint';
+      hint.textContent = 'Add a task above. It lands here.';
+      container.appendChild(hint);
+      continue;
+    }
+    for (const t of list) {
+      container.appendChild(buildCard(t));
+    }
+  }
+}
+
+function buildCard(t) {
+  const el = document.createElement('div');
+  el.className = 'card';
+  el.draggable = true;
+  el.dataset.id = t.id;
+
+  const text = document.createElement('span');
+  text.className = 'card-text';
+  text.textContent = t.text;
+  el.appendChild(text);
+
+  const del = document.createElement('button');
+  del.className = 'card-del';
+  del.title = 'Delete';
+  del.textContent = '×';
+  del.addEventListener('click', (ev) => {
+    ev.stopPropagation();
+    deleteTask(t.id);
+  });
+  el.appendChild(del);
+
+  el.addEventListener('dragstart', (ev) => {
+    el.classList.add('dragging');
+    ev.dataTransfer.setData('text/plain', t.id);
+    ev.dataTransfer.effectAllowed = 'move';
+  });
+  el.addEventListener('dragend', () => el.classList.remove('dragging'));
+  return el;
+}
+
+// ---------- drop targets ----------
+function setupDropTargets() {
+  document.querySelectorAll('[data-quadrant]').forEach((el) => {
+    if (!el.classList.contains('cards') && !el.classList.contains('tray-cards') && !el.classList.contains('quadrant')) return;
+    const target = el.classList.contains('quadrant') ? el.querySelector('.cards') : el;
+    if (!target) return;
+    el.addEventListener('dragover', (ev) => {
+      ev.preventDefault();
+      ev.dataTransfer.dropEffect = 'move';
+      target.classList.add('drop-active');
+    });
+    el.addEventListener('dragleave', (ev) => {
+      if (!el.contains(ev.relatedTarget)) target.classList.remove('drop-active');
+    });
+    el.addEventListener('drop', (ev) => {
+      ev.preventDefault();
+      target.classList.remove('drop-active');
+      const id = ev.dataTransfer.getData('text/plain');
+      const newQ = el.dataset.quadrant;
+      if (!id || !newQ) return;
+      moveTask(id, newQ);
+    });
+  });
+}
+
+// ---------- PB ops ----------
+async function loadAll() {
+  try {
+    const records = await pb.collection(COLLECTION).getFullList({
+      filter: `room = "${ROOM}"`,
+      sort: 'created',
+    });
+    tasks.clear();
+    for (const r of records) tasks.set(r.id, r);
+    render();
+  } catch (err) {
+    console.error('loadAll failed', err);
+    showToast('Could not load tasks');
+  }
+}
+
+async function addTask(text) {
+  const trimmed = text.trim();
+  if (!trimmed) return;
+  try {
+    await pb.collection(COLLECTION).create({
+      text: trimmed,
+      quadrant: 'unsorted',
+      room: ROOM,
+    });
+  } catch (err) {
+    console.error('add failed', err);
+    showToast('Could not add task');
+  }
+}
+
+async function moveTask(id, quadrant) {
+  const t = tasks.get(id);
+  if (!t || t.quadrant === quadrant) return;
+  // optimistic
+  t.quadrant = quadrant;
+  tasks.set(id, t);
+  render();
+  try {
+    await pb.collection(COLLECTION).update(id, { quadrant });
+  } catch (err) {
+    console.error('move failed', err);
+    showToast('Could not move task');
+    loadAll();
+  }
+}
+
+async function deleteTask(id) {
+  if (!tasks.has(id)) return;
+  tasks.delete(id);
+  render();
+  try {
+    await pb.collection(COLLECTION).delete(id);
+  } catch (err) {
+    console.error('delete failed', err);
+    showToast('Could not delete task');
+    loadAll();
+  }
+}
+
+async function clearRoom() {
+  if (!confirm(`Clear all tasks in room "${ROOM}"? This cannot be undone.`)) return;
+  const ids = [...tasks.keys()];
+  tasks.clear();
+  render();
+  for (const id of ids) {
+    try { await pb.collection(COLLECTION).delete(id); } catch (e) { /* ignore */ }
+  }
+  showToast('Room cleared');
+}
+
+// ---------- realtime ----------
+let liveOk = false;
+function setLive(ok, text) {
+  liveOk = ok;
+  document.getElementById('live-dot').classList.toggle('dead', !ok);
+  document.getElementById('live-text').textContent = text || (ok ? 'live' : 'reconnecting');
+}
+
+async function subscribe() {
+  try {
+    await pb.collection(COLLECTION).subscribe('*', (e) => {
+      const r = e.record;
+      if (!r || r.room !== ROOM) return;
+      if (e.action === 'create' || e.action === 'update') {
+        tasks.set(r.id, r);
+      } else if (e.action === 'delete') {
+        tasks.delete(r.id);
+      }
+      render();
+    });
+    setLive(true, 'live');
+  } catch (err) {
+    console.error('subscribe failed', err);
+    setLive(false, 'offline — reload');
+  }
+}
+
+// ---------- UI handlers ----------
+const addForm  = document.getElementById('add-form');
+const addInput = document.getElementById('add-input');
+addForm.addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  const v = addInput.value;
+  addInput.value = '';
+  addInput.focus();
+  await addTask(v);
+});
+
+document.getElementById('clear-btn').addEventListener('click', clearRoom);
+
+document.getElementById('copy-btn').addEventListener('click', async () => {
+  const url = location.href;
+  try {
+    await navigator.clipboard.writeText(url);
+    showToast('Link copied');
+  } catch {
+    showToast(url);
+  }
+});
+
+document.getElementById('rename-btn').addEventListener('click', () => {
+  const next = prompt('Room name (letters/numbers/dashes):', ROOM);
+  if (!next) return;
+  location.hash = next.trim();
+});
+
+window.addEventListener('hashchange', async () => {
+  ROOM = getRoom();
+  document.getElementById('room-name').textContent = ROOM;
+  try { await pb.collection(COLLECTION).unsubscribe('*'); } catch {}
+  await loadAll();
+  await subscribe();
+});
+
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ---------- boot ----------
+setupDropTargets();
+(async () => {
+  await loadAll();
+  await subscribe();
+})();
+</script>
+</body>
+</html>
