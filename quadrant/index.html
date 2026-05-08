@@ -758,7 +758,9 @@ body.dragging .quadrant, body.dragging .tray { transition: opacity 0.18s var(--e
     <span class="room-pill"><span class="label">room</span><span id="room-name">—</span></span>
     <button class="ctl" id="copy-btn" title="Copy share link">Copy link</button>
     <button class="ctl" id="rename-btn" title="Switch room">Switch room</button>
-    <button class="ctl" id="save-json-btn" title="Download room state as JSON">Save JSON</button>
+    <button class="ctl" id="save-json-btn" title="Download room state as JSON">Save quad</button>
+    <button class="ctl" id="load-json-btn" title="Load a saved quad into this room">Load</button>
+    <input type="file" id="load-file-input" accept="application/json,.json" hidden>
     <button class="ctl" id="save-png-btn" title="Download board as PNG">Save PNG</button>
     <button class="ctl danger" id="clear-btn" title="Clear all cards in this room">Clear</button>
   </div>
@@ -1165,6 +1167,63 @@ function downloadBlob(blob, filename) {
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1500);
 }
+
+// ---------- import: load JSON state into current room ----------
+const VALID_QUADRANTS = new Set([
+  'unsorted',
+  'urgent-important',
+  'not-urgent-important',
+  'urgent-not-important',
+  'not-urgent-not-important',
+]);
+
+document.getElementById('load-json-btn').addEventListener('click', () => {
+  document.getElementById('load-file-input').click();
+});
+
+document.getElementById('load-file-input').addEventListener('change', async (ev) => {
+  const file = ev.target.files && ev.target.files[0];
+  ev.target.value = ''; // allow re-loading the same file later
+  if (!file) return;
+  let data;
+  try {
+    const text = await file.text();
+    data = JSON.parse(text);
+  } catch (err) {
+    showToast('Could not read file');
+    return;
+  }
+  if (!data || !Array.isArray(data.tasks)) {
+    showToast('Not a quad file');
+    return;
+  }
+  const incoming = data.tasks
+    .filter(t => t && typeof t.text === 'string' && VALID_QUADRANTS.has(t.quadrant))
+    .map(t => ({ text: t.text.slice(0, 280), quadrant: t.quadrant }));
+  if (incoming.length === 0) {
+    showToast('Nothing to load');
+    return;
+  }
+  const sourceRoom = data.room ? ` from "${data.room}"` : '';
+  if (!confirm(`Load ${incoming.length} task(s)${sourceRoom} into "${ROOM}"? This will replace anything currently in the room.`)) return;
+
+  // wipe current
+  const oldIds = [...tasks.keys()];
+  tasks.clear(); elById.clear(); seen.clear();
+  render();
+  for (const id of oldIds) {
+    try { await pb.collection(COLLECTION).delete(id); } catch {}
+  }
+  // create from import
+  let created = 0;
+  for (const t of incoming) {
+    try {
+      await pb.collection(COLLECTION).create({ ...t, room: ROOM });
+      created++;
+    } catch (err) { console.error('load create failed', err); }
+  }
+  showToast(`Loaded ${created} task${created === 1 ? '' : 's'}`);
+});
 
 document.getElementById('save-json-btn').addEventListener('click', () => {
   const data = {
