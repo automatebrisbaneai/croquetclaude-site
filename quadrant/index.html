@@ -140,6 +140,21 @@ header {
   font-weight: 600;
   color: var(--ink);
 }
+.cc-link {
+  color: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.cc-link:hover, .cc-link:focus, .cc-link:visited { color: inherit; text-decoration: none; }
+.cc-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
 
 .controls { display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap; }
 
@@ -768,7 +783,7 @@ body.dragging .quadrant, body.dragging .tray { transition: opacity 0.18s var(--e
   <div class="brand">
     <span class="brand-mark">Quadrant</span>
     <span class="brand-tag">importance × urgency</span>
-    <span class="brand-sub">by <em>CroquetClaude</em></span>
+    <span class="brand-sub">by <a class="cc-link" href="/"><img class="cc-avatar" src="/claude-waving.webp" alt=""><em>CroquetClaude</em></a></span>
   </div>
   <div class="controls">
     <span class="live" id="live"><span class="live-dot"></span><span id="live-text">live</span></span>
