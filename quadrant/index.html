@@ -377,15 +377,35 @@ main {
   flex-shrink: 0;
   gap: 0.5rem;
 }
+/* Quadrant headlines — same masking-tape style as the axis labels, but bigger */
 .quadrant-label {
-  flex: 1; min-width: 0;
-  font-family: var(--font-display);
-  font-size: 0.82rem;
+  align-self: flex-start;
+  display: inline-block;
+  font-family: var(--font-hand);
+  font-size: 1.7rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.04em;
+  line-height: 1.05;
   text-transform: uppercase;
   color: var(--ink);
+  padding: 0.28rem 1rem 0.22rem;
+  background-image:
+    repeating-linear-gradient(90deg,
+      transparent 0,
+      transparent 6px,
+      rgba(120,90,40,0.045) 6px,
+      rgba(120,90,40,0.045) 7px);
+  background-color: #ead09a;
+  border-top:    1px solid rgba(140,100,50,0.20);
+  border-bottom: 1px solid rgba(140,100,50,0.20);
+  box-shadow:
+    0 2px 4px rgba(26,22,18,0.16),
+    0 1px 0 rgba(255,250,220,0.20) inset;
+  transform: rotate(-1.4deg);
 }
+.q-top-right    .quadrant-label { transform: rotate(0.9deg); }
+.q-bottom-left  .quadrant-label { transform: rotate(1.2deg); }
+.q-bottom-right .quadrant-label { transform: rotate(-0.6deg); }
 .quadrant-meta { display: inline-flex; align-items: center; gap: 0.55rem; flex-shrink: 0; }
 .quadrant-count {
   font-family: var(--font-display);
@@ -428,8 +448,8 @@ main {
   flex-wrap: wrap;
   align-content: flex-start;
   align-items: flex-start;
-  gap: 0.5rem 0.55rem;
-  padding-right: 4px;
+  gap: 1rem 0.95rem;
+  padding: 0.3rem 6px 0.4rem 0;
   min-height: 0;
 }
 .tray-cards {
@@ -477,7 +497,7 @@ main {
   justify-content: flex-start;
   gap: 0.4rem;
   letter-spacing: -0.005em;
-  transform: rotate(var(--rot));
+  transform: rotate(var(--rot)) translate(var(--xoff, 0), var(--yoff, 0));
   box-shadow:
     0 2px 3px rgba(26,22,18,0.14),
     0 1px 0 rgba(255,250,220,0.30) inset;
@@ -496,7 +516,7 @@ main {
 
 .card:hover {
   /* keep the dropped rotation, just lift slightly */
-  transform: rotate(var(--rot)) translateY(-2px);
+  transform: rotate(var(--rot)) translate(var(--xoff, 0), calc(var(--yoff, 0px) - 3px));
   box-shadow:
     0 4px 6px rgba(26,22,18,0.18),
     0 8px 18px -4px rgba(26,22,18,0.20);
@@ -511,14 +531,14 @@ main {
 /* Entry animation — only on freshly created cards */
 .card.is-new { animation: cardIn 0.55s var(--ease-spring) both; }
 @keyframes cardIn {
-  0%   { opacity: 0; transform: rotate(calc(var(--rot) * 1.8)) translateY(-18px) scale(0.94); }
+  0%   { opacity: 0; transform: rotate(calc(var(--rot) * 1.8)) translate(var(--xoff, 0), calc(var(--yoff, 0px) - 18px)) scale(0.94); }
   55%  { opacity: 1; }
-  100% { opacity: 1; transform: rotate(var(--rot)) translateY(0) scale(1); }
+  100% { opacity: 1; transform: rotate(var(--rot)) translate(var(--xoff, 0), var(--yoff, 0)) scale(1); }
 }
 .card.removing { animation: cardOut 0.22s var(--ease-paper) forwards; }
 @keyframes cardOut {
-  0%   { opacity: 1; transform: rotate(var(--rot)) scale(1); }
-  100% { opacity: 0; transform: rotate(var(--rot)) translateY(-6px) scale(0.92); }
+  0%   { opacity: 1; transform: rotate(var(--rot)) translate(var(--xoff, 0), var(--yoff, 0)) scale(1); }
+  100% { opacity: 0; transform: rotate(var(--rot)) translate(var(--xoff, 0), calc(var(--yoff, 0px) - 6px)) scale(0.92); }
 }
 
 .card-text {
@@ -683,7 +703,7 @@ body.dragging .quadrant, body.dragging .tray { transition: opacity 0.18s var(--e
   .axis-label { font-size: 1.1rem; }
 
   .quadrant { padding: 0.85rem 0.85rem 0.7rem; }
-  .quadrant-label { font-size: 0.66rem; letter-spacing: 0.1em; }
+  .quadrant-label { font-size: 1.1rem; letter-spacing: 0.04em; padding: 0.2rem 0.7rem 0.16rem; }
   .quadrant-tag { font-size: 1.15rem; padding-top: 2px; }
   .quadrant-count { font-size: 1.25rem; }
 
@@ -852,11 +872,22 @@ const QUADRANTS = [
 ];
 
 // Stable per-card rotation: hash id → -1.4° to 1.4°
-function rotFor(id) {
-  let h = 0;
+function hash(id, salt) {
+  let h = salt | 0;
   for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) | 0;
-  const v = ((h % 1000) / 1000) * 2 - 1;   // -1 .. 1
-  return (v * 4.0).toFixed(2) + 'deg';     // ~-4° to +4° — feels dropped, not stacked
+  return h;
+}
+function rotFor(id) {
+  const v = ((hash(id, 1) % 1000) / 1000) * 2 - 1;   // -1 .. 1
+  return (v * 4.5).toFixed(2) + 'deg';                // ~-4.5° to +4.5°
+}
+function xoffFor(id) {
+  const v = ((hash(id, 17) % 1000) / 1000) * 2 - 1;
+  return (v * 4).toFixed(1) + 'px';                   // ~-4 .. +4 px
+}
+function yoffFor(id) {
+  const v = ((hash(id, 41) % 1000) / 1000) * 2 - 1;
+  return (v * 5).toFixed(1) + 'px';                   // ~-5 .. +5 px
 }
 
 function bucketize() {
@@ -948,7 +979,9 @@ function buildCard(t) {
   el.className = 'card hand-' + handFor(t.id);
   el.draggable = true;
   el.dataset.id = t.id;
-  el.style.setProperty('--rot', rotFor(t.id));
+  el.style.setProperty('--rot',  rotFor(t.id));
+  el.style.setProperty('--xoff', xoffFor(t.id));
+  el.style.setProperty('--yoff', yoffFor(t.id));
 
   const text = document.createElement('span');
   text.className = 'card-text';
