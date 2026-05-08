@@ -519,7 +519,7 @@ main {
   --rot: 0deg;
   position: relative;
   align-self: flex-start;
-  max-width: 100%;
+  max-width: min(100%, 340px);
   padding: 0.45rem 0.85rem 0.4rem;
   font-family: var(--font-body);
   font-size: 0.95rem;
@@ -724,6 +724,14 @@ body.dragging .quadrant:not(.drop-active),
 body.dragging .tray:not(.drop-active) { opacity: 0.65; }
 body.dragging .quadrant, body.dragging .tray { transition: opacity 0.18s var(--ease-out); }
 
+/* PNG export — hide the tray and collapse its column so the image is just the board */
+main.exporting {
+  grid-template-columns: 56px 1fr 0 !important;
+  gap: 0.6rem 0 !important;
+  overflow: visible !important;
+}
+main.exporting .tray { display: none !important; }
+
 /* ════════════ MOBILE ════════════ */
 @media (max-width: 760px) {
   body { font-size: 15px; }
@@ -833,7 +841,7 @@ body.dragging .quadrant, body.dragging .tray { transition: opacity 0.18s var(--e
         <span class="quadrant-label">Important · Not urgent</span>
         <span class="quadrant-meta">
           <span class="quadrant-count" data-count="not-urgent-important">0</span>
-          <span class="quadrant-tag">plan</span>
+          <span class="quadrant-tag">begin to do</span>
         </span>
       </div>
       <div class="cards" data-quadrant="not-urgent-important"></div>
@@ -1068,7 +1076,94 @@ function buildCard(t) {
     document.body.classList.remove('dragging');
     document.querySelectorAll('.drop-active').forEach(n => n.classList.remove('drop-active'));
   });
+
+  // Touch-drag for mobile/tablet — HTML5 drag events don't fire on touch
+  attachTouchDrag(el, t.id);
   return el;
+}
+
+const TOUCH_THRESHOLD = 6;
+function attachTouchDrag(cardEl, taskId) {
+  cardEl.addEventListener('touchstart', (ev) => {
+    if (ev.touches.length !== 1) return;
+    // Skip if the touch started on the delete button — let the click fire
+    if (ev.target && ev.target.classList && ev.target.classList.contains('card-del')) return;
+
+    const t0 = ev.touches[0];
+    const startX = t0.clientX, startY = t0.clientY;
+    const idTouch = t0.identifier;
+    const rect = cardEl.getBoundingClientRect();
+    const offsetX = startX - rect.left;
+    const offsetY = startY - rect.top;
+    let lifted = false;
+    let currentZone = null;
+
+    function lift() {
+      cardEl.classList.add('dragging');
+      document.body.classList.add('dragging');
+      cardEl.style.position = 'fixed';
+      cardEl.style.left = rect.left + 'px';
+      cardEl.style.top = rect.top + 'px';
+      cardEl.style.width = rect.width + 'px';
+      cardEl.style.zIndex = '100';
+      cardEl.style.pointerEvents = 'none';
+      lifted = true;
+    }
+
+    function onMove(e) {
+      const t = [...e.touches, ...e.changedTouches].find(x => x.identifier === idTouch);
+      if (!t) return;
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
+      if (!lifted) {
+        if (Math.hypot(dx, dy) < TOUCH_THRESHOLD) return;
+        lift();
+      }
+      e.preventDefault();
+      cardEl.style.left = (t.clientX - offsetX) + 'px';
+      cardEl.style.top  = (t.clientY - offsetY) + 'px';
+      const under = document.elementFromPoint(t.clientX, t.clientY);
+      const zone = under ? under.closest('[data-quadrant]') : null;
+      if (zone !== currentZone) {
+        if (currentZone) currentZone.classList.remove('drop-active');
+        if (zone) zone.classList.add('drop-active');
+        currentZone = zone;
+      }
+    }
+
+    function cleanup() {
+      document.removeEventListener('touchmove', onMove, { passive: false });
+      document.removeEventListener('touchend', onEnd);
+      document.removeEventListener('touchcancel', onCancel);
+      if (lifted) {
+        cardEl.classList.remove('dragging');
+        document.body.classList.remove('dragging');
+        cardEl.style.position = '';
+        cardEl.style.left = '';
+        cardEl.style.top = '';
+        cardEl.style.width = '';
+        cardEl.style.zIndex = '';
+        cardEl.style.pointerEvents = '';
+        document.querySelectorAll('.drop-active').forEach(n => n.classList.remove('drop-active'));
+      }
+    }
+    function onEnd(e) {
+      const target = currentZone;
+      const wasLifted = lifted;
+      cleanup();
+      if (wasLifted) {
+        e.preventDefault();
+        if (target && target.dataset.quadrant) {
+          moveTask(taskId, target.dataset.quadrant);
+        }
+      }
+    }
+    function onCancel() { cleanup(); }
+
+    document.addEventListener('touchmove', onMove, { passive: false });
+    document.addEventListener('touchend', onEnd);
+    document.addEventListener('touchcancel', onCancel);
+  }, { passive: true });
 }
 
 function setupDropTargets() {
@@ -1322,12 +1417,22 @@ document.getElementById('save-png-btn').addEventListener('click', async (ev) => 
   try {
     await loadScript('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js');
     const target = document.querySelector('main');
-    const canvas = await window.html2canvas(target, {
-      backgroundColor: getComputedStyle(document.body).backgroundColor || '#f4eedb',
-      scale: 2,
-      useCORS: true,
-      logging: false,
-    });
+    // Hide the tray during capture so the PNG is just the board (axes + grid)
+    target.classList.add('exporting');
+    await new Promise(r => requestAnimationFrame(r));
+    let canvas;
+    try {
+      canvas = await window.html2canvas(target, {
+        backgroundColor: getComputedStyle(document.body).backgroundColor || '#f4eedb',
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        height: target.scrollHeight,
+        windowHeight: target.scrollHeight,
+      });
+    } finally {
+      target.classList.remove('exporting');
+    }
     const stamp = new Date().toISOString().slice(0,10);
     canvas.toBlob((blob) => {
       if (!blob) { showToast('Could not save image'); return; }
