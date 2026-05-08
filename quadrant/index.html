@@ -1268,7 +1268,7 @@ document.getElementById('load-file-input').addEventListener('change', async (ev)
   showToast(`Loaded ${created} task${created === 1 ? '' : 's'}`);
 });
 
-document.getElementById('save-json-btn').addEventListener('click', () => {
+document.getElementById('save-json-btn').addEventListener('click', async () => {
   const data = {
     room: ROOM,
     exportedAt: new Date().toISOString(),
@@ -1280,7 +1280,27 @@ document.getElementById('save-json-btn').addEventListener('click', () => {
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const stamp = new Date().toISOString().slice(0,10);
-  downloadBlob(blob, `quadrant-${ROOM}-${stamp}.json`);
+  const defaultName = `quadrant-${ROOM}-${stamp}.json`;
+
+  // Use the File System Access API where supported — opens a real "Save as" dialog
+  if (window.showSaveFilePicker) {
+    try {
+      const handle = await window.showSaveFilePicker({
+        suggestedName: defaultName,
+        types: [{ description: 'Quadrant save', accept: { 'application/json': ['.json'] } }],
+      });
+      const writable = await handle.createWritable();
+      await writable.write(blob);
+      await writable.close();
+      showToast('State saved');
+      return;
+    } catch (err) {
+      if (err && err.name === 'AbortError') return;   // user cancelled — silent
+      console.error('Save dialog failed, falling back', err);
+    }
+  }
+  // Fallback for browsers without showSaveFilePicker (Firefox, Safari)
+  downloadBlob(blob, defaultName);
   showToast('State saved');
 });
 
