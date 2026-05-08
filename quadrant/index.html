@@ -283,7 +283,7 @@ main {
   height: 100%;
   pointer-events: none;
 }
-/* Axis labels styled as writing on masking tape */
+/* Axis labels styled as writing on near-white masking tape with a crinkle */
 .axis-label {
   font-family: var(--font-hand);
   font-size: 1.35rem;
@@ -295,19 +295,23 @@ main {
   position: relative;
   display: inline-block;
   padding: 0.22rem 1rem 0.18rem;
-  /* manila tape — warm tan with a fibre-like striation and very faint top/bottom shadow */
+  /* near-white tape: turbulence crinkle on top, faint fibre stripes, soft cream base */
   background:
+    url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='44'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='2' seed='5'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23r)'/%3E%3C/svg%3E"),
     repeating-linear-gradient(90deg,
       transparent 0,
-      transparent 6px,
-      rgba(120,90,40,0.05) 6px,
-      rgba(120,90,40,0.05) 7px),
-    linear-gradient(180deg, #ead09a 0%, #d8be7f 50%, #e3cb90 100%);
-  border-top:    1px solid rgba(140,100,50,0.20);
-  border-bottom: 1px solid rgba(140,100,50,0.20);
+      transparent 7px,
+      rgba(140,120,80,0.04) 7px,
+      rgba(140,120,80,0.04) 8px),
+    linear-gradient(180deg, #f7f1e2 0%, #ece5d2 50%, #f4eddd 100%);
+  border-top:    1px solid rgba(140,120,80,0.16);
+  border-bottom: 1px solid rgba(140,120,80,0.16);
   box-shadow:
-    0 2px 4px rgba(26,22,18,0.16),
-    0 1px 0 rgba(255,250,220,0.20) inset;
+    0 2px 4px rgba(26,22,18,0.14),
+    0 1px 0 rgba(255,255,255,0.30) inset,
+    /* faint diagonal crease */
+    inset 14px 0 8px -14px rgba(0,0,0,0.05),
+    inset -10px 0 7px -12px rgba(0,0,0,0.04);
   transform: rotate(-1.2deg);
 }
 .axis-y .axis-label {
@@ -377,7 +381,7 @@ main {
   flex-shrink: 0;
   gap: 0.5rem;
 }
-/* Quadrant headlines — same masking-tape style as the axis labels, but bigger */
+/* Quadrant headlines — same near-white tape style as axis labels, bigger */
 .quadrant-label {
   align-self: flex-start;
   display: inline-block;
@@ -389,18 +393,21 @@ main {
   text-transform: uppercase;
   color: var(--ink);
   padding: 0.28rem 1rem 0.22rem;
-  background-image:
+  background:
+    url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='52'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.50' numOctaves='2' seed='9'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23r)'/%3E%3C/svg%3E"),
     repeating-linear-gradient(90deg,
       transparent 0,
-      transparent 6px,
-      rgba(120,90,40,0.045) 6px,
-      rgba(120,90,40,0.045) 7px);
-  background-color: #ead09a;
-  border-top:    1px solid rgba(140,100,50,0.20);
-  border-bottom: 1px solid rgba(140,100,50,0.20);
+      transparent 7px,
+      rgba(140,120,80,0.04) 7px,
+      rgba(140,120,80,0.04) 8px),
+    linear-gradient(180deg, #f7f1e2 0%, #ece5d2 50%, #f4eddd 100%);
+  border-top:    1px solid rgba(140,120,80,0.16);
+  border-bottom: 1px solid rgba(140,120,80,0.16);
   box-shadow:
-    0 2px 4px rgba(26,22,18,0.16),
-    0 1px 0 rgba(255,250,220,0.20) inset;
+    0 2px 4px rgba(26,22,18,0.14),
+    0 1px 0 rgba(255,255,255,0.30) inset,
+    inset 18px 0 10px -18px rgba(0,0,0,0.05),
+    inset -14px 0 9px -16px rgba(0,0,0,0.04);
   transform: rotate(-1.4deg);
 }
 .q-top-right    .quadrant-label { transform: rotate(0.9deg); }
@@ -478,13 +485,14 @@ main {
   font-weight: 500;
   line-height: 1.4;
   color: var(--ink);
-  /* Light masking-tape — paler than the manila axis labels */
+  /* Light masking-tape — pale colour with subtle crinkle texture */
   background-image:
+    url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='42'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='2' seed='12'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.13 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23r)'/%3E%3C/svg%3E"),
     repeating-linear-gradient(90deg,
       transparent 0,
       transparent 6px,
-      rgba(120,90,40,0.045) 6px,
-      rgba(120,90,40,0.045) 7px);
+      rgba(120,90,40,0.04) 6px,
+      rgba(120,90,40,0.04) 7px);
   background-color: #fdf6df;
   border: none;
   border-top:    1px solid rgba(140,100,50,0.16);
@@ -500,7 +508,10 @@ main {
   transform: rotate(var(--rot)) translate(var(--xoff, 0), var(--yoff, 0));
   box-shadow:
     0 2px 3px rgba(26,22,18,0.14),
-    0 1px 0 rgba(255,250,220,0.30) inset;
+    0 1px 0 rgba(255,250,220,0.30) inset,
+    /* subtle creases at the tape ends */
+    inset 12px 0 7px -14px rgba(0,0,0,0.05),
+    inset -10px 0 6px -12px rgba(0,0,0,0.04);
   transition:
     transform 0.18s var(--ease-spring),
     box-shadow 0.18s var(--ease-paper),
