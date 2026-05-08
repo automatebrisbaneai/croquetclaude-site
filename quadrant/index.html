@@ -117,14 +117,23 @@ header {
   color: var(--ink);
   font-style: italic;
 }
+.brand-tag {
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+  letter-spacing: 0;
+  transform: rotate(-1.5deg) translateY(2px);
+  display: inline-block;
+}
 .brand-sub {
   font-family: var(--font-display);
   font-variation-settings: 'opsz' 96;
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--ink-soft);
   letter-spacing: -0.01em;
   display: inline-block;
+  margin-left: 0.4rem;
 }
 .brand-sub em {
   font-style: italic;
@@ -697,7 +706,8 @@ body.dragging .quadrant, body.dragging .tray { transition: opacity 0.18s var(--e
     padding: 0.7rem 1rem 0.6rem;
   }
   .brand-mark { font-size: 1.45rem; }
-  .brand-sub  { font-size: 1rem; }
+  .brand-tag  { font-size: 0.95rem; }
+  .brand-sub  { font-size: 0.85rem; }
   .live { font-size: 0.62rem; padding: 0.25rem 0.55rem; }
   .room-pill { font-size: 0.78rem; padding: 0.3rem 0.6rem 0.3rem 0.5rem; }
   .room-pill .label { font-size: 0.85rem; }
@@ -757,6 +767,7 @@ body.dragging .quadrant, body.dragging .tray { transition: opacity 0.18s var(--e
 <header>
   <div class="brand">
     <span class="brand-mark">Quadrant</span>
+    <span class="brand-tag">importance × urgency</span>
     <span class="brand-sub">by <em>CroquetClaude</em></span>
   </div>
   <div class="controls">
