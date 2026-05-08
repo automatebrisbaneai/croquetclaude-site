@@ -278,21 +278,38 @@ main {
   height: 100%;
   pointer-events: none;
 }
+/* Axis labels styled as writing on masking tape */
 .axis-label {
   font-family: var(--font-hand);
-  font-size: 1.45rem;
+  font-size: 1.35rem;
   font-weight: 700;
   color: var(--ink);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   pointer-events: none;
   z-index: 2;
   position: relative;
+  display: inline-block;
+  padding: 0.22rem 1rem 0.18rem;
+  /* manila tape — warm tan with a fibre-like striation and very faint top/bottom shadow */
+  background:
+    repeating-linear-gradient(90deg,
+      transparent 0,
+      transparent 6px,
+      rgba(120,90,40,0.05) 6px,
+      rgba(120,90,40,0.05) 7px),
+    linear-gradient(180deg, #ead09a 0%, #d8be7f 50%, #e3cb90 100%);
+  border-top:    1px solid rgba(140,100,50,0.20);
+  border-bottom: 1px solid rgba(140,100,50,0.20);
+  box-shadow:
+    0 2px 4px rgba(26,22,18,0.16),
+    0 1px 0 rgba(255,250,220,0.20) inset;
+  transform: rotate(-1.2deg);
 }
 .axis-y .axis-label {
   writing-mode: vertical-rl;
-  transform: rotate(180deg);
+  transform: rotate(180deg) rotate(-1.2deg);
   text-align: center;
-  padding: 0.5rem 0;
+  padding: 1rem 0.22rem 1rem;
 }
 
 /* THE QUADRANT GRID */
@@ -326,28 +343,6 @@ main {
   width: 3px;
   border-radius: 2px;
   box-shadow: 0 0 0 1px rgba(244,238,219,0.4);
-}
-
-/* Hand-drawn "swap" arrows on each row */
-.swap-arrow {
-  position: absolute;
-  z-index: 11;
-  pointer-events: none;
-  color: var(--ink);
-}
-.swap-arrow.top { top: 8px; left: 14%; right: 14%; height: 28px; }
-.swap-arrow.bot { top: calc(50% + 8px); left: 14%; right: 14%; height: 28px; }
-.swap-arrow svg { width: 100%; height: 100%; overflow: visible; }
-.swap-arrow .swap-text {
-  position: absolute;
-  top: -6px; left: 50%; transform: translateX(-50%) rotate(-2deg);
-  font-family: var(--font-hand);
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--ink);
-  background: var(--paper);
-  padding: 0 0.45rem;
-  letter-spacing: 0.02em;
 }
 
 /* QUADRANTS — paper sheets with washed-ink fills */
@@ -675,7 +670,6 @@ body.dragging .quadrant, body.dragging .tray { transition: opacity 0.18s var(--e
   .card { font-size: 0.88rem; padding: 0.6rem 0.4rem 0.6rem 0.75rem; }
   .card::before { width: 22px; height: 9px; top: -5px; }
 
-  .swap-arrow { display: none; }
 
   .tray::before { font-size: 0.6rem; left: 0.85rem; padding: 0 0.4rem; }
   .tray-head { padding: 0.95rem 0.95rem 0.55rem; }
@@ -736,29 +730,7 @@ body.dragging .quadrant, body.dragging .tray { transition: opacity 0.18s var(--e
   </div>
 
   <div class="grid">
-    <!-- swap arrows -->
-    <div class="swap-arrow top" aria-hidden="true">
-      <svg viewBox="0 0 600 28" preserveAspectRatio="none">
-        <g filter="url(#paper-rough)" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink)">
-          <path d="M 14 22 Q 18 6 40 6 L 560 6 Q 582 6 586 22"/>
-          <path d="M 22 14 L 14 22 L 22 30"/>
-          <path d="M 578 14 L 586 22 L 578 30"/>
-        </g>
-      </svg>
-      <span class="swap-text">swap</span>
-    </div>
-    <div class="swap-arrow bot" aria-hidden="true">
-      <svg viewBox="0 0 600 28" preserveAspectRatio="none">
-        <g filter="url(#paper-rough)" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink)">
-          <path d="M 14 22 Q 18 6 40 6 L 560 6 Q 582 6 586 22"/>
-          <path d="M 22 14 L 14 22 L 22 30"/>
-          <path d="M 578 14 L 586 22 L 578 30"/>
-        </g>
-      </svg>
-      <span class="swap-text">swap</span>
-    </div>
-
-    <div class="quadrant q-top-left" data-quadrant="not-urgent-important">
+<div class="quadrant q-top-left" data-quadrant="not-urgent-important">
       <div class="quadrant-head">
         <span class="quadrant-label">Important · Not urgent</span>
         <span class="quadrant-meta">
