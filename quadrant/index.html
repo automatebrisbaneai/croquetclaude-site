@@ -24,21 +24,25 @@
   --ink-faint:    #847565;
   --ink-line:     #2c241d;
 
-  /* Quadrant inks (hand-mixed, not SaaS) */
-  --do:           #b0451f;   /* sienna — Important + Urgent */
-  --do-wash:      #e8b89c;
-  --do-paper:     #ecc7a8;
-  --plan:         #7d6428;   /* ochre — Important + Not urgent */
-  --plan-wash:    #d9c787;
-  --plan-paper:   #d8c780;
-  --delegate:     #2d5d6a;   /* slate teal — Urgent + Not important */
-  --delegate-wash:#b8cdd0;
-  --delegate-paper:#bcd4d8;
-  --drop:         #5a6438;   /* moss — Drop */
-  --drop-wash:    #c4cca0;
-  --drop-paper:   #cad19f;
+  /* Quadrant inks — meaning-led
+     Blue   = Important + Urgent (Do now — the calm focus)
+     Green  = Important + Not urgent (Plan — where the difference is made)
+     Pink   = Not important + Urgent (Delegate — alarm-bell distraction)
+     Yellow = Not important + Not urgent (Drop — low signal, near-white) */
+  --do:           #2c5b8c;   /* deep blue */
+  --do-wash:      #b9cce0;
+  --do-paper:     #d6e3f1;
+  --plan:         #3a7548;   /* meaningful green */
+  --plan-wash:    #b9d3bd;
+  --plan-paper:   #d2e3cf;
+  --delegate:     #ad4f52;   /* alarm pink-red */
+  --delegate-wash:#e9bfc1;
+  --delegate-paper:#f3d4d6;
+  --drop:         #8a7b2e;   /* pale yellow ink */
+  --drop-wash:    #ece4a4;
+  --drop-paper:   #f4ecbc;
 
-  --accent:       #b0451f;   /* sienna pen */
+  --accent:       #ad4f52;   /* alarm pen */
 
   --font-display: 'Bricolage Grotesque', Georgia, serif;
   --font-body:    'Source Serif 4', 'Iowan Old Style', Georgia, serif;
@@ -420,8 +424,11 @@ main {
 .cards {
   flex: 0 0 auto;
   display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: flex-start;
+  gap: 0.5rem 0.55rem;
   padding-right: 4px;
   min-height: 0;
 }
@@ -481,18 +488,18 @@ main {
   flex-shrink: 0;
 }
 
-/* Per-quadrant card tape colour — lighter than the manila axis labels */
-.q-top-right    .card { background-color: #fbe8d5; }   /* pale sienna */
-.q-top-left     .card { background-color: #faf1c8; }   /* pale ochre */
-.q-bottom-right .card { background-color: #d8e6e9; }   /* pale teal */
-.q-bottom-left  .card { background-color: #e3eac1; }   /* pale moss */
+/* Per-quadrant card tape colour — meaning-led, lighter than axis labels */
+.q-top-right    .card { background-color: #e3edf7; }   /* pale blue   — Do now */
+.q-top-left     .card { background-color: #dfecdb; }   /* pale green  — Plan */
+.q-bottom-right .card { background-color: #f6dde0; }   /* pale pink   — Delegate */
+.q-bottom-left  .card { background-color: #faf3cb; }   /* pale yellow — Drop */
 
 .card:hover {
-  --rot: 0deg;
-  transform: rotate(0deg) translateY(-2px);
+  /* keep the dropped rotation, just lift slightly */
+  transform: rotate(var(--rot)) translateY(-2px);
   box-shadow:
-    2px 2px 0 rgba(26,22,18,0.95),
-    4px 8px 16px -2px rgba(26,22,18,0.22);
+    0 4px 6px rgba(26,22,18,0.18),
+    0 8px 18px -4px rgba(26,22,18,0.20);
   z-index: 4;
 }
 .card.dragging {
@@ -502,10 +509,10 @@ main {
 }
 
 /* Entry animation — only on freshly created cards */
-.card.is-new { animation: cardIn 0.42s var(--ease-spring) both; }
+.card.is-new { animation: cardIn 0.55s var(--ease-spring) both; }
 @keyframes cardIn {
-  0%   { opacity: 0; transform: rotate(var(--rot)) translateY(10px) scale(0.94); }
-  60%  { opacity: 1; }
+  0%   { opacity: 0; transform: rotate(calc(var(--rot) * 1.8)) translateY(-18px) scale(0.94); }
+  55%  { opacity: 1; }
   100% { opacity: 1; transform: rotate(var(--rot)) translateY(0) scale(1); }
 }
 .card.removing { animation: cardOut 0.22s var(--ease-paper) forwards; }
@@ -849,7 +856,7 @@ function rotFor(id) {
   let h = 0;
   for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) | 0;
   const v = ((h % 1000) / 1000) * 2 - 1;   // -1 .. 1
-  return (v * 1.4).toFixed(2) + 'deg';
+  return (v * 4.0).toFixed(2) + 'deg';     // ~-4° to +4° — feels dropped, not stacked
 }
 
 function bucketize() {
