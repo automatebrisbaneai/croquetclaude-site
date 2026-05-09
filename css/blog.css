@@ -1,18 +1,21 @@
 /* blog.css — Shared styles for CroquetClaude blog posts, contact, and standalone pages */
 
 :root {
-  --bg: #0d1117;
-  --bg-alt: #161b22;
-  --text: #e2ddd6;
-  --text-secondary: #8a8880;
-  --text-muted: #4a4840;
-  --accent: #5aad74;
-  --accent-hover: #72c98c;
-  --accent-faint: rgba(90, 173, 116, 0.12);
-  --border: #272d38;
-  --ink: #e2ddd6;
+  /* Paper + ink — aligned to homepage canonical palette (project_croquetclaude_brand_font) */
+  --bg: #f4eedb;                       /* paper */
+  --bg-alt: #ece4cc;                   /* paper-deep */
+  --text: #1a1612;                     /* ink */
+  --text-secondary: #4d423a;           /* ink-soft */
+  --text-muted: #847565;                /* ink-faint */
+  --accent: #ad4f52;                    /* alarm-pink — Quadrant accent */
+  --accent-hover: #963f42;
+  --accent-faint: rgba(173, 79, 82, 0.08);
+  --border: #d8cea9;                    /* rule */
+  --ink: #1a1612;
   --serif: 'EB Garamond', Georgia, 'Times New Roman', serif;
   --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mono: 'JetBrains Mono', 'Courier New', monospace;
+  --display: 'Bricolage Grotesque', Georgia, serif;
   --max-width: 720px;
   --space-xs: 0.5rem;
   --space-s: 1rem;
@@ -21,18 +24,19 @@
   --space-xl: 5rem;
 }
 
-/* LIGHT THEME */
-[data-theme="light"] {
-  --bg: #faf8f5;
-  --bg-alt: #f0ece6;
-  --text: #2a2620;
-  --text-secondary: #6b6660;
-  --text-muted: #b0a89e;
-  --accent: #3d8a55;
-  --accent-hover: #2d6e42;
-  --accent-faint: rgba(61, 138, 85, 0.08);
-  --border: #ddd8d0;
-  --ink: #1a1814;
+/* Legacy theme attributes are no-ops — light is the only theme.
+   The toggle JS still flips data-theme but the variables don't change. */
+[data-theme="light"], [data-theme="dark"] {
+  --bg: #f4eedb;
+  --bg-alt: #ece4cc;
+  --text: #1a1612;
+  --text-secondary: #4d423a;
+  --text-muted: #847565;
+  --accent: #ad4f52;
+  --accent-hover: #963f42;
+  --accent-faint: rgba(173, 79, 82, 0.08);
+  --border: #d8cea9;
+  --ink: #1a1612;
 }
 
 *, *::before, *::after {
@@ -83,10 +87,13 @@ nav {
 }
 
 .nav-brand {
-  font-family: var(--sans);
-  font-weight: 600;
-  font-size: 0.9rem;
-  letter-spacing: 0.02em;
+  font-family: var(--display);
+  font-variation-settings: 'opsz' 96;
+  font-weight: 700;
+  font-style: italic;
+  font-synthesis: style;
+  letter-spacing: -0.025em;
+  font-size: 1.15rem;
   color: var(--text);
   text-decoration: none;
 }
