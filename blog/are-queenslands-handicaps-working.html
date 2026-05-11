@@ -79,6 +79,23 @@
       background: var(--accent);
       color: var(--bg);
     }
+    .video-embed {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      margin: var(--space-m) 0;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .video-embed iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
   </style>
 </head>
 <body>
@@ -114,6 +131,9 @@
 <p>*Data source: CAQ Handicap Records. 725 handicap records (mass-assigned round-number indices from the RevSport import) have been excluded from all analysis. </p>
 </blockquote>
 <hr />
+<div class="video-embed">
+  <iframe title="Golf Croquet Handicap Explainer" src="https://tv.croquetwade.com/videos/embed/1dhD4z86xk19rmptRhR9pt" allowfullscreen sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+</div>
 <h2>1. Data and Method</h2>
 <p>Handicap records were retrieved from the CAQ Handicap Database. After removing known placeholder values — bulk-assigned round-number indices that don't represent actual play — the working dataset contains:</p>
 <table>
