@@ -23,12 +23,6 @@
 
 <section class="tt-post">
   <div class="tt-post-card">
-    <div class="tt-section-picker" role="group" aria-label="Section">
-      <button class="tt-chip" data-section="update"   aria-pressed="true">Update</button>
-      <button class="tt-chip" data-section="question" aria-pressed="false">Question</button>
-      <button class="tt-chip" data-section="idea"     aria-pressed="false">Idea</button>
-      <button class="tt-chip" data-section="todo"     aria-pressed="false">To do</button>
-    </div>
     <textarea class="tt-textarea" id="post-body" placeholder="What's happening?" rows="2"></textarea>
     <div id="voice-interim"></div>
     <div class="tt-post-actions">
@@ -41,46 +35,8 @@
   </div>
 </section>
 
-<main class="tt-board" id="board">
-  <div class="tt-col" data-section="question">
-    <div class="tt-col-head">
-      <h2 class="tt-col-title">Questions</h2>
-      <span class="tt-col-count" data-count-for="question">0</span>
-    </div>
-    <div class="tt-col-cards" data-cards-for="question">
-      <div class="tt-empty">No questions on the table.</div>
-    </div>
-  </div>
-
-  <div class="tt-col" data-section="update">
-    <div class="tt-col-head">
-      <h2 class="tt-col-title">Updates</h2>
-      <span class="tt-col-count" data-count-for="update">0</span>
-    </div>
-    <div class="tt-col-cards" data-cards-for="update">
-      <div class="tt-empty">Nothing posted yet today.</div>
-    </div>
-  </div>
-
-  <div class="tt-col" data-section="idea">
-    <div class="tt-col-head">
-      <h2 class="tt-col-title">Ideas</h2>
-      <span class="tt-col-count" data-count-for="idea">0</span>
-    </div>
-    <div class="tt-col-cards" data-cards-for="idea">
-      <div class="tt-empty">No ideas yet — first one wins.</div>
-    </div>
-  </div>
-
-  <div class="tt-col" data-section="todo">
-    <div class="tt-col-head">
-      <h2 class="tt-col-title">To do</h2>
-      <span class="tt-col-count" data-count-for="todo">0</span>
-    </div>
-    <div class="tt-col-cards" data-cards-for="todo">
-      <div class="tt-empty">Nothing to do on the table.</div>
-    </div>
-  </div>
+<main class="tt-canvas" id="canvas">
+  <div class="tt-empty" id="canvas-empty">Nothing on the table yet — drop the first note.</div>
 </main>
 
 <div class="tt-toast" id="toast"></div>

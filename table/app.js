@@ -7,7 +7,11 @@ const PB_URL = 'https://util.croquetwade.com';
 const pb = new PocketBase(PB_URL);
 pb.autoCancellation(false);
 
-const SECTIONS = ['question', 'update', 'idea', 'todo'];
+// Section is forced to 'update' on every post (Wade simplified 2026-05-14:
+// "too much division, just a quick notes thing"). The PB schema still
+// requires section, so we just always set it. Future folder metaphor lives
+// at the card-action level (archive), not the input-time decision level.
+const DEFAULT_SECTION = 'update';
 
 // ---------- room ----------
 function getRoomCode() {
@@ -78,10 +82,32 @@ function timeAgo(iso) {
   return `${Math.floor(diff / 86400)}d`;
 }
 
-function cardEl(rec) {
-  const el = document.createElement('article');
-  el.className = 'tt-card';
-  el.dataset.id = rec.id;
+// Stable per-card rotation: hash id -> -2.0° to +2.0°
+function hashStr(s, salt) {
+  let h = salt | 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return h;
+}
+function rotateFor(id) {
+  const v = ((hashStr(id, 1) % 1000) / 1000) * 2 - 1;   // -1 .. 1
+  return (v * 2.0).toFixed(2);                          // -2.0° .. +2.0°
+}
+
+// Initial position for a brand-new card. Drops in a "fresh notes" zone in the
+// top-left of the canvas with a small jitter so consecutive posts don't stack.
+function freshPosition() {
+  const baseX = 24 + Math.random() * 40;
+  const baseY = 24 + Math.random() * 40;
+  return { x: Math.round(baseX), y: Math.round(baseY) };
+}
+
+const CARD_REFS = new Map();  // id -> HTMLElement
+
+function bodyHash(rec) {
+  return `${rec.author}|${rec.body}|${(rec.aims || []).join(',')}|${rec.created}`;
+}
+
+function setCardBody(el, rec) {
   const aims = Array.isArray(rec.aims) ? rec.aims : [];
   el.innerHTML = `
     <div class="tt-card-meta">
@@ -95,41 +121,126 @@ function cardEl(rec) {
       </div>
       <span class="tt-replies"></span>
     </div>`;
+  el.dataset.bodyHash = bodyHash(rec);
+}
+
+function cardEl(rec) {
+  let el = CARD_REFS.get(rec.id);
+  const x = (typeof rec.x === 'number') ? rec.x : 24;
+  const y = (typeof rec.y === 'number') ? rec.y : 24;
+  if (!el) {
+    el = document.createElement('article');
+    el.className = 'tt-card';
+    el.dataset.id = rec.id;
+    el.style.setProperty('--rot', `${rotateFor(rec.id)}deg`);
+    setCardBody(el, rec);
+    attachDrag(el);
+    CARD_REFS.set(rec.id, el);
+  } else if (el.dataset.bodyHash !== bodyHash(rec)) {
+    setCardBody(el, rec);
+  }
+  // Don't overwrite position if this card is currently being dragged
+  const isDragging = DRAG && DRAG.id === rec.id;
+  if (!isDragging) {
+    el.style.left = `${x}px`;
+    el.style.top  = `${y}px`;
+    if (typeof rec.z === 'number') el.style.zIndex = Math.max(1, Math.floor(rec.z));
+  }
   return el;
 }
 
 function render() {
-  for (const section of SECTIONS) {
-    const container = document.querySelector(`[data-cards-for="${section}"]`);
-    const list = Array.from(cards.values())
-      .filter(c => c.section === section && !c.closed)
-      .sort((a, b) => b.created.localeCompare(a.created));
-    const countEl = document.querySelector(`[data-count-for="${section}"]`);
-    if (countEl) countEl.textContent = list.length;
-    container.innerHTML = '';
-    if (list.length === 0) {
-      const hints = {
-        question: 'No questions on the table.',
-        update:   'Nothing posted yet today.',
-        idea:     'No ideas yet — first one wins.',
-        todo:     'Nothing to do on the table.',
-      };
-      const hint = document.createElement('div');
-      hint.className = 'tt-empty';
-      hint.textContent = hints[section];
-      container.appendChild(hint);
-    } else {
-      for (const rec of list) container.appendChild(cardEl(rec));
+  const canvas = document.getElementById('canvas');
+  const emptyEl = document.getElementById('canvas-empty');
+  const list = Array.from(cards.values()).filter(c => !c.closed);
+  if (emptyEl) emptyEl.style.display = list.length === 0 ? '' : 'none';
+
+  // Remove cards no longer in the list
+  const liveIds = new Set(list.map(c => c.id));
+  for (const [id, el] of CARD_REFS) {
+    if (!liveIds.has(id)) {
+      el.remove();
+      CARD_REFS.delete(id);
     }
+  }
+  // Render / update each
+  for (const rec of list) {
+    const el = cardEl(rec);
+    if (!el.isConnected) canvas.appendChild(el);
   }
 }
 
-// ---------- post ----------
-function selectedSection() {
-  const chip = document.querySelector('.tt-chip[aria-pressed="true"]');
-  return chip ? chip.dataset.section : 'update';
+// ---------- drag ----------
+let DRAG = null;   // {id, el, dx, dy, lastX, lastY}
+let TOP_Z = 1;
+
+function attachDrag(el) {
+  el.addEventListener('pointerdown', e => {
+    if (e.button !== undefined && e.button !== 0) return;
+    const id = el.dataset.id;
+    const rec = cards.get(id);
+    if (!rec) return;
+    el.setPointerCapture(e.pointerId);
+    const canvasRect = document.getElementById('canvas').getBoundingClientRect();
+    const startX = (typeof rec.x === 'number') ? rec.x : el.offsetLeft;
+    const startY = (typeof rec.y === 'number') ? rec.y : el.offsetTop;
+    DRAG = {
+      id,
+      el,
+      pointerId: e.pointerId,
+      dx: e.clientX - canvasRect.left - startX,
+      dy: e.clientY - canvasRect.top - startY,
+      lastX: startX,
+      lastY: startY,
+      canvasRect,
+    };
+    TOP_Z = Math.max(TOP_Z + 1, (rec.z || 1) + 1);
+    el.style.zIndex = TOP_Z;
+    el.classList.add('dragging');
+    e.preventDefault();
+  });
+
+  el.addEventListener('pointermove', e => {
+    if (!DRAG || DRAG.pointerId !== e.pointerId) return;
+    const cr = DRAG.canvasRect;
+    let x = e.clientX - cr.left - DRAG.dx;
+    let y = e.clientY - cr.top - DRAG.dy;
+    // soft clamp inside canvas
+    x = Math.max(-20, Math.min(cr.width - 60, x));
+    y = Math.max(-10, Math.min(cr.height - 30, y));
+    DRAG.lastX = x;
+    DRAG.lastY = y;
+    DRAG.el.style.left = `${x}px`;
+    DRAG.el.style.top  = `${y}px`;
+  });
+
+  const endDrag = async e => {
+    if (!DRAG || DRAG.pointerId !== e.pointerId) return;
+    const { id, el, lastX, lastY } = DRAG;
+    el.classList.remove('dragging');
+    el.releasePointerCapture(e.pointerId);
+    DRAG = null;
+    const rec = cards.get(id);
+    if (!rec) return;
+    // Only PATCH if moved meaningfully
+    const moved = Math.abs((rec.x || 0) - lastX) > 1 || Math.abs((rec.y || 0) - lastY) > 1;
+    if (!moved) return;
+    rec.x = Math.round(lastX);
+    rec.y = Math.round(lastY);
+    rec.z = TOP_Z;
+    try {
+      await pb.collection('table_cards').update(id, {
+        x: rec.x, y: rec.y, z: rec.z,
+      });
+    } catch (err) {
+      console.warn('persist move failed', err);
+    }
+  };
+  el.addEventListener('pointerup', endDrag);
+  el.addEventListener('pointercancel', endDrag);
 }
 
+// ---------- post ----------
 async function post() {
   const ta = document.getElementById('post-body');
   const body = ta.value.trim();
@@ -137,13 +248,18 @@ async function post() {
   const btn = document.getElementById('post-btn');
   btn.disabled = true;
   try {
+    const pos = freshPosition();
+    TOP_Z = Math.max(TOP_Z + 1, 2);
     await pb.collection('table_cards').create({
       room: ROOM.id,
       author: NAME,
       body,
-      section: selectedSection(),
+      section: DEFAULT_SECTION,
       aims: [],
       closed: false,
+      x: pos.x,
+      y: pos.y,
+      z: TOP_Z,
     });
     ta.value = '';
     ta.focus();
@@ -204,14 +320,6 @@ async function init() {
     else if (e.action === 'delete') cards.delete(e.record.id);
     render();
   });
-
-  // Section picker
-  for (const chip of document.querySelectorAll('.tt-chip')) {
-    chip.addEventListener('click', () => {
-      for (const c of document.querySelectorAll('.tt-chip')) c.setAttribute('aria-pressed', 'false');
-      chip.setAttribute('aria-pressed', 'true');
-    });
-  }
 
   // Post
   document.getElementById('post-btn').addEventListener('click', post);
