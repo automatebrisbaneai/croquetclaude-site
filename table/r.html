@@ -39,6 +39,26 @@
   <div class="tt-empty" id="canvas-empty">Nothing on the table yet — drop the first note.</div>
 </main>
 
+<aside class="tt-drawer" id="drawer" hidden>
+  <button class="tt-drawer-close" id="drawer-close" aria-label="Close">×</button>
+  <div class="tt-drawer-card" id="drawer-card">
+    <div class="tt-drawer-meta">
+      <span class="tt-card-author" id="drawer-author" data-author=""></span>
+      <span id="drawer-time" class="tt-drawer-time"></span>
+    </div>
+    <div class="tt-drawer-body" id="drawer-body"></div>
+    <div class="tt-drawer-aims" id="drawer-aims"></div>
+  </div>
+  <div class="tt-drawer-replies">
+    <h3>Replies</h3>
+    <div class="tt-replies-list" id="replies-list"></div>
+    <div class="tt-reply-input">
+      <textarea id="reply-body" placeholder="Reply…" rows="2"></textarea>
+      <button class="tt-btn" id="reply-btn">Reply</button>
+    </div>
+  </div>
+</aside>
+
 <div class="tt-toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/pocketbase@0.21.5/dist/pocketbase.umd.js"></script>

@@ -174,9 +174,13 @@ function render() {
   }
 }
 
-// ---------- drag ----------
-let DRAG = null;   // {id, el, dx, dy, lastX, lastY}
+// ---------- drag + click ----------
+// Pointer-down on a card starts a tentative "press". If the pointer moves
+// more than CLICK_MOVE_THRESHOLD px, it becomes a drag. Otherwise pointer-up
+// treats it as a click and opens the detail drawer.
+let DRAG = null;
 let TOP_Z = 1;
+const CLICK_MOVE_THRESHOLD = 5;   // px
 
 function attachDrag(el) {
   el.addEventListener('pointerdown', e => {
@@ -192,24 +196,33 @@ function attachDrag(el) {
       id,
       el,
       pointerId: e.pointerId,
+      pressClientX: e.clientX,
+      pressClientY: e.clientY,
       dx: e.clientX - canvasRect.left - startX,
       dy: e.clientY - canvasRect.top - startY,
       lastX: startX,
       lastY: startY,
       canvasRect,
+      moved: false,
     };
-    TOP_Z = Math.max(TOP_Z + 1, (rec.z || 1) + 1);
-    el.style.zIndex = TOP_Z;
-    el.classList.add('dragging');
     e.preventDefault();
   });
 
   el.addEventListener('pointermove', e => {
     if (!DRAG || DRAG.pointerId !== e.pointerId) return;
+    const distSq = (e.clientX - DRAG.pressClientX) ** 2 + (e.clientY - DRAG.pressClientY) ** 2;
+    if (!DRAG.moved && distSq < CLICK_MOVE_THRESHOLD * CLICK_MOVE_THRESHOLD) return;
+    if (!DRAG.moved) {
+      // First time crossing the threshold — promote to drag
+      DRAG.moved = true;
+      const rec = cards.get(DRAG.id);
+      TOP_Z = Math.max(TOP_Z + 1, (rec?.z || 1) + 1);
+      DRAG.el.style.zIndex = TOP_Z;
+      DRAG.el.classList.add('dragging');
+    }
     const cr = DRAG.canvasRect;
     let x = e.clientX - cr.left - DRAG.dx;
     let y = e.clientY - cr.top - DRAG.dy;
-    // soft clamp inside canvas
     x = Math.max(-20, Math.min(cr.width - 60, x));
     y = Math.max(-10, Math.min(cr.height - 30, y));
     DRAG.lastX = x;
@@ -220,28 +233,132 @@ function attachDrag(el) {
 
   const endDrag = async e => {
     if (!DRAG || DRAG.pointerId !== e.pointerId) return;
-    const { id, el, lastX, lastY } = DRAG;
-    el.classList.remove('dragging');
+    const { id, el, lastX, lastY, moved } = DRAG;
     el.releasePointerCapture(e.pointerId);
     DRAG = null;
+    if (!moved) {
+      openDetail(id);
+      return;
+    }
+    el.classList.remove('dragging');
     const rec = cards.get(id);
     if (!rec) return;
-    // Only PATCH if moved meaningfully
-    const moved = Math.abs((rec.x || 0) - lastX) > 1 || Math.abs((rec.y || 0) - lastY) > 1;
-    if (!moved) return;
     rec.x = Math.round(lastX);
     rec.y = Math.round(lastY);
     rec.z = TOP_Z;
     try {
-      await pb.collection('table_cards').update(id, {
-        x: rec.x, y: rec.y, z: rec.z,
-      });
+      await pb.collection('table_cards').update(id, { x: rec.x, y: rec.y, z: rec.z });
     } catch (err) {
       console.warn('persist move failed', err);
     }
   };
   el.addEventListener('pointerup', endDrag);
   el.addEventListener('pointercancel', endDrag);
+}
+
+// ---------- detail drawer + replies ----------
+const replies = new Map();          // card_id -> Map<reply_id, record>
+let OPEN_CARD_ID = null;
+let REPLIES_UNSUB = null;
+
+async function openDetail(cardId) {
+  const rec = cards.get(cardId);
+  if (!rec) return;
+  OPEN_CARD_ID = cardId;
+  const drawer = document.getElementById('drawer');
+  drawer.hidden = false;
+  document.getElementById('drawer-author').textContent = rec.author;
+  document.getElementById('drawer-author').dataset.author = authorKey(rec.author);
+  document.getElementById('drawer-time').textContent = timeAgo(rec.created);
+  document.getElementById('drawer-body').textContent = rec.body;
+  const aimsEl = document.getElementById('drawer-aims');
+  const aims = Array.isArray(rec.aims) ? rec.aims : [];
+  aimsEl.innerHTML = aims
+    .map(a => `<span class="tt-aim-dot" data-aim="${escapeHtml(a)}" title="${escapeHtml(a)}"></span>`)
+    .join('');
+
+  // Load replies for this card
+  if (!replies.has(cardId)) replies.set(cardId, new Map());
+  const map = replies.get(cardId);
+  map.clear();
+  try {
+    const list = await pb.collection('table_replies').getFullList({
+      filter: `card = "${cardId}"`,
+      sort: 'created',
+    });
+    for (const r of list) map.set(r.id, r);
+  } catch (err) {
+    console.warn('load replies failed', err);
+  }
+  renderReplies();
+
+  // Realtime — only one card-thread open at a time
+  if (REPLIES_UNSUB) { try { REPLIES_UNSUB(); } catch {} REPLIES_UNSUB = null; }
+  REPLIES_UNSUB = await pb.collection('table_replies').subscribe('*', e => {
+    if (e.record.card !== cardId) return;
+    const m = replies.get(cardId);
+    if (e.action === 'create' || e.action === 'update') m.set(e.record.id, e.record);
+    else if (e.action === 'delete') m.delete(e.record.id);
+    renderReplies();
+  });
+
+  document.getElementById('reply-body').focus();
+}
+
+function closeDetail() {
+  const drawer = document.getElementById('drawer');
+  drawer.hidden = true;
+  OPEN_CARD_ID = null;
+  if (REPLIES_UNSUB) { try { REPLIES_UNSUB(); } catch {} REPLIES_UNSUB = null; }
+}
+
+function renderReplies() {
+  const cid = OPEN_CARD_ID;
+  if (!cid) return;
+  const map = replies.get(cid) || new Map();
+  const list = Array.from(map.values()).sort((a, b) => a.created.localeCompare(b.created));
+  const listEl = document.getElementById('replies-list');
+  // Update reply count on the card
+  const cardElForCount = CARD_REFS.get(cid);
+  if (cardElForCount) {
+    const repliesSpan = cardElForCount.querySelector('.tt-replies');
+    if (repliesSpan) repliesSpan.textContent = list.length ? `${list.length} reply${list.length === 1 ? '' : 'es'}` : '';
+  }
+  if (list.length === 0) {
+    listEl.innerHTML = '<div class="tt-empty">No replies yet.</div>';
+    return;
+  }
+  listEl.innerHTML = list.map(r => `
+    <div class="tt-reply">
+      <div class="tt-reply-meta">
+        <span class="tt-card-author" data-author="${escapeHtml(authorKey(r.author))}">${escapeHtml(r.author)}</span>
+        <span>${timeAgo(r.created)}</span>
+      </div>
+      <div class="tt-reply-body">${escapeHtml(r.body)}</div>
+    </div>`).join('');
+}
+
+async function postReply() {
+  if (!OPEN_CARD_ID) return;
+  const ta = document.getElementById('reply-body');
+  const body = ta.value.trim();
+  if (!body) return;
+  const btn = document.getElementById('reply-btn');
+  btn.disabled = true;
+  try {
+    await pb.collection('table_replies').create({
+      card: OPEN_CARD_ID,
+      author: NAME,
+      body,
+    });
+    ta.value = '';
+    ta.focus();
+  } catch (err) {
+    console.error(err);
+    toast('Could not reply — try again');
+  } finally {
+    btn.disabled = false;
+  }
 }
 
 // ---------- post ----------
@@ -332,6 +449,19 @@ async function init() {
       e.preventDefault();
       post();
     }
+  });
+
+  // Detail drawer
+  document.getElementById('drawer-close').addEventListener('click', closeDetail);
+  document.getElementById('reply-btn').addEventListener('click', postReply);
+  document.getElementById('reply-body').addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      e.preventDefault();
+      postReply();
+    }
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && OPEN_CARD_ID) closeDetail();
   });
 
   // Voice-to-text (drop-in widget from talk.croquetwade.com).

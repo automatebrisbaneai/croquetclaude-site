@@ -421,6 +421,161 @@
 .tt-landing-action .row .tt-input { flex: 1; }
 .tt-landing-action .row .tt-btn { white-space: nowrap; }
 
+/* ── Detail drawer ── */
+.tt-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 420px;
+  max-width: 90vw;
+  height: 100vh;
+  background: var(--paper-card);
+  border-left: 2px solid var(--ink);
+  box-shadow: -6px 0 0 var(--ink), -8px 0 24px rgba(26,22,18,0.18);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: drawerSlide 0.18s var(--ease-paper);
+}
+@keyframes drawerSlide {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+.tt-drawer-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.6rem;
+  width: 30px;
+  height: 30px;
+  border: 1.5px solid var(--ink);
+  background: var(--paper);
+  border-radius: 50%;
+  font: inherit;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--ink);
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--ink);
+  transition: all 0.12s var(--ease-paper);
+}
+.tt-drawer-close:hover  { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 var(--ink); }
+.tt-drawer-close:active { transform: translate(1px, 1px); box-shadow: 0 0 0 var(--ink); }
+
+.tt-drawer-card {
+  padding: 2.1rem 1.4rem 1.1rem;
+  border-bottom: 1.5px dashed rgba(26,22,18,0.18);
+}
+.tt-drawer-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.55rem;
+}
+.tt-drawer-time {
+  font-family: var(--font-hand);
+  font-size: 1rem;
+  color: var(--ink-faint);
+}
+.tt-drawer-body {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--ink);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.tt-drawer-aims {
+  margin-top: 0.85rem;
+  display: flex;
+  gap: 6px;
+}
+.tt-drawer-aims .tt-aim-dot {
+  width: 11px;
+  height: 11px;
+}
+
+.tt-drawer-replies {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0.9rem 1.4rem 0.6rem;
+  overflow: hidden;
+}
+.tt-drawer-replies h3 {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 0.6rem;
+}
+.tt-replies-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding-right: 4px;
+}
+.tt-reply {
+  font-family: var(--font-body);
+}
+.tt-reply-meta {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  margin-bottom: 0.15rem;
+  font-family: var(--font-hand);
+  font-size: 0.95rem;
+  color: var(--ink-faint);
+}
+.tt-reply-meta .tt-card-author {
+  font-size: 1rem;
+  font-weight: 700;
+}
+.tt-reply-body {
+  font-size: 0.97rem;
+  line-height: 1.45;
+  color: var(--ink);
+  white-space: pre-wrap;
+}
+.tt-replies-list .tt-empty {
+  position: static;
+  transform: none;
+  pointer-events: auto;
+  font-size: 1rem;
+}
+.tt-reply-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding-top: 0.7rem;
+  border-top: 1.5px dashed rgba(26,22,18,0.18);
+}
+.tt-reply-input textarea {
+  width: 100%;
+  border: 1.5px solid var(--ink);
+  border-radius: 2px;
+  background: rgba(255,250,232,0.7);
+  padding: 0.5rem 0.7rem;
+  font: inherit;
+  font-family: var(--font-body);
+  font-size: 0.97rem;
+  outline: none;
+  resize: vertical;
+  box-shadow: 2px 2px 0 var(--ink);
+}
+.tt-reply-input textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 3px 3px 0 var(--accent);
+}
+.tt-reply-input .tt-btn {
+  align-self: flex-end;
+}
+
 /* ── Toast ── */
 .tt-toast {
   position: fixed;
