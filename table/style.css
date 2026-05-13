@@ -456,6 +456,8 @@
   overflow: hidden;
   animation: drawerSlide 0.18s var(--ease-paper);
 }
+/* Restore [hidden] semantics — our display:flex above overrides the browser default */
+.tt-drawer[hidden] { display: none; }
 @keyframes drawerSlide {
   from { transform: translateX(100%); }
   to   { transform: translateX(0); }
