@@ -122,6 +122,24 @@
 }
 .tt-who b { color: var(--ink); font-weight: 700; }
 
+/* Build version stamp — tiny, hand-script, low contrast */
+.tt-version {
+  font-family: var(--font-hand);
+  font-size: 0.95rem;
+  color: var(--ink-faint);
+  opacity: 0.7;
+  transform: rotate(-1.5deg);
+  display: inline-block;
+}
+.tt-landing-version {
+  font-family: var(--font-hand);
+  font-size: 0.9rem;
+  color: var(--ink-faint);
+  opacity: 0.6;
+  margin-top: -1.5rem;
+  margin-bottom: 1.5rem;
+}
+
 /* ── Post box ── */
 .tt-post {
   max-width: 760px;
