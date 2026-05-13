@@ -278,13 +278,26 @@
   font-weight: 700;
   font-size: 1.1rem;
 }
+.tt-card-author[data-author="wade"]           { color: #1a1612; }   /* black ink */
+.tt-card-author[data-author="john"]           { color: #1d4ed8; }   /* blue */
+.tt-card-author[data-author="marilyn"]        { color: #15803d; }   /* green */
+.tt-card-author[data-author="croquetclaude"]  { color: #ad4f52; }   /* terracotta */
+
 .tt-card-body {
   font-family: var(--font-body);
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: 1.45;
   color: var(--ink);
   white-space: pre-wrap;
   word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.tt-card-body::after {
+  /* hint that there's more — only shown when content is clamped */
+  content: '';
 }
 .tt-card-foot {
   display: flex;

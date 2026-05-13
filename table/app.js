@@ -107,11 +107,15 @@ function bodyHash(rec) {
   return `${rec.author}|${rec.body}|${(rec.aims || []).join(',')}|${rec.created}`;
 }
 
+function authorKey(name) {
+  return (name || '').trim().toLowerCase().replace(/\s+/g, '');
+}
+
 function setCardBody(el, rec) {
   const aims = Array.isArray(rec.aims) ? rec.aims : [];
   el.innerHTML = `
     <div class="tt-card-meta">
-      <span class="tt-card-author">${escapeHtml(rec.author)}</span>
+      <span class="tt-card-author" data-author="${escapeHtml(authorKey(rec.author))}">${escapeHtml(rec.author)}</span>
       <span>${timeAgo(rec.created)}</span>
     </div>
     <div class="tt-card-body">${escapeHtml(rec.body)}</div>
