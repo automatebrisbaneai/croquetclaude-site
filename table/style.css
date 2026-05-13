@@ -220,6 +220,24 @@
 }
 .tt-btn:hover { background: var(--accent-hover); }
 .tt-btn:disabled { background: #c9c4be; cursor: not-allowed; }
+.tt-post-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+/* Voice widget — match the post-card aesthetic; widget injects its own .vtt-btn class on the button */
+#voice-btn.vtt-btn {
+  border-color: var(--border);
+  background: var(--background);
+  color: var(--muted-fg);
+}
+#voice-btn.vtt-btn:hover { border-color: rgba(115,24,44,0.3); color: var(--accent); }
+#voice-btn.vtt-btn.vtt-recording {
+  background: rgba(115, 24, 44, 0.08);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+#voice-interim:not(:empty) { margin-top: 0.35rem; }
 
 /* ── Board (4 columns) ── */
 .tt-board {

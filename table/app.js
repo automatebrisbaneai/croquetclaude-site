@@ -221,6 +221,25 @@ async function init() {
       post();
     }
   });
+
+  // Voice-to-text (drop-in widget from talk.croquetwade.com).
+  // Browser SpeechRecognition writes interim into #voice-interim; finalised
+  // chunks land in the textarea; the widget POSTs to talk.cw/clean for a
+  // post-utterance cleanup pass. Quietly no-op if the widget didn't load.
+  if (window.VoiceToText) {
+    try {
+      window.VoiceToText.init({
+        target:   'post-body',
+        button:   'voice-btn',
+        interim:  'voice-interim',
+        status:   'voice-status',
+        cleanUrl: 'https://talk.croquetwade.com/clean',
+        lang:     'en-AU',
+      });
+    } catch (err) {
+      console.warn('voice widget init failed', err);
+    }
+  }
 }
 
 init();
