@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Table — CroquetClaude</title>
+<meta name="description" content="A shared noticeboard for the CAQ board. Quick notes, questions, ideas, to-dos.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body class="thetable-root">
+
+<div class="tt-landing">
+  <h1>The Table</h1>
+  <p class="tagline">A quiet noticeboard for what's happening.</p>
+
+  <div class="tt-landing-actions">
+    <div class="tt-landing-action">
+      <h2>Join a room</h2>
+      <p>Enter the 4-character room code someone shared with you.</p>
+      <div class="row">
+        <input class="tt-input" id="join-code" placeholder="abcd" maxlength="4" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <button class="tt-btn" id="join-btn">Join</button>
+      </div>
+    </div>
+
+    <div class="tt-landing-action">
+      <h2>Create a room</h2>
+      <p>Start a new room — you'll get a 4-character code to share with the others.</p>
+      <div class="row">
+        <input class="tt-input" id="create-title" placeholder="Optional room name (e.g. CAQ Board)" maxlength="80">
+        <button class="tt-btn" id="create-btn">Create</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tt-toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/pocketbase@0.21.5/dist/pocketbase.umd.js"></script>
+<script>
+const PB_URL = 'https://util.croquetwade.com';
+const pb = new PocketBase(PB_URL);
+pb.autoCancellation(false);
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+function randomCode() {
+  const alphabet = 'abcdefghjkmnpqrstuvwxyz23456789'; // no 1/i/l/o/0 — easier to read aloud
+  let s = '';
+  for (let i = 0; i < 4; i++) s += alphabet[Math.floor(Math.random() * alphabet.length)];
+  return s;
+}
+
+document.getElementById('join-btn').addEventListener('click', async () => {
+  const code = document.getElementById('join-code').value.trim().toLowerCase();
+  if (!/^[a-z0-9]{4}$/.test(code)) {
+    toast('Code must be 4 letters or numbers');
+    return;
+  }
+  try {
+    await pb.collection('table_rooms').getFirstListItem(`code = "${code}"`);
+    location.href = `./r.html#${code}`;
+  } catch (err) {
+    toast('No room with that code');
+  }
+});
+
+document.getElementById('create-btn').addEventListener('click', async () => {
+  const title = document.getElementById('create-title').value.trim();
+  let attempts = 0;
+  while (attempts < 5) {
+    const code = randomCode();
+    try {
+      await pb.collection('table_rooms').create({ code, title });
+      location.href = `./r.html#${code}`;
+      return;
+    } catch (err) {
+      // probably a duplicate-code collision — try again
+      attempts++;
+    }
+  }
+  toast('Could not create a room, please try again');
+});
+
+document.getElementById('join-code').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('join-btn').click();
+});
+document.getElementById('create-title').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('create-btn').click();
+});
+</script>
+
+</body>
+</html>
