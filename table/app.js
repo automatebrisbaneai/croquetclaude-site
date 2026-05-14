@@ -13,6 +13,8 @@ pb.autoCancellation(false);
 // at the card-action level (archive), not the input-time decision level.
 const DEFAULT_SECTION = 'update';
 
+let VTT = null;   // VoiceToText control object — set in init() if widget loads
+
 // ---------- room ----------
 function getRoomCode() {
   const code = (location.hash || '').replace(/^#/, '').trim().toLowerCase();
@@ -362,11 +364,40 @@ async function postReply() {
 }
 
 // ---------- post ----------
+// Wait for the voice widget to finish recording and cleanup-transcription
+// before we read the textarea. Polls isRecording() + textarea-value stability.
+async function flushVoiceIfRecording(ta) {
+  if (!VTT || !VTT.isRecording || !VTT.isRecording()) return;
+  try { VTT.stop(); } catch {}
+  let lastValue = ta.value;
+  let stableTicks = 0;
+  // Up to 8 seconds, considered done after 400ms of stability + recording=false
+  for (let i = 0; i < 80 && stableTicks < 4; i++) {
+    await new Promise(r => setTimeout(r, 100));
+    const stillRec = VTT.isRecording && VTT.isRecording();
+    if (stillRec) { stableTicks = 0; lastValue = ta.value; continue; }
+    if (ta.value === lastValue) stableTicks++;
+    else { stableTicks = 0; lastValue = ta.value; }
+  }
+}
+
 async function post() {
   const ta = document.getElementById('post-body');
-  const body = ta.value.trim();
-  if (!body) return;
   const btn = document.getElementById('post-btn');
+  const originalLabel = btn.textContent;
+
+  if (VTT && VTT.isRecording && VTT.isRecording()) {
+    btn.disabled = true;
+    btn.textContent = 'Stopping…';
+    await flushVoiceIfRecording(ta);
+    btn.textContent = originalLabel;
+  }
+
+  const body = ta.value.trim();
+  if (!body) {
+    btn.disabled = false;
+    return;
+  }
   btn.disabled = true;
   try {
     const pos = freshPosition();
@@ -474,12 +505,11 @@ async function init() {
   });
 
   // Voice-to-text (drop-in widget from talk.croquetwade.com).
-  // Browser SpeechRecognition writes interim into #voice-interim; finalised
-  // chunks land in the textarea; the widget POSTs to talk.cw/clean for a
-  // post-utterance cleanup pass. Quietly no-op if the widget didn't load.
+  // Capture the control object so post() can stop+wait if user clicks Post
+  // while still recording.
   if (window.VoiceToText) {
     try {
-      window.VoiceToText.init({
+      VTT = window.VoiceToText.init({
         target:   'post-body',
         button:   'voice-btn',
         interim:  'voice-interim',
