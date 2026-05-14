@@ -15,6 +15,116 @@ const DEFAULT_SECTION = 'update';
 
 let VTT = null;   // VoiceToText control object — set in init() if widget loads
 
+// ---------- on-device aim classifier (Chrome/Edge window.ai) ----------
+// Six aims — must match .claude/rules/aims.md slugs exactly.
+const VALID_AIMS = [
+  '1-strengthen-admin',
+  '2-promote-externally',
+  '3-grow-members',
+  '4-support-clubs',
+  '5-develop-play',
+  '6-innovate',
+];
+
+const AIM_SYSTEM_PROMPT = `You classify short notes from a small Australian sporting-association board (croquet) against six strategic aims. A note may serve multiple aims.
+
+Aims:
+1-strengthen-admin     — internal operations, governance, board comms, handover, IT, emails, meetings between officials, treasurer/secretary work
+2-promote-externally   — public messaging, media, community awareness, member-newsletters going OUT, getting the sport in front of non-members
+3-grow-members         — recruitment, retention, Come & Try, club rolls, lapsed-member outreach
+4-support-clubs        — club-facing help, club resources, club committees, regional structure, grants
+5-develop-play         — coaching, refereeing, tournaments, skill development, handicapping
+6-innovate             — new tools, AI, automation, digital initiatives
+
+Reply with ONLY a JSON object: {"aims": [...]} where the array contains at most 3 aim slugs from the six above. Use [] if the note is generic, ambiguous, or trivial. No prose, no explanation, just the JSON.`;
+
+// Returns the LanguageModel constructor if any of the known shapes exist.
+function getLanguageModelAPI() {
+  if (typeof LanguageModel !== 'undefined') return LanguageModel;
+  if (typeof window !== 'undefined') {
+    if (window.LanguageModel) return window.LanguageModel;
+    if (window.ai && window.ai.languageModel) return window.ai.languageModel;
+  }
+  return null;
+}
+
+let _modelSession = null;
+let _modelReady = null; // promise
+
+async function getModelSession() {
+  if (_modelSession) return _modelSession;
+  if (_modelReady) return _modelReady;
+  const LM = getLanguageModelAPI();
+  if (!LM) return null;
+  _modelReady = (async () => {
+    try {
+      let availability = 'available';
+      if (LM.availability) {
+        availability = await LM.availability();
+      } else if (LM.capabilities) {
+        const cap = await LM.capabilities();
+        availability = cap?.available || 'no';
+      }
+      if (availability === 'no' || availability === 'unavailable') {
+        return null;
+      }
+      const sess = await LM.create({
+        initialPrompts: [{ role: 'system', content: AIM_SYSTEM_PROMPT }],
+        temperature: 0.2,
+        topK: 3,
+      });
+      _modelSession = sess;
+      return sess;
+    } catch (err) {
+      console.warn('on-device model init failed', err);
+      return null;
+    }
+  })();
+  return _modelReady;
+}
+
+async function classifyOnDevice(body) {
+  if (!body || !body.trim()) return null;
+  const sess = await getModelSession();
+  if (!sess) return null;
+  try {
+    const out = await sess.prompt(body.trim());
+    // Extract first JSON object in the output (defensive against model preamble)
+    const m = out.match(/\{[\s\S]*?\}/);
+    if (!m) return [];
+    const parsed = JSON.parse(m[0]);
+    const aims = Array.isArray(parsed.aims) ? parsed.aims : [];
+    return aims.filter(a => VALID_AIMS.includes(a)).slice(0, 3);
+  } catch (err) {
+    console.warn('on-device classify failed', err);
+    return null;
+  }
+}
+
+// Sweep unclassified cards in this room and try to classify any with empty aims.
+// Quiet failures — if browser AI not available, just skip.
+async function sweepUnclassified() {
+  const LM = getLanguageModelAPI();
+  if (!LM) return;   // Safari/Firefox/old Chrome — silent no-op
+  const todo = Array.from(cards.values()).filter(c => {
+    if (c.closed) return false;
+    const a = c.aims;
+    if (!a) return true;
+    if (Array.isArray(a) && a.length === 0) return true;
+    return false;
+  });
+  for (const c of todo) {
+    const aims = await classifyOnDevice(c.body);
+    if (aims === null) continue;             // model unavailable
+    if (aims.length === 0) continue;          // model abstained — leave for next browser
+    try {
+      await pb.collection('table_cards').update(c.id, { aims });
+    } catch (err) {
+      console.warn('sweep PATCH failed for', c.id, err);
+    }
+  }
+}
+
 // ---------- room ----------
 function getRoomCode() {
   const code = (location.hash || '').replace(/^#/, '').trim().toLowerCase();
@@ -398,12 +508,20 @@ async function post() {
   try {
     const pos = freshPosition();
     TOP_Z = Math.max(TOP_Z + 1, 2);
+    // Try to classify on-device before saving so the chip lands with the card.
+    // null = model unavailable; [] = model abstained; both fall through to empty
+    // which gives the next visiting Chrome browser (or CroquetClaude) a chance.
+    let initialAims = [];
+    try {
+      const onDevice = await classifyOnDevice(body);
+      if (Array.isArray(onDevice)) initialAims = onDevice;
+    } catch {}
     await pb.collection('table_cards').create({
       room: ROOM.id,
       author: NAME,
       body,
       section: DEFAULT_SECTION,
-      aims: [],
+      aims: initialAims,
       closed: false,
       x: pos.x,
       y: pos.y,
@@ -461,12 +579,25 @@ async function init() {
   for (const rec of list) cards.set(rec.id, rec);
   render();
 
-  // Realtime subscribe
+  // On entry, the model classifies. Sweep any unclassified cards in the room.
+  // Silent no-op if browser doesn't have window.ai (Safari, Firefox, old Chrome).
+  // Backgrounded — don't block the UI.
+  sweepUnclassified();
+
+  // Realtime subscribe — when a new card arrives from another client and it
+  // has no aims, attempt to classify it on this browser. Chrome users act as
+  // a distributed pool of classifiers; whoever sees it first tags it.
   pb.collection('table_cards').subscribe('*', e => {
     if (e.record.room !== ROOM.id) return;
     if (e.action === 'create' || e.action === 'update') cards.set(e.record.id, e.record);
     else if (e.action === 'delete') cards.delete(e.record.id);
     render();
+    if (e.action === 'create' && (!e.record.aims || e.record.aims.length === 0)) {
+      classifyOnDevice(e.record.body).then(aims => {
+        if (!aims || aims.length === 0) return;
+        pb.collection('table_cards').update(e.record.id, { aims }).catch(() => {});
+      });
+    }
   });
 
   // Post
