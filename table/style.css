@@ -453,7 +453,7 @@
   z-index: 50;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: auto;
   animation: drawerSlide 0.18s var(--ease-paper);
 }
 /* Restore [hidden] semantics — our display:flex above overrides the browser default */
@@ -517,11 +517,8 @@
 }
 
 .tt-drawer-replies {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 0.9rem 1.4rem 0.6rem;
-  overflow: hidden;
+  display: block;
+  padding: 0.9rem 1.4rem 1rem;
 }
 .tt-drawer-replies h3 {
   font-family: var(--font-display);
@@ -533,12 +530,9 @@
   margin-bottom: 0.6rem;
 }
 .tt-replies-list {
-  flex: 1;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
-  padding-right: 4px;
 }
 .tt-reply {
   font-family: var(--font-body);
@@ -571,9 +565,8 @@
 .tt-reply-input {
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
-  padding-top: 0.7rem;
-  border-top: 1.5px dashed rgba(26,22,18,0.18);
+  gap: 0.5rem;
+  margin-top: 0.7rem;
 }
 .tt-reply-input textarea {
   width: 100%;

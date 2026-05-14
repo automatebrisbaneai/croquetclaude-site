@@ -464,6 +464,15 @@ async function init() {
     if (e.key === 'Escape' && OPEN_CARD_ID) closeDetail();
   });
 
+  // Click outside the drawer (and not on a card) closes it
+  document.addEventListener('click', e => {
+    if (!OPEN_CARD_ID) return;
+    const drawer = document.getElementById('drawer');
+    if (drawer.contains(e.target)) return;        // inside drawer
+    if (e.target.closest('.tt-card')) return;     // on a card -> switches detail
+    closeDetail();
+  });
+
   // Voice-to-text (drop-in widget from talk.croquetwade.com).
   // Browser SpeechRecognition writes interim into #voice-interim; finalised
   // chunks land in the textarea; the widget POSTs to talk.cw/clean for a
