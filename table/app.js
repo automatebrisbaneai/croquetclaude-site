@@ -364,21 +364,17 @@ async function postReply() {
 }
 
 // ---------- post ----------
-// Wait for the voice widget to finish recording and cleanup-transcription
-// before we read the textarea. Polls isRecording() + textarea-value stability.
-async function flushVoiceIfRecording(ta) {
+// Wait for the voice widget to finish recording + cleanup-transcription
+// before we read the textarea. VTT.stop() returns a promise that resolves
+// when finaliseToTextarea fires (i.e. all /clean POSTs have landed and the
+// textarea is the canonical source of truth). Falls back to a 10s ceiling
+// in case the widget's promise never resolves.
+async function flushVoiceIfRecording() {
   if (!VTT || !VTT.isRecording || !VTT.isRecording()) return;
-  try { VTT.stop(); } catch {}
-  let lastValue = ta.value;
-  let stableTicks = 0;
-  // Up to 8 seconds, considered done after 400ms of stability + recording=false
-  for (let i = 0; i < 80 && stableTicks < 4; i++) {
-    await new Promise(r => setTimeout(r, 100));
-    const stillRec = VTT.isRecording && VTT.isRecording();
-    if (stillRec) { stableTicks = 0; lastValue = ta.value; continue; }
-    if (ta.value === lastValue) stableTicks++;
-    else { stableTicks = 0; lastValue = ta.value; }
-  }
+  const ceiling = new Promise(r => setTimeout(r, 10000));
+  let stopPromise;
+  try { stopPromise = VTT.stop(); } catch { return; }
+  await Promise.race([stopPromise, ceiling]);
 }
 
 async function post() {
@@ -389,7 +385,7 @@ async function post() {
   if (VTT && VTT.isRecording && VTT.isRecording()) {
     btn.disabled = true;
     btn.textContent = 'Stopping…';
-    await flushVoiceIfRecording(ta);
+    await flushVoiceIfRecording();
     btn.textContent = originalLabel;
   }
 
