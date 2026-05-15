@@ -338,6 +338,37 @@
   transition: none;
 }
 
+/* ── @mention attention signal (per-viewer) ──
+   When a card mentions the current viewer, it breathes slowly until they
+   open it (clicking the card marks it seen via localStorage). After the
+   pulse stops, a thin accent stripe on the left edge persists for 24h so
+   they can still scan the canvas for "what I was tagged on this week".
+   Visibility is computed client-side from each viewer's identity — Wade's
+   mentions don't pulse for Marilyn.
+   The pulse composes with the per-card rotation so cards still sit at
+   their tilted angle while breathing. */
+@keyframes ttMentionPulse {
+  0%, 100% { transform: rotate(var(--rot, 0deg)) scale(1);    }
+  50%      { transform: rotate(var(--rot, 0deg)) scale(1.025); }
+}
+.tt-card.tt-mentioned-unseen {
+  animation: ttMentionPulse 4s var(--ease-paper) infinite;
+}
+.tt-card.tt-mentioned-unseen::before,
+.tt-card.tt-mentioned-recent::before {
+  content: '';
+  position: absolute;
+  left: -1.5px;
+  top: -1.5px;
+  bottom: -1.5px;
+  width: 5px;
+  background: var(--accent);
+  border-radius: 2px 0 0 2px;
+  pointer-events: none;
+}
+/* Drag wins — never fight the user's pointer with a pulse */
+.tt-card.dragging.tt-mentioned-unseen { animation: none; }
+
 /* Per-author card tints — match the pen colour for each author.
    Wade=black has no tint; his cards keep the default --paper-card cream
    so the baseline-card look stays as "Wade's table". */
@@ -954,6 +985,9 @@
   }
   .tt-card.dragging { transform: none !important; }
   .tt-card-body { -webkit-line-clamp: unset; }
+  /* Mobile is a static list — pulsing a non-rotated rectangle looks naff.
+     Keep the edge stripe so the mention is still findable on scroll. */
+  .tt-card.tt-mentioned-unseen { animation: none; }
   .tt-canvas .tt-empty {
     position: static;
     transform: none;

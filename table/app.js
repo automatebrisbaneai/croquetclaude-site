@@ -226,6 +226,55 @@ function authorKey(name) {
   return (name || '').trim().toLowerCase().replace(/\s+/g, '');
 }
 
+// ---------- @mentions ----------
+// Extract @-mentions from card text. Returns an array of canonical author
+// keys (the same shape authorKey() produces). Case-insensitive; only
+// matches against known users so a stray "email@wade.com" or "@somebody"
+// stays inert. `cc` is treated as an alias for `croquetclaude` since the
+// short form is what the team actually types.
+const KNOWN_MENTION_USERS = ['wade', 'marilyn', 'john', 'croquetclaude'];
+const MENTION_ALIASES = { cc: 'croquetclaude', claude: 'croquetclaude' };
+function extractMentions(text) {
+  if (!text) return [];
+  const found = new Set();
+  const re = /(?:^|[\s.,;:!?(\[])@([A-Za-z]+)/g;
+  let m;
+  while ((m = re.exec(text)) !== null) {
+    let key = m[1].toLowerCase();
+    if (MENTION_ALIASES[key]) key = MENTION_ALIASES[key];
+    if (KNOWN_MENTION_USERS.includes(key)) found.add(key);
+  }
+  return Array.from(found);
+}
+
+// localStorage seen-tracker, keyed per room AND per viewer so each user
+// sees their own pulse state. Values are timestamps so we can show a
+// "recently seen" 24h edge after the pulse stops.
+const SEEN_RECENT_MS = 24 * 60 * 60 * 1000;
+function seenKey() { return `thetable-seen-mentions-${ROOM_CODE}-${authorKey(NAME)}`; }
+function loadSeen() {
+  try {
+    const raw = localStorage.getItem(seenKey());
+    return raw ? JSON.parse(raw) : {};
+  } catch { return {}; }
+}
+function markCardSeen(cardId) {
+  const seen = loadSeen();
+  seen[cardId] = Date.now();
+  try { localStorage.setItem(seenKey(), JSON.stringify(seen)); } catch {}
+}
+function mentionStateForViewer(rec) {
+  // Returns 'unseen' | 'recent' | null
+  const me = authorKey(NAME);
+  if (!me) return null;
+  const mentions = extractMentions(rec.body);
+  if (!mentions.includes(me)) return null;
+  const ts = loadSeen()[rec.id];
+  if (!ts) return 'unseen';
+  if ((Date.now() - ts) < SEEN_RECENT_MS) return 'recent';
+  return null;
+}
+
 // Split a card body into a heading + body. Three rules, in priority order:
 //   1. Explicit newline — user-authored structure wins ("title\ndetail").
 //   2. First sentence boundary — `.!?` followed by whitespace + a next word,
@@ -327,6 +376,11 @@ function cardEl(rec) {
     setCardBody(el, rec);
   }
   el.dataset.color = color;
+  // Per-viewer attention state: if the card mentions the current viewer,
+  // either pulse (unseen) or carry a quiet left-edge stripe (seen <24h).
+  const mState = mentionStateForViewer(rec);
+  el.classList.toggle('tt-mentioned-unseen', mState === 'unseen');
+  el.classList.toggle('tt-mentioned-recent', mState === 'recent');
   // Don't overwrite position if this card is currently being dragged
   const isDragging = DRAG && DRAG.id === rec.id;
   if (!isDragging) {
@@ -478,6 +532,19 @@ async function openDetail(cardId) {
   if (!rec) return;
   const myGen = ++DETAIL_GEN;
   OPEN_CARD_ID = cardId;
+
+  // Mention seen-flag: opening the drawer counts as acknowledgement. Drop
+  // the pulse immediately so the user gets visual feedback that the @ has
+  // been read; the recent-edge takes over for 24h.
+  if (extractMentions(rec.body).includes(authorKey(NAME))) {
+    markCardSeen(cardId);
+    const el = CARD_REFS.get(cardId);
+    if (el) {
+      el.classList.remove('tt-mentioned-unseen');
+      el.classList.add('tt-mentioned-recent');
+    }
+  }
+
   const drawer = document.getElementById('drawer');
   drawer.hidden = false;
   document.getElementById('drawer-author').textContent = rec.author;
