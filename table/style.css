@@ -404,6 +404,7 @@
 .tt-card-author[data-author="john"]           { color: #1d4ed8; }   /* blue */
 .tt-card-author[data-author="marilyn"]        { color: #15803d; }   /* green */
 .tt-card-author[data-author="croquetclaude"]  { color: #ad4f52; }   /* terracotta */
+.tt-card-author[data-author="claude"]         { color: #ad4f52; }   /* terracotta — same identity, short form */
 .tt-card-time {
   font-family: var(--font-hand);
   font-size: 0.88rem;

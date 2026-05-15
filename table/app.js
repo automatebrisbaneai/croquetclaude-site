@@ -305,8 +305,11 @@ function cardEl(rec) {
   const y = (typeof rec.y === 'number') ? rec.y : 24;
   // Card background tint matches the author's pen colour. Wade=black uses
   // the default paper (no extra class) so his cards stay the baseline cream.
+  // Both "Claude" and "CroquetClaude" are the same identity — old cards used
+  // the short form, current ones the long.
   const AUTHOR_TINTS = {
     croquetclaude: 'terracotta',
+    claude: 'terracotta',
     john: 'blue',
     marilyn: 'green',
   };
