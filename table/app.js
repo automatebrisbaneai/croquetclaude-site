@@ -347,18 +347,41 @@ function attachDrag(el) {
     DRAG.lastY = y;
     DRAG.el.style.left = `${x}px`;
     DRAG.el.style.top  = `${y}px`;
+
+    // Pile drop-zone hit test. The pile button stays in the DOM with
+    // visibility:hidden when count=0 so its bounding rect is still computable
+    // here — allowing the first card to be drag-piled.
+    const pileBtn = document.getElementById('pile-btn');
+    if (pileBtn) {
+      const pr = pileBtn.getBoundingClientRect();
+      const overPile = e.clientX >= pr.left && e.clientX <= pr.right
+                    && e.clientY >= pr.top  && e.clientY <= pr.bottom
+                    && pr.width > 0 && pr.height > 0;
+      if (overPile !== !!DRAG.overPile) {
+        DRAG.overPile = overPile;
+        pileBtn.classList.toggle('tt-pile-btn--armed', overPile);
+      }
+    }
   });
 
   const endDrag = async e => {
     if (!DRAG || DRAG.pointerId !== e.pointerId) return;
-    const { id, el, lastX, lastY, moved } = DRAG;
+    const { id, el, lastX, lastY, moved, overPile } = DRAG;
     el.releasePointerCapture(e.pointerId);
     DRAG = null;
+    // Always clear the pile-armed cue, whether we used it or not
+    const pileBtn = document.getElementById('pile-btn');
+    if (pileBtn) pileBtn.classList.remove('tt-pile-btn--armed');
     if (!moved) {
       openDetail(id);
       return;
     }
     el.classList.remove('dragging');
+    // Dropped on the pile -> mark done instead of persisting position
+    if (overPile) {
+      markDone(id);
+      return;
+    }
     const rec = cards.get(id);
     if (!rec) return;
     rec.x = Math.round(lastX);
@@ -378,10 +401,16 @@ function attachDrag(el) {
 const replies = new Map();          // card_id -> Map<reply_id, record>
 let OPEN_CARD_ID = null;
 let REPLIES_UNSUB = null;
+// Generation counter — bumped on every openDetail and closeDetail so stale
+// async completions (replies fetch, subscribe) can detect they no longer
+// own the drawer. Without this, opening A then B mid-await wires A's
+// subscription/Done-button to B's drawer.
+let DETAIL_GEN = 0;
 
 async function openDetail(cardId) {
   const rec = cards.get(cardId);
   if (!rec) return;
+  const myGen = ++DETAIL_GEN;
   OPEN_CARD_ID = cardId;
   const drawer = document.getElementById('drawer');
   drawer.hidden = false;
@@ -395,6 +424,15 @@ async function openDetail(cardId) {
     .map(a => `<span class="tt-aim-dot" data-aim="${escapeHtml(a)}" title="${escapeHtml(a)}"></span>`)
     .join('');
 
+  // Wire done button up-front (synchronous, before any await) so a fast
+  // user-click can't race the network. cardId is captured in closure.
+  const doneBtn = document.getElementById('done-btn');
+  if (doneBtn) {
+    const newBtn = doneBtn.cloneNode(true);
+    doneBtn.parentNode.replaceChild(newBtn, doneBtn);
+    newBtn.addEventListener('click', () => markDone(cardId));
+  }
+
   // Load replies for this card
   if (!replies.has(cardId)) replies.set(cardId, new Map());
   const map = replies.get(cardId);
@@ -404,34 +442,38 @@ async function openDetail(cardId) {
       filter: `card = "${cardId}"`,
       sort: 'created',
     });
+    if (myGen !== DETAIL_GEN) return;  // user opened another card mid-fetch
     for (const r of list) map.set(r.id, r);
   } catch (err) {
+    if (myGen !== DETAIL_GEN) return;
     console.warn('load replies failed', err);
   }
   renderReplies();
 
   // Realtime — only one card-thread open at a time
   if (REPLIES_UNSUB) { try { REPLIES_UNSUB(); } catch {} REPLIES_UNSUB = null; }
-  REPLIES_UNSUB = await pb.collection('table_replies').subscribe('*', e => {
+  const unsub = await pb.collection('table_replies').subscribe('*', e => {
     if (e.record.card !== cardId) return;
     const m = replies.get(cardId);
     if (e.action === 'create' || e.action === 'update') m.set(e.record.id, e.record);
     else if (e.action === 'delete') m.delete(e.record.id);
     renderReplies();
   });
-
-  // Wire done button for this card
-  const doneBtn = document.getElementById('done-btn');
-  if (doneBtn) {
-    const newBtn = doneBtn.cloneNode(true);
-    doneBtn.parentNode.replaceChild(newBtn, doneBtn);
-    newBtn.addEventListener('click', () => markDone(cardId));
+  if (myGen !== DETAIL_GEN) {
+    // Another card was opened (or drawer closed) while we awaited subscribe.
+    // Tear down this subscription immediately — never expose it to others.
+    try { unsub(); } catch {}
+    return;
   }
+  REPLIES_UNSUB = unsub;
 
   document.getElementById('reply-body').focus();
 }
 
 function closeDetail() {
+  // Bumping the generation invalidates any in-flight openDetail awaits — they
+  // will see myGen !== DETAIL_GEN and bail out before touching shared state.
+  DETAIL_GEN++;
   const drawer = document.getElementById('drawer');
   drawer.hidden = true;
   OPEN_CARD_ID = null;
@@ -442,8 +484,15 @@ function closeDetail() {
 function updatePileUI() {
   const countEl = document.getElementById('pile-count');
   const btn = document.getElementById('pile-btn');
-  if (countEl) countEl.textContent = PILE_COUNT;
-  if (btn) btn.style.display = PILE_COUNT > 0 ? '' : 'none';
+  if (countEl) countEl.textContent = PILE_COUNT > 0 ? PILE_COUNT : '';
+  if (btn) {
+    // Always visible — serves as both indicator AND drop target for
+    // drag-to-pile. The count text is hidden when 0 (cleaner glance) but
+    // the button remains so the first card can be dragged onto it.
+    btn.style.display = '';
+    btn.classList.toggle('tt-pile-btn--empty', PILE_COUNT === 0);
+    btn.style.pointerEvents = PILE_COUNT > 0 ? '' : 'none';
+  }
 }
 
 async function fetchPileCount() {
@@ -727,6 +776,14 @@ async function init() {
   // a distributed pool of classifiers; whoever sees it first tags it.
   pb.collection('table_cards').subscribe('*', e => {
     if (e.record.room !== ROOM.id) return;
+    // If the card I'm currently looking at has been moved to done or deleted
+    // by another seat, close the drawer so I don't post replies into the void.
+    // closeDetail() is idempotent — if we already closed it locally via
+    // markDone, the second close is a no-op.
+    if (OPEN_CARD_ID === e.record.id && (e.action === 'delete' || e.record.closed)) {
+      closeDetail();
+      toast(e.action === 'delete' ? 'Card deleted by another seat' : 'Card moved to done pile');
+    }
     if (e.action === 'delete') {
       cards.delete(e.record.id);
       pileClosed.delete(e.record.id);

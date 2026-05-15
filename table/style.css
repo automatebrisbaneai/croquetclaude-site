@@ -693,11 +693,22 @@
 }
 .tt-pile-btn:hover  { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink); }
 .tt-pile-btn:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--ink); }
+.tt-pile-btn--empty { opacity: 0.45; }
+.tt-pile-btn--armed {
+  /* Card-being-dragged is over this button. Visual cue: invert + lift. */
+  background: var(--accent);
+  color: var(--paper-card);
+  border-color: var(--ink);
+  box-shadow: 5px 5px 0 var(--ink);
+  transform: translate(-2px, -2px);
+  opacity: 1;
+}
 .tt-pile-n {
   font-weight: 700;
   color: var(--ink);
   font-family: var(--font-display);
 }
+.tt-pile-n:empty { display: none; }
 
 /* ── Done pile drawer (slides in from left) ── */
 .tt-pile-drawer {
