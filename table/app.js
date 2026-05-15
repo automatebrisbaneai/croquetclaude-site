@@ -226,17 +226,52 @@ function authorKey(name) {
   return (name || '').trim().toLowerCase().replace(/\s+/g, '');
 }
 
-// Split a card body into a heading (first line) and the rest.
-// Users hit Enter to mark a title; single-line notes return heading only.
+// Split a card body into a heading + body. Three rules, in priority order:
+//   1. Explicit newline — user-authored structure wins ("title\ndetail").
+//   2. First sentence boundary — `.!?` followed by whitespace + a next word,
+//      with the heading clamped to 12-140 chars. Catches voice-to-text
+//      output, which arrives as a single flowing paragraph with no newlines.
+//   3. Word-boundary cut at ~100 chars — for run-on text without
+//      sentence terminators. If the whole text is short (≤100), it's all
+//      heading and there's no body.
+const HEADING_MAX = 140;
+const HEADING_MIN = 12;
+const HEADING_LENGTH_CAP = 100;  // when no terminator, cap heading near this
 function splitHeadingBody(body) {
   const text = (body || '').trim();
   if (!text) return { heading: '', body: '' };
+
+  // Rule 1: explicit newline
   const nl = text.indexOf('\n');
-  if (nl === -1) return { heading: text, body: '' };
-  return {
-    heading: text.slice(0, nl).trim(),
-    body: text.slice(nl + 1).trim(),
-  };
+  if (nl !== -1) {
+    return { heading: text.slice(0, nl).trim(), body: text.slice(nl + 1).trim() };
+  }
+
+  // Rule 2: first sentence boundary within heading length band.
+  // Regex literal (not template-built) avoids backslash-escaping pitfalls.
+  // The band 12..140 matches the constants above; update both together.
+  const sentRe = /^(.{12,140}?[.!?])\s+(\S)/;
+  const m = text.match(sentRe);
+  if (m) {
+    const cut = m[1].length;
+    return { heading: text.slice(0, cut).trim(), body: text.slice(cut).trim() };
+  }
+
+  // Rule 3: short text fits as heading-only
+  if (text.length <= HEADING_LENGTH_CAP) return { heading: text, body: '' };
+
+  // Rule 4: long text without punctuation — cut at last word boundary
+  // before the cap, keeping the heading reasonable.
+  const window = text.slice(0, HEADING_LENGTH_CAP);
+  const lastSpace = window.lastIndexOf(' ');
+  if (lastSpace > 30) {
+    return {
+      heading: text.slice(0, lastSpace).trim(),
+      body: text.slice(lastSpace).trim(),
+    };
+  }
+  // No word boundary in the first 100 chars — hard cut.
+  return { heading: window.trim(), body: text.slice(HEADING_LENGTH_CAP).trim() };
 }
 
 function setCardBody(el, rec) {
