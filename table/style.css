@@ -338,14 +338,32 @@
   transition: none;
 }
 
-/* CroquetClaude cards — warm terracotta tint */
-.tt-card[data-color="terracotta"] {
+/* Per-author card tints — match the pen colour for each author.
+   Wade=black has no tint; his cards keep the default --paper-card cream
+   so the baseline-card look stays as "Wade's table". */
+.tt-card[data-color="terracotta"] {  /* CroquetClaude */
   background: #f5e4dd;
   border-color: #7a3535;
   box-shadow: 3px 3px 0 #7a3535;
 }
 .tt-card[data-color="terracotta"].dragging {
   box-shadow: 6px 6px 0 #7a3535;
+}
+.tt-card[data-color="blue"] {  /* John */
+  background: #e3edf9;
+  border-color: #1d4ed8;
+  box-shadow: 3px 3px 0 #1d4ed8;
+}
+.tt-card[data-color="blue"].dragging {
+  box-shadow: 6px 6px 0 #1d4ed8;
+}
+.tt-card[data-color="green"] {  /* Marilyn */
+  background: #e3eedc;
+  border-color: #15803d;
+  box-shadow: 3px 3px 0 #15803d;
+}
+.tt-card[data-color="green"].dragging {
+  box-shadow: 6px 6px 0 #15803d;
 }
 /* Card content layout: heading (title-line) up top, body (secondary
    sentences) smaller and lighter, meta+aims+replies all at the bottom. */

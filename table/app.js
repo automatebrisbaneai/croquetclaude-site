@@ -303,7 +303,14 @@ function cardEl(rec) {
   let el = CARD_REFS.get(rec.id);
   const x = (typeof rec.x === 'number') ? rec.x : 24;
   const y = (typeof rec.y === 'number') ? rec.y : 24;
-  const color = authorKey(rec.author) === 'croquetclaude' ? 'terracotta' : '';
+  // Card background tint matches the author's pen colour. Wade=black uses
+  // the default paper (no extra class) so his cards stay the baseline cream.
+  const AUTHOR_TINTS = {
+    croquetclaude: 'terracotta',
+    john: 'blue',
+    marilyn: 'green',
+  };
+  const color = AUTHOR_TINTS[authorKey(rec.author)] || '';
   if (!el) {
     el = document.createElement('article');
     el.className = 'tt-card';
@@ -718,13 +725,25 @@ async function postReply() {
   const body = ta.value.trim();
   if (!body) return;
   const btn = document.getElementById('reply-btn');
+  const cardId = OPEN_CARD_ID;  // snapshot — don't trust a global mid-await
   btn.disabled = true;
   try {
-    await pb.collection('table_replies').create({
-      card: OPEN_CARD_ID,
+    const rec = await pb.collection('table_replies').create({
+      card: cardId,
       author: NAME,
       body,
     });
+    // Reflect the reply locally immediately. Don't rely solely on the
+    // realtime echo (which can flake — Wade observed reply-not-appearing
+    // 2026-05-15 even though the row was saved). Map updates are idempotent
+    // with the realtime handler — if the echo also arrives, it just sets
+    // the same key.
+    if (cardId === OPEN_CARD_ID) {
+      let m = replies.get(cardId);
+      if (!m) { m = new Map(); replies.set(cardId, m); }
+      m.set(rec.id, rec);
+      renderReplies();
+    }
     ta.value = '';
     ta.focus();
   } catch (err) {
