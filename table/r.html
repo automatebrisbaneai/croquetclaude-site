@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./style.css?v=20260514-0321">
+<link rel="stylesheet" href="./style.css?v=20260515-1012">
 </head>
 <body class="thetable-root">
 
@@ -19,11 +19,18 @@
   </div>
   <span class="tt-room-pill"><span class="lbl">room</span><span id="room-code">—</span></span>
   <span class="tt-who">You are <b id="who-name">—</b></span>
-  <span class="tt-version">v 20260514-0321</span>
+  <span class="tt-version">v 20260515-1012</span>
 </header>
 
-<section class="tt-post">
-  <div class="tt-post-card">
+<section class="tt-post" id="tt-post">
+  <button class="tt-post-pill" id="post-pill" type="button" aria-label="Add a note">
+    <svg class="tt-pill-mic" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"/>
+    </svg>
+    <span class="tt-pill-label">Post a note</span>
+  </button>
+
+  <div class="tt-post-card" id="post-composer">
     <textarea class="tt-textarea" id="post-body" placeholder="What's happening?" rows="2"></textarea>
     <div id="voice-interim"></div>
     <div class="tt-post-actions">
@@ -49,6 +56,9 @@
     </div>
     <div class="tt-drawer-body" id="drawer-body"></div>
     <div class="tt-drawer-aims" id="drawer-aims"></div>
+    <div class="tt-drawer-actions">
+      <button class="tt-btn tt-btn-done" id="done-btn" type="button">Mark done</button>
+    </div>
   </div>
   <div class="tt-drawer-replies">
     <h3>Replies</h3>
@@ -60,11 +70,27 @@
   </div>
 </aside>
 
+<!-- Done pile indicator — fixed bottom-right, hidden until there are done cards -->
+<button class="tt-pile-btn" id="pile-btn" type="button" style="display:none" aria-label="Done pile">
+  Done pile &nbsp;<span class="tt-pile-n" id="pile-count">0</span>
+</button>
+
+<!-- Done pile drawer — slides in from left -->
+<aside class="tt-pile-drawer" id="pile-drawer" hidden>
+  <div class="tt-pile-header">
+    <h2>Done pile</h2>
+    <button class="tt-drawer-close" id="pile-close" aria-label="Close pile">&#215;</button>
+  </div>
+  <div class="tt-pile-list" id="pile-list">
+    <div class="tt-empty">Loading&#8230;</div>
+  </div>
+</aside>
+
 <div class="tt-toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/pocketbase@0.21.5/dist/pocketbase.umd.js"></script>
 <script src="https://talk.croquetwade.com/shared/voice-to-text.js"></script>
-<script src="./app.js?v=20260514-0321"></script>
+<script src="./app.js?v=20260515-1012"></script>
 
 </body>
 </html>

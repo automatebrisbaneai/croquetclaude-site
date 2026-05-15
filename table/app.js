@@ -137,7 +137,10 @@ function getRoomCode() {
 const ROOM_CODE = getRoomCode();
 let ROOM = null;        // {id, code, title, cc_mute}
 let NAME = null;        // user-chosen name for this room
-const cards = new Map();   // id -> record
+const cards = new Map();   // id -> record (open only)
+let PILE_COUNT = 0;
+const pileClosed = new Map();  // id -> record, loaded on demand
+let PILE_OPEN = false;
 
 // ---------- identity ----------
 function nameKey() { return `thetable-name-${ROOM_CODE}`; }
@@ -244,10 +247,12 @@ function cardEl(rec) {
   let el = CARD_REFS.get(rec.id);
   const x = (typeof rec.x === 'number') ? rec.x : 24;
   const y = (typeof rec.y === 'number') ? rec.y : 24;
+  const color = authorKey(rec.author) === 'croquetclaude' ? 'terracotta' : '';
   if (!el) {
     el = document.createElement('article');
     el.className = 'tt-card';
     el.dataset.id = rec.id;
+    el.dataset.color = color;
     el.style.setProperty('--rot', `${rotateFor(rec.id)}deg`);
     setCardBody(el, rec);
     attachDrag(el);
@@ -255,6 +260,7 @@ function cardEl(rec) {
   } else if (el.dataset.bodyHash !== bodyHash(rec)) {
     setCardBody(el, rec);
   }
+  el.dataset.color = color;
   // Don't overwrite position if this card is currently being dragged
   const isDragging = DRAG && DRAG.id === rec.id;
   if (!isDragging) {
@@ -414,6 +420,14 @@ async function openDetail(cardId) {
     renderReplies();
   });
 
+  // Wire done button for this card
+  const doneBtn = document.getElementById('done-btn');
+  if (doneBtn) {
+    const newBtn = doneBtn.cloneNode(true);
+    doneBtn.parentNode.replaceChild(newBtn, doneBtn);
+    newBtn.addEventListener('click', () => markDone(cardId));
+  }
+
   document.getElementById('reply-body').focus();
 }
 
@@ -422,6 +436,110 @@ function closeDetail() {
   drawer.hidden = true;
   OPEN_CARD_ID = null;
   if (REPLIES_UNSUB) { try { REPLIES_UNSUB(); } catch {} REPLIES_UNSUB = null; }
+}
+
+// ---------- done / pile ----------
+function updatePileUI() {
+  const countEl = document.getElementById('pile-count');
+  const btn = document.getElementById('pile-btn');
+  if (countEl) countEl.textContent = PILE_COUNT;
+  if (btn) btn.style.display = PILE_COUNT > 0 ? '' : 'none';
+}
+
+async function fetchPileCount() {
+  try {
+    const res = await pb.collection('table_cards').getList(1, 1, {
+      filter: `room = "${ROOM.id}" && closed = true`,
+      fields: 'id',
+    });
+    PILE_COUNT = res.totalItems;
+    updatePileUI();
+  } catch (err) {
+    console.warn('pile count failed', err);
+  }
+}
+
+async function markDone(cardId) {
+  try {
+    await pb.collection('table_cards').update(cardId, { closed: true });
+    cards.delete(cardId);
+    const ref = CARD_REFS.get(cardId);
+    if (ref) { ref.remove(); CARD_REFS.delete(cardId); }
+    PILE_COUNT++;
+    updatePileUI();
+    closeDetail();
+    render();
+    toast('Moved to done pile');
+  } catch (err) {
+    console.warn('markDone failed', err);
+    toast('Could not mark done — try again');
+  }
+}
+
+function renderPile() {
+  const listEl = document.getElementById('pile-list');
+  if (!listEl) return;
+  const list = Array.from(pileClosed.values()).sort((a, b) => b.created.localeCompare(a.created));
+  if (list.length === 0) {
+    listEl.innerHTML = '<div class="tt-empty">Nothing done yet.</div>';
+    return;
+  }
+  listEl.innerHTML = list.map(r => `
+    <div class="tt-pile-item">
+      <div class="tt-pile-meta">
+        <span class="tt-card-author" data-author="${escapeHtml(authorKey(r.author))}">${escapeHtml(r.author)}</span>
+        <span>${timeAgo(r.created)}</span>
+        <span class="spacer"></span>
+        <button class="tt-restore-btn" data-id="${escapeHtml(r.id)}">Restore</button>
+      </div>
+      <div class="tt-pile-body">${escapeHtml(r.body.length > 140 ? r.body.slice(0, 140) + '…' : r.body)}</div>
+    </div>`).join('');
+  for (const btn of listEl.querySelectorAll('.tt-restore-btn')) {
+    btn.addEventListener('click', async () => {
+      const id = btn.dataset.id;
+      const rec = pileClosed.get(id);
+      if (!rec) return;
+      const pos = freshPosition();
+      try {
+        await pb.collection('table_cards').update(id, { closed: false, x: pos.x, y: pos.y });
+        rec.closed = false; rec.x = pos.x; rec.y = pos.y;
+        pileClosed.delete(id);
+        cards.set(id, rec);
+        PILE_COUNT = Math.max(0, PILE_COUNT - 1);
+        updatePileUI();
+        render();
+        renderPile();
+        toast('Card restored');
+      } catch (err) {
+        toast('Could not restore');
+      }
+    });
+  }
+}
+
+async function openPile() {
+  PILE_OPEN = true;
+  const drawer = document.getElementById('pile-drawer');
+  drawer.hidden = false;
+  const listEl = document.getElementById('pile-list');
+  listEl.innerHTML = '<div class="tt-empty">Loading…</div>';
+  try {
+    const list = await pb.collection('table_cards').getFullList({
+      filter: `room = "${ROOM.id}" && closed = true`,
+      sort: '-created',
+    });
+    pileClosed.clear();
+    for (const r of list) pileClosed.set(r.id, r);
+    renderPile();
+  } catch (err) {
+    listEl.innerHTML = '<div class="tt-empty">Could not load.</div>';
+  }
+}
+
+function closePile() {
+  PILE_OPEN = false;
+  const drawer = document.getElementById('pile-drawer');
+  drawer.hidden = true;
 }
 
 function renderReplies() {
@@ -528,13 +646,30 @@ async function post() {
       z: TOP_Z,
     });
     ta.value = '';
-    ta.focus();
+    closeComposer();
   } catch (err) {
     console.error(err);
     toast('Could not post — try again');
   } finally {
     btn.disabled = false;
   }
+}
+
+// ---------- composer collapse/expand ----------
+function openComposer(opts = {}) {
+  const sec = document.getElementById('tt-post');
+  if (!sec) return;
+  sec.classList.add('is-open');
+  const ta = document.getElementById('post-body');
+  setTimeout(() => ta?.focus(), 0);
+  if (opts.startRecording) {
+    setTimeout(() => document.getElementById('voice-btn')?.click(), 30);
+  }
+}
+function closeComposer() {
+  const sec = document.getElementById('tt-post');
+  if (!sec) return;
+  sec.classList.remove('is-open');
 }
 
 // ---------- seen ----------
@@ -571,13 +706,16 @@ async function init() {
 
   await touchSeen();
 
-  // Load cards
+  // Load open cards only (closed cards are loaded on demand via the pile drawer)
   const list = await pb.collection('table_cards').getFullList({
-    filter: `room = "${ROOM.id}"`,
+    filter: `room = "${ROOM.id}" && closed = false`,
     sort: '-created',
   });
   for (const rec of list) cards.set(rec.id, rec);
   render();
+
+  // Pile count (just the number — cards load when drawer opens)
+  fetchPileCount();
 
   // On entry, the model classifies. Sweep any unclassified cards in the room.
   // Silent no-op if browser doesn't have window.ai (Safari, Firefox, old Chrome).
@@ -589,10 +727,31 @@ async function init() {
   // a distributed pool of classifiers; whoever sees it first tags it.
   pb.collection('table_cards').subscribe('*', e => {
     if (e.record.room !== ROOM.id) return;
-    if (e.action === 'create' || e.action === 'update') cards.set(e.record.id, e.record);
-    else if (e.action === 'delete') cards.delete(e.record.id);
+    if (e.action === 'delete') {
+      cards.delete(e.record.id);
+      pileClosed.delete(e.record.id);
+    } else if (e.record.closed) {
+      // Card moved to done pile
+      if (cards.has(e.record.id)) {
+        cards.delete(e.record.id);
+        const ref = CARD_REFS.get(e.record.id);
+        if (ref) { ref.remove(); CARD_REFS.delete(e.record.id); }
+        PILE_COUNT++;
+        updatePileUI();
+      }
+      if (PILE_OPEN) { pileClosed.set(e.record.id, e.record); renderPile(); }
+    } else {
+      // Card is open — add/update on canvas
+      cards.set(e.record.id, e.record);
+      if (pileClosed.has(e.record.id)) {
+        pileClosed.delete(e.record.id);
+        PILE_COUNT = Math.max(0, PILE_COUNT - 1);
+        updatePileUI();
+        if (PILE_OPEN) renderPile();
+      }
+    }
     render();
-    if (e.action === 'create' && (!e.record.aims || e.record.aims.length === 0)) {
+    if (e.action === 'create' && !e.record.closed && (!e.record.aims || e.record.aims.length === 0)) {
       classifyOnDevice(e.record.body).then(aims => {
         if (!aims || aims.length === 0) return;
         pb.collection('table_cards').update(e.record.id, { aims }).catch(() => {});
@@ -609,6 +768,12 @@ async function init() {
     }
   });
 
+  // Collapsed-pill -> open composer. Mic-icon click also starts recording.
+  document.getElementById('post-pill').addEventListener('click', e => {
+    const onMic = !!e.target.closest('.tt-pill-mic');
+    openComposer({ startRecording: onMic });
+  });
+
   // Detail drawer
   document.getElementById('drawer-close').addEventListener('click', closeDetail);
   document.getElementById('reply-btn').addEventListener('click', postReply);
@@ -619,16 +784,43 @@ async function init() {
     }
   });
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && OPEN_CARD_ID) closeDetail();
+    if (e.key !== 'Escape') return;
+    if (OPEN_CARD_ID) { closeDetail(); return; }
+    const sec = document.getElementById('tt-post');
+    if (sec?.classList.contains('is-open')) {
+      const body = document.getElementById('post-body').value.trim();
+      const recording = VTT && VTT.isRecording && VTT.isRecording();
+      if (!body && !recording) closeComposer();
+    }
   });
+
+  // Pile
+  document.getElementById('pile-btn').addEventListener('click', openPile);
+  document.getElementById('pile-close').addEventListener('click', closePile);
 
   // Click outside the drawer (and not on a card) closes it
   document.addEventListener('click', e => {
-    if (!OPEN_CARD_ID) return;
-    const drawer = document.getElementById('drawer');
-    if (drawer.contains(e.target)) return;        // inside drawer
-    if (e.target.closest('.tt-card')) return;     // on a card -> switches detail
-    closeDetail();
+    // Pile drawer first
+    if (PILE_OPEN) {
+      const pd = document.getElementById('pile-drawer');
+      const pb2 = document.getElementById('pile-btn');
+      if (pd && !pd.contains(e.target) && !pb2?.contains(e.target)) closePile();
+    }
+    // Card drawer
+    if (OPEN_CARD_ID) {
+      const drawer = document.getElementById('drawer');
+      if (drawer.contains(e.target)) return;        // inside drawer
+      if (e.target.closest('.tt-card')) return;     // on a card -> switches detail
+      closeDetail();
+      return;
+    }
+    // Composer collapses on outside click only if empty + not recording
+    const sec = document.getElementById('tt-post');
+    if (sec?.classList.contains('is-open') && !sec.contains(e.target)) {
+      const body = document.getElementById('post-body').value.trim();
+      const recording = VTT && VTT.isRecording && VTT.isRecording();
+      if (!body && !recording) closeComposer();
+    }
   });
 
   // Voice-to-text (drop-in widget from talk.croquetwade.com).

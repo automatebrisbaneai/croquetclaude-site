@@ -141,17 +141,72 @@
 }
 
 /* ── Post box ── */
+/* Two states:
+   - collapsed (default): only the pill is visible, leaving the table un-obstructed.
+   - open: composer overlays the canvas without pushing it down.
+   .is-open is toggled by app.js when the pill is clicked / after post() resolves. */
 .tt-post {
   max-width: 760px;
   margin: 1.4rem auto 0.8rem;
   padding: 0 1.4rem;
+  text-align: center;
+  position: relative;
+  z-index: 30;
 }
-.tt-post-card {
+
+/* Collapsed pill — small inline trigger */
+.tt-post-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.4rem 1.05rem 0.4rem 0.75rem;
   background: rgba(255, 250, 232, 0.92);
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  box-shadow: 2px 2px 0 var(--ink);
+  cursor: pointer;
+  font: inherit;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  transition: all 0.12s var(--ease-paper);
+}
+.tt-post-pill:hover  { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 var(--ink); }
+.tt-post-pill:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--ink); }
+.tt-post-pill .tt-pill-mic {
+  width: 18px;
+  height: 18px;
+  fill: var(--ink-soft);
+  transition: fill 0.12s var(--ease-paper);
+}
+.tt-post-pill:hover .tt-pill-mic { fill: var(--accent); }
+
+/* Composer — hidden by default, overlays canvas when open */
+.tt-post-card {
+  display: none;
+  text-align: left;
+  background: rgba(255, 250, 232, 0.96);
   border: 2px solid var(--ink);
   border-radius: 2px;
   padding: 0.95rem 1.05rem 0.9rem;
   box-shadow: 4px 4px 0 var(--ink);
+}
+.tt-post.is-open .tt-post-pill { visibility: hidden; }   /* keep flow space stable */
+.tt-post.is-open .tt-post-card {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 1.4rem;
+  right: 1.4rem;
+  z-index: 31;
+  animation: postExpand 0.16s var(--ease-paper);
+}
+@keyframes postExpand {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 .tt-textarea {
   width: 100%;
@@ -281,6 +336,16 @@
   box-shadow: 6px 6px 0 var(--ink);
   z-index: 9999;
   transition: none;
+}
+
+/* CroquetClaude cards — warm terracotta tint */
+.tt-card[data-color="terracotta"] {
+  background: #f5e4dd;
+  border-color: #7a3535;
+  box-shadow: 3px 3px 0 #7a3535;
+}
+.tt-card[data-color="terracotta"].dragging {
+  box-shadow: 6px 6px 0 #7a3535;
 }
 .tt-card-meta {
   display: flex;
@@ -511,6 +576,25 @@
   display: flex;
   gap: 6px;
 }
+.tt-drawer-actions {
+  margin-top: 0.85rem;
+  display: flex;
+  gap: 0.5rem;
+}
+.tt-btn-done {
+  font-size: 0.72rem;
+  padding: 0.28rem 0.7rem;
+  background: transparent;
+  color: var(--ink-faint);
+  border-color: var(--paper-edge);
+  box-shadow: 2px 2px 0 var(--paper-edge);
+}
+.tt-btn-done:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  transform: none;
+}
 .tt-drawer-aims .tt-aim-dot {
   width: 11px;
   height: 11px;
@@ -589,6 +673,118 @@
   align-self: flex-end;
 }
 
+/* ── Done pile button (fixed corner) ── */
+.tt-pile-btn {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 40;
+  font: inherit;
+  font-family: var(--font-hand);
+  font-size: 1rem;
+  background: var(--paper-deep);
+  border: 1.5px solid var(--ink);
+  border-radius: 2px;
+  padding: 0.35rem 0.85rem;
+  box-shadow: 3px 3px 0 var(--ink);
+  cursor: pointer;
+  color: var(--ink-soft);
+  transition: all 0.12s var(--ease-paper);
+}
+.tt-pile-btn:hover  { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink); }
+.tt-pile-btn:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--ink); }
+.tt-pile-n {
+  font-weight: 700;
+  color: var(--ink);
+  font-family: var(--font-display);
+}
+
+/* ── Done pile drawer (slides in from left) ── */
+.tt-pile-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 380px;
+  max-width: 90vw;
+  height: 100vh;
+  background: var(--paper-card);
+  border-right: 2px solid var(--ink);
+  box-shadow: 6px 0 0 var(--ink), 8px 0 24px rgba(26,22,18,0.13);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  animation: pileSlide 0.18s var(--ease-paper);
+  overflow: hidden;
+}
+.tt-pile-drawer[hidden] { display: none; }
+@keyframes pileSlide {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+.tt-pile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.4rem 0.85rem;
+  border-bottom: 1.5px dashed rgba(26,22,18,0.18);
+  flex-shrink: 0;
+}
+.tt-pile-header h2 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-style: italic;
+  font-variation-settings: 'opsz' 96;
+  color: var(--ink);
+}
+.tt-pile-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.75rem 1.4rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.tt-pile-item {
+  border: 1.5px solid var(--paper-edge);
+  border-radius: 2px;
+  padding: 0.6rem 0.8rem;
+  background: var(--paper);
+}
+.tt-pile-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  margin-bottom: 0.18rem;
+  font-family: var(--font-hand);
+  font-size: 0.95rem;
+  color: var(--ink-faint);
+}
+.tt-pile-meta .tt-card-author { font-size: 1rem; }
+.tt-pile-meta .spacer { flex: 1; }
+.tt-pile-body {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.tt-restore-btn {
+  font: inherit;
+  font-family: var(--font-hand);
+  font-size: 0.82rem;
+  background: transparent;
+  border: 1px solid var(--paper-edge);
+  border-radius: 2px;
+  padding: 1px 7px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.1s;
+}
+.tt-restore-btn:hover { border-color: var(--ink); color: var(--ink); }
+
 /* ── Toast ── */
 .tt-toast {
   position: fixed;
@@ -652,10 +848,61 @@
 }
 
 /* ── Mobile ── */
+/* Mobile is intentionally stripped: one big record button + a vertical list of notes.
+   The desktop spatial canvas (absolute-positioned cards with rotation) collapses to
+   a flex column. Drag still writes x/y to PB silently but has no visible effect. */
 @media (max-width: 720px) {
   .tt-header { padding: 0.85rem 1rem 0.7rem; }
   .tt-brand h1 { font-size: 1.55rem; }
   .tt-post, .tt-feed { padding: 0 1rem; }
   .tt-landing { margin-top: 3.5rem; }
   .tt-landing h1 { font-size: 2.6rem; }
+
+  /* Collapsed pill -> large circular mic-only button */
+  .tt-post-pill {
+    width: 64px;
+    height: 64px;
+    padding: 0;
+    border-radius: 50%;
+    justify-content: center;
+    gap: 0;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .tt-post-pill .tt-pill-label { display: none; }
+  .tt-post-pill .tt-pill-mic {
+    width: 28px;
+    height: 28px;
+    fill: var(--ink);
+  }
+
+  /* Canvas becomes a vertical list */
+  .tt-canvas {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    padding: 0 1rem 1.4rem;
+    min-height: auto;
+    overflow: visible;
+    touch-action: auto;
+  }
+  .tt-card {
+    position: static;
+    width: 100%;
+    transform: none !important;       /* override inline --rot */
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .tt-card.dragging { transform: none !important; }
+  .tt-card-body { -webkit-line-clamp: unset; }
+  .tt-canvas .tt-empty {
+    position: static;
+    transform: none;
+    margin: 2rem auto;
+  }
+
+  /* Open composer fits the narrow viewport */
+  .tt-post.is-open .tt-post-card {
+    left: 1rem;
+    right: 1rem;
+  }
 }
