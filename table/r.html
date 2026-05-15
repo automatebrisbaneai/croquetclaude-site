@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./style.css?v=20260515-1232">
+<link rel="stylesheet" href="./style.css?v=20260515-1310">
 </head>
 <body class="thetable-root">
 
@@ -19,7 +19,7 @@
   </div>
   <span class="tt-room-pill"><span class="lbl">room</span><span id="room-code">—</span></span>
   <span class="tt-who">You are <b id="who-name">—</b></span>
-  <span class="tt-version">v 20260515-1232</span>
+  <span class="tt-version">v 20260515-1310</span>
 </header>
 
 <section class="tt-post" id="tt-post">
@@ -31,7 +31,7 @@
   </button>
 
   <div class="tt-post-card" id="post-composer">
-    <textarea class="tt-textarea" id="post-body" placeholder="What's happening?" rows="2"></textarea>
+    <textarea class="tt-textarea" id="post-body" placeholder="Headline first — then more detail on the next line (optional)" rows="3"></textarea>
     <div id="voice-interim"></div>
     <div class="tt-post-actions">
       <span class="tt-hint" id="voice-status"><kbd>⌘</kbd>/<kbd>Ctrl</kbd> + <kbd>Enter</kbd> to post</span>
@@ -54,6 +54,7 @@
       <span class="tt-card-author" id="drawer-author" data-author=""></span>
       <span id="drawer-time" class="tt-drawer-time"></span>
     </div>
+    <div class="tt-drawer-heading" id="drawer-heading"></div>
     <div class="tt-drawer-body" id="drawer-body"></div>
     <div class="tt-drawer-aims" id="drawer-aims"></div>
     <div class="tt-drawer-actions">
@@ -90,7 +91,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/pocketbase@0.21.5/dist/pocketbase.umd.js"></script>
 <script src="https://talk.croquetwade.com/shared/voice-to-text.js"></script>
-<script src="./app.js?v=20260515-1232"></script>
+<script src="./app.js?v=20260515-1310"></script>
 
 </body>
 </html>

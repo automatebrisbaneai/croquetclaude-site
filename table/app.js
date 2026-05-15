@@ -226,19 +226,40 @@ function authorKey(name) {
   return (name || '').trim().toLowerCase().replace(/\s+/g, '');
 }
 
+// Split a card body into a heading (first line) and the rest.
+// Users hit Enter to mark a title; single-line notes return heading only.
+function splitHeadingBody(body) {
+  const text = (body || '').trim();
+  if (!text) return { heading: '', body: '' };
+  const nl = text.indexOf('\n');
+  if (nl === -1) return { heading: text, body: '' };
+  return {
+    heading: text.slice(0, nl).trim(),
+    body: text.slice(nl + 1).trim(),
+  };
+}
+
 function setCardBody(el, rec) {
   const aims = Array.isArray(rec.aims) ? rec.aims : [];
+  const { heading, body } = splitHeadingBody(rec.body);
+  // Heading is always shown (it carries the title-line). Body is rendered
+  // smaller + secondary only when there IS a body line. For single-line cards,
+  // the heading is the whole card.
+  const hasBody = body.length > 0;
   el.innerHTML = `
-    <div class="tt-card-meta">
-      <span class="tt-card-author" data-author="${escapeHtml(authorKey(rec.author))}">${escapeHtml(rec.author)}</span>
-      <span>${timeAgo(rec.created)}</span>
-    </div>
-    <div class="tt-card-body">${escapeHtml(rec.body)}</div>
+    <div class="tt-card-heading">${escapeHtml(heading)}</div>
+    ${hasBody ? `<div class="tt-card-body">${escapeHtml(body)}</div>` : ''}
     <div class="tt-card-foot">
-      <div class="tt-aims">
-        ${aims.map(a => `<span class="tt-aim-dot" data-aim="${escapeHtml(a)}" title="${escapeHtml(a)}"></span>`).join('')}
+      <div class="tt-card-foot-left">
+        <span class="tt-card-author" data-author="${escapeHtml(authorKey(rec.author))}">${escapeHtml(rec.author)}</span>
+        <span class="tt-card-time">${timeAgo(rec.created)}</span>
       </div>
-      <span class="tt-replies"></span>
+      <div class="tt-card-foot-right">
+        <div class="tt-aims">
+          ${aims.map(a => `<span class="tt-aim-dot" data-aim="${escapeHtml(a)}" title="${escapeHtml(a)}"></span>`).join('')}
+        </div>
+        <span class="tt-replies"></span>
+      </div>
     </div>`;
   el.dataset.bodyHash = bodyHash(rec);
 }
@@ -417,7 +438,13 @@ async function openDetail(cardId) {
   document.getElementById('drawer-author').textContent = rec.author;
   document.getElementById('drawer-author').dataset.author = authorKey(rec.author);
   document.getElementById('drawer-time').textContent = timeAgo(rec.created);
-  document.getElementById('drawer-body').textContent = rec.body;
+  // Drawer mirrors the canvas heading/body split for visual consistency.
+  // Heading sits above; body below at readable size.
+  const drawerHeading = document.getElementById('drawer-heading');
+  const drawerBody = document.getElementById('drawer-body');
+  const split = splitHeadingBody(rec.body);
+  if (drawerHeading) drawerHeading.textContent = split.heading;
+  if (drawerBody) drawerBody.textContent = split.body;
   const aimsEl = document.getElementById('drawer-aims');
   const aims = Array.isArray(rec.aims) ? rec.aims : [];
   aimsEl.innerHTML = aims
@@ -481,6 +508,23 @@ function closeDetail() {
 }
 
 // ---------- done / pile ----------
+// Cards in the done pile auto-expire from view 2 days after they're closed.
+// The PB record sticks around (data not lost) — just the UI stops showing it.
+// Filter computed at query time so cards "drop off" naturally as time passes.
+const PILE_TTL_MS = 2 * 24 * 60 * 60 * 1000;  // 2 days
+
+function pileCutoffIso() {
+  return new Date(Date.now() - PILE_TTL_MS).toISOString();
+}
+
+// Build a PB filter expression that scopes a query to closed cards within the
+// 2-day window for this room. Note: we OR closed_at>cutoff with closed_at=''
+// so freshly-closed cards (race between client closed_at set + reload) still
+// show until their explicit closed_at lands.
+function closedRecentFilter() {
+  return `room = "${ROOM.id}" && closed = true && closed_at >= "${pileCutoffIso()}"`;
+}
+
 function updatePileUI() {
   const countEl = document.getElementById('pile-count');
   const btn = document.getElementById('pile-btn');
@@ -498,7 +542,7 @@ function updatePileUI() {
 async function fetchPileCount() {
   try {
     const res = await pb.collection('table_cards').getList(1, 1, {
-      filter: `room = "${ROOM.id}" && closed = true`,
+      filter: closedRecentFilter(),
       fields: 'id',
     });
     PILE_COUNT = res.totalItems;
@@ -510,7 +554,10 @@ async function fetchPileCount() {
 
 async function markDone(cardId) {
   try {
-    await pb.collection('table_cards').update(cardId, { closed: true });
+    await pb.collection('table_cards').update(cardId, {
+      closed: true,
+      closed_at: new Date().toISOString(),
+    });
     cards.delete(cardId);
     const ref = CARD_REFS.get(cardId);
     if (ref) { ref.remove(); CARD_REFS.delete(cardId); }
@@ -528,21 +575,29 @@ async function markDone(cardId) {
 function renderPile() {
   const listEl = document.getElementById('pile-list');
   if (!listEl) return;
-  const list = Array.from(pileClosed.values()).sort((a, b) => b.created.localeCompare(a.created));
+  const list = Array.from(pileClosed.values()).sort((a, b) => {
+    const aT = a.closed_at || a.created;
+    const bT = b.closed_at || b.created;
+    return bT.localeCompare(aT);
+  });
   if (list.length === 0) {
-    listEl.innerHTML = '<div class="tt-empty">Nothing done yet.</div>';
+    listEl.innerHTML = '<div class="tt-empty">Nothing done in the last 2 days.</div>';
     return;
   }
-  listEl.innerHTML = list.map(r => `
+  listEl.innerHTML = list.map(r => {
+    const { heading, body } = splitHeadingBody(r.body);
+    const preview = heading || body;
+    return `
     <div class="tt-pile-item">
       <div class="tt-pile-meta">
         <span class="tt-card-author" data-author="${escapeHtml(authorKey(r.author))}">${escapeHtml(r.author)}</span>
-        <span>${timeAgo(r.created)}</span>
+        <span>done ${timeAgo(r.closed_at || r.created)}</span>
         <span class="spacer"></span>
         <button class="tt-restore-btn" data-id="${escapeHtml(r.id)}">Restore</button>
       </div>
-      <div class="tt-pile-body">${escapeHtml(r.body.length > 140 ? r.body.slice(0, 140) + '…' : r.body)}</div>
-    </div>`).join('');
+      <div class="tt-pile-body">${escapeHtml(preview.length > 140 ? preview.slice(0, 140) + '…' : preview)}</div>
+    </div>`;
+  }).join('');
   for (const btn of listEl.querySelectorAll('.tt-restore-btn')) {
     btn.addEventListener('click', async () => {
       const id = btn.dataset.id;
@@ -550,8 +605,13 @@ function renderPile() {
       if (!rec) return;
       const pos = freshPosition();
       try {
-        await pb.collection('table_cards').update(id, { closed: false, x: pos.x, y: pos.y });
-        rec.closed = false; rec.x = pos.x; rec.y = pos.y;
+        await pb.collection('table_cards').update(id, {
+          closed: false,
+          closed_at: null,
+          x: pos.x,
+          y: pos.y,
+        });
+        rec.closed = false; rec.closed_at = null; rec.x = pos.x; rec.y = pos.y;
         pileClosed.delete(id);
         cards.set(id, rec);
         PILE_COUNT = Math.max(0, PILE_COUNT - 1);
@@ -574,8 +634,8 @@ async function openPile() {
   listEl.innerHTML = '<div class="tt-empty">Loading…</div>';
   try {
     const list = await pb.collection('table_cards').getFullList({
-      filter: `room = "${ROOM.id}" && closed = true`,
-      sort: '-created',
+      filter: closedRecentFilter(),
+      sort: '-closed_at',
     });
     pileClosed.clear();
     for (const r of list) pileClosed.set(r.id, r);
