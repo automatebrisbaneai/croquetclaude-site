@@ -1,321 +1,8 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-16T05:11:57.172Z",
-  "durationMs": 14957758,
+  "generatedAt": "2026-05-16T05:17:52.527Z",
+  "durationMs": 14819981,
   "events": [
-    {
-      "t": "toolDone",
-      "agentId": "dbcc0143-5a9b-4f72-a0ad-6f11c2016f37",
-      "ts": 1778461057852
-    },
-    {
-      "t": "toolStart",
-      "kind": "running",
-      "label": "Running: TOKEN=$(python",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461070214
-    },
-    {
-      "t": "toolDone",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461073606
-    },
-    {
-      "t": "userInterrupt",
-      "ts": 1778461079798
-    },
-    {
-      "t": "toolStart",
-      "kind": "running",
-      "label": "Running: python",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461086135
-    },
-    {
-      "t": "toolDone",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461090321
-    },
-    {
-      "t": "toolStart",
-      "kind": "typing",
-      "label": "Editing tmp",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461091810
-    },
-    {
-      "t": "toolStart",
-      "kind": "running",
-      "label": "Running: python",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461092490
-    },
-    {
-      "t": "toolDone",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461094913
-    },
-    {
-      "t": "toolDone",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461106730
-    },
-    {
-      "t": "toolStart",
-      "kind": "typing",
-      "label": "Editing apps",
-      "agentId": "dbcc0143-5a9b-4f72-a0ad-6f11c2016f37",
-      "ts": 1778461107047
-    },
-    {
-      "t": "toolDone",
-      "agentId": "dbcc0143-5a9b-4f72-a0ad-6f11c2016f37",
-      "ts": 1778461110115
-    },
-    {
-      "t": "toolStart",
-      "kind": "reading",
-      "label": "Reading tmp",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461112461
-    },
-    {
-      "t": "toolDone",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461116194
-    },
-    {
-      "t": "toolStart",
-      "kind": "typing",
-      "label": "Briefing team member",
-      "agentId": "dbcc0143-5a9b-4f72-a0ad-6f11c2016f37",
-      "ts": 1778461116470
-    },
-    {
-      "t": "toolDone",
-      "agentId": "dbcc0143-5a9b-4f72-a0ad-6f11c2016f37",
-      "ts": 1778461116495
-    },
-    {
-      "t": "toolStart",
-      "kind": "typing",
-      "label": "Briefing team member",
-      "agentId": "dbcc0143-5a9b-4f72-a0ad-6f11c2016f37",
-      "ts": 1778461117484
-    },
-    {
-      "t": "toolDone",
-      "agentId": "dbcc0143-5a9b-4f72-a0ad-6f11c2016f37",
-      "ts": 1778461117519
-    },
-    {
-      "t": "toolStart",
-      "kind": "typing",
-      "label": "Editing system",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461137373
-    },
-    {
-      "t": "toolDone",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461137981
-    },
-    {
-      "t": "toolStart",
-      "kind": "typing",
-      "label": "Editing inbox",
-      "agentId": "dbcc0143-5a9b-4f72-a0ad-6f11c2016f37",
-      "ts": 1778461191997
-    },
-    {
-      "t": "toolDone",
-      "agentId": "dbcc0143-5a9b-4f72-a0ad-6f11c2016f37",
-      "ts": 1778461195121
-    },
-    {
-      "t": "toolStart",
-      "kind": "typing",
-      "label": "Briefing team member",
-      "agentId": "dbcc0143-5a9b-4f72-a0ad-6f11c2016f37",
-      "ts": 1778461201135
-    },
-    {
-      "t": "toolDone",
-      "agentId": "dbcc0143-5a9b-4f72-a0ad-6f11c2016f37",
-      "ts": 1778461201157
-    },
-    {
-      "t": "toolStart",
-      "kind": "typing",
-      "label": "Briefing team member",
-      "agentId": "dbcc0143-5a9b-4f72-a0ad-6f11c2016f37",
-      "ts": 1778461201363
-    },
-    {
-      "t": "toolDone",
-      "agentId": "dbcc0143-5a9b-4f72-a0ad-6f11c2016f37",
-      "ts": 1778461201385
-    },
-    {
-      "t": "toolStart",
-      "kind": "typing",
-      "label": "Briefing team member",
-      "agentId": "dbcc0143-5a9b-4f72-a0ad-6f11c2016f37",
-      "ts": 1778461215989
-    },
-    {
-      "t": "toolDone",
-      "agentId": "dbcc0143-5a9b-4f72-a0ad-6f11c2016f37",
-      "ts": 1778461216010
-    },
-    {
-      "t": "userInterrupt",
-      "ts": 1778461244522
-    },
-    {
-      "t": "toolStart",
-      "kind": "searching",
-      "label": "Searching",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461262766
-    },
-    {
-      "t": "toolDone",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461263150
-    },
-    {
-      "t": "toolStart",
-      "kind": "searching",
-      "label": "Searching",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461280017
-    },
-    {
-      "t": "toolDone",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461280343
-    },
-    {
-      "t": "toolStart",
-      "kind": "reading",
-      "label": "Reading resources",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461285703
-    },
-    {
-      "t": "toolDone",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461286074
-    },
-    {
-      "t": "toolStart",
-      "kind": "typing",
-      "label": "Editing resources",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461341659
-    },
-    {
-      "t": "toolDone",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461342420
-    },
-    {
-      "t": "toolStart",
-      "kind": "searching",
-      "label": "Searching",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461342708
-    },
-    {
-      "t": "toolDone",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461343063
-    },
-    {
-      "t": "toolStart",
-      "kind": "typing",
-      "label": "Editing resources",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461373198
-    },
-    {
-      "t": "toolDone",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461373774
-    },
-    {
-      "t": "toolStart",
-      "kind": "running",
-      "label": "Running: python",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461386105
-    },
-    {
-      "t": "toolStart",
-      "kind": "running",
-      "label": "Running: python",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461387226
-    },
-    {
-      "t": "toolDone",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461391384
-    },
-    {
-      "t": "toolDone",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461400042
-    },
-    {
-      "t": "toolStart",
-      "kind": "reading",
-      "label": "Reading tmp",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461405708
-    },
-    {
-      "t": "toolDone",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461409890
-    },
-    {
-      "t": "toolStart",
-      "kind": "typing",
-      "label": "Briefing team member",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461418368
-    },
-    {
-      "t": "toolDone",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461418406
-    },
-    {
-      "t": "toolStart",
-      "kind": "typing",
-      "label": "Editing system",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461426608
-    },
-    {
-      "t": "toolDone",
-      "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778461427302
-    },
-    {
-      "t": "userInterrupt",
-      "ts": 1778461444584
-    },
-    {
-      "t": "userInterrupt",
-      "ts": 1778461462411
-    },
-    {
-      "t": "userInterrupt",
-      "ts": 1778461531827
-    },
     {
       "t": "toolStart",
       "kind": "typing",
@@ -20304,11 +19991,6 @@
       "ts": 1778475963588
     },
     {
-      "t": "agentDespawn",
-      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
-      "ts": 1778475963588
-    },
-    {
       "t": "toolStart",
       "kind": "running",
       "label": "Running: python",
@@ -20376,462 +20058,779 @@
       "ts": 1778476001930
     },
     {
+      "t": "toolDone",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476024172
+    },
+    {
+      "t": "toolStart",
+      "kind": "typing",
+      "label": "Briefing team member",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476029744
+    },
+    {
+      "t": "toolDone",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476029789
+    },
+    {
+      "t": "toolStart",
+      "kind": "typing",
+      "label": "Briefing team member",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476030218
+    },
+    {
+      "t": "toolDone",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476030241
+    },
+    {
+      "t": "toolStart",
+      "kind": "running",
+      "label": "Running: until",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476033235
+    },
+    {
+      "t": "toolDone",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476045408
+    },
+    {
+      "t": "toolStart",
+      "kind": "running",
+      "label": "Running: python",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476058369
+    },
+    {
+      "t": "toolStart",
+      "kind": "running",
+      "label": "Running: python",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476059518
+    },
+    {
+      "t": "toolStart",
+      "kind": "running",
+      "label": "Running: python",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476060854
+    },
+    {
+      "t": "toolDone",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476061739
+    },
+    {
+      "t": "toolDone",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476065236
+    },
+    {
+      "t": "toolDone",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476068438
+    },
+    {
+      "t": "toolStart",
+      "kind": "running",
+      "label": "Running: python",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476091842
+    },
+    {
+      "t": "toolStart",
+      "kind": "typing",
+      "label": "Editing system",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476092322
+    },
+    {
+      "t": "toolDone",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476092660
+    },
+    {
+      "t": "toolStart",
+      "kind": "running",
+      "label": "Running: python",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476093756
+    },
+    {
+      "t": "toolStart",
+      "kind": "running",
+      "label": "Running: python",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476094902
+    },
+    {
+      "t": "toolDone",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476095301
+    },
+    {
+      "t": "toolStart",
+      "kind": "running",
+      "label": "Running: python",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476097759
+    },
+    {
+      "t": "toolDone",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476098528
+    },
+    {
+      "t": "toolDone",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476101371
+    },
+    {
+      "t": "toolDone",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476128041
+    },
+    {
+      "t": "toolStart",
+      "kind": "running",
+      "label": "Running: python",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476173265
+    },
+    {
+      "t": "toolStart",
+      "kind": "running",
+      "label": "Running: python",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476174897
+    },
+    {
+      "t": "toolStart",
+      "kind": "running",
+      "label": "Running: python",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476176025
+    },
+    {
+      "t": "toolDone",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476177995
+    },
+    {
+      "t": "toolDone",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476180497
+    },
+    {
+      "t": "toolDone",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476183101
+    },
+    {
+      "t": "toolStart",
+      "kind": "running",
+      "label": "Running: python",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476190106
+    },
+    {
+      "t": "toolDone",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476190411
+    },
+    {
+      "t": "toolStart",
+      "kind": "typing",
+      "label": "Editing apps",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476231425
+    },
+    {
+      "t": "toolDone",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476231736
+    },
+    {
+      "t": "toolStart",
+      "kind": "running",
+      "label": "Running: python",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476268859
+    },
+    {
+      "t": "toolDone",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476279617
+    },
+    {
+      "t": "toolStart",
+      "kind": "running",
+      "label": "Running: python",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476281259
+    },
+    {
+      "t": "toolStart",
+      "kind": "running",
+      "label": "Running: python",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476282387
+    },
+    {
+      "t": "toolStart",
+      "kind": "running",
+      "label": "Running: python",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476284826
+    },
+    {
+      "t": "toolDone",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476288219
+    },
+    {
+      "t": "toolDone",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476290800
+    },
+    {
+      "t": "toolDone",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476294277
+    },
+    {
+      "t": "agentDespawn",
+      "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
+      "ts": 1778476294282
+    },
+    {
+      "t": "toolStart",
+      "kind": "running",
+      "label": "Running: python",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476307235
+    },
+    {
+      "t": "toolStart",
+      "kind": "running",
+      "label": "Running: python",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476312005
+    },
+    {
+      "t": "toolDone",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476317883
+    },
+    {
+      "t": "toolDone",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476333234
+    },
+    {
+      "t": "toolStart",
+      "kind": "typing",
+      "label": "Editing apps",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476353077
+    },
+    {
+      "t": "toolDone",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476353401
+    },
+    {
+      "t": "toolStart",
+      "kind": "typing",
+      "label": "Editing apps",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476355192
+    },
+    {
+      "t": "toolDone",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476355521
+    },
+    {
+      "t": "toolStart",
+      "kind": "searching",
+      "label": "Searching",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476356228
+    },
+    {
+      "t": "toolDone",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476356484
+    },
+    {
+      "t": "toolStart",
+      "kind": "running",
+      "label": "Running: bash",
+      "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
+      "ts": 1778476357289
+    },
+    {
       "t": "agentSpawn",
       "agentId": "0047dafd-3f7a-402f-826f-8088679a1da0",
       "role": "primary",
-      "ts": 1778476014242
+      "ts": 1778476369669
     },
     {
       "t": "agentDespawn",
       "agentId": "0047dafd-3f7a-402f-826f-8088679a1da0",
-      "ts": 1778476014262
+      "ts": 1778476369696
     },
     {
       "t": "agentSpawn",
       "agentId": "01e0b81d-6fa4-44c9-9f4f-99034a2a5fd4",
       "role": "primary",
-      "ts": 1778476014266
+      "ts": 1778476369699
     },
     {
       "t": "agentDespawn",
       "agentId": "01e0b81d-6fa4-44c9-9f4f-99034a2a5fd4",
-      "ts": 1778476014271
+      "ts": 1778476369702
     },
     {
       "t": "agentSpawn",
       "agentId": "02a68a55-f1fc-4977-ae13-227ba68f8700",
       "role": "primary",
-      "ts": 1778476014312
+      "ts": 1778476369744
     },
     {
       "t": "agentDespawn",
       "agentId": "02a68a55-f1fc-4977-ae13-227ba68f8700",
-      "ts": 1778476014362
+      "ts": 1778476369794
     },
     {
       "t": "agentSpawn",
       "agentId": "045f540c-0907-48f6-a074-8348ffffab18",
       "role": "primary",
-      "ts": 1778476014368
+      "ts": 1778476369801
     },
     {
       "t": "agentDespawn",
       "agentId": "045f540c-0907-48f6-a074-8348ffffab18",
-      "ts": 1778476014375
+      "ts": 1778476369808
     },
     {
       "t": "agentSpawn",
       "agentId": "053f4811-0599-464c-9343-f461e66ec786",
       "role": "primary",
-      "ts": 1778476014375
+      "ts": 1778476369809
     },
     {
       "t": "agentDespawn",
       "agentId": "053f4811-0599-464c-9343-f461e66ec786",
-      "ts": 1778476014375
+      "ts": 1778476369809
     },
     {
       "t": "agentSpawn",
       "agentId": "1235d869-138f-4df0-8a42-33809ba7797d",
       "role": "primary",
-      "ts": 1778476014376
+      "ts": 1778476369810
     },
     {
       "t": "agentSpawn",
       "agentId": "135dcd45-fd48-4ce8-b596-0686b6f33044",
       "role": "primary",
-      "ts": 1778476014386
+      "ts": 1778476369820
     },
     {
       "t": "agentSpawn",
       "agentId": "1481baef-2232-4f50-a68d-66197b992a93",
       "role": "primary",
-      "ts": 1778476014399
+      "ts": 1778476369834
     },
     {
       "t": "agentSpawn",
       "agentId": "1592f2a5-e0c8-436d-8c9e-f71d1a0f3cc9",
       "role": "primary",
-      "ts": 1778476014412
+      "ts": 1778476369847
     },
     {
       "t": "agentDespawn",
       "agentId": "1592f2a5-e0c8-436d-8c9e-f71d1a0f3cc9",
-      "ts": 1778476014424
+      "ts": 1778476369859
     },
     {
       "t": "agentSpawn",
       "agentId": "160a14cc-d47d-411c-af0e-7cec7908d2f7",
       "role": "primary",
-      "ts": 1778476014427
+      "ts": 1778476369862
     },
     {
       "t": "agentDespawn",
       "agentId": "160a14cc-d47d-411c-af0e-7cec7908d2f7",
-      "ts": 1778476014429
+      "ts": 1778476369864
     },
     {
       "t": "agentSpawn",
       "agentId": "1f95fe7b-8cc4-4b8a-b7c2-5311371e546a",
       "role": "primary",
-      "ts": 1778476014438
+      "ts": 1778476369875
     },
     {
       "t": "agentSpawn",
       "agentId": "20e75a51-a9d6-41b9-8638-c9ee537dd3da",
       "role": "primary",
-      "ts": 1778476014491
+      "ts": 1778476369934
     },
     {
       "t": "agentSpawn",
       "agentId": "28460acf-212d-4ba1-aa95-0f663ad77d46",
       "role": "primary",
-      "ts": 1778476014530
+      "ts": 1778476369976
     },
     {
       "t": "agentDespawn",
       "agentId": "28460acf-212d-4ba1-aa95-0f663ad77d46",
-      "ts": 1778476014531
+      "ts": 1778476369978
     },
     {
       "t": "agentSpawn",
       "agentId": "2a832b37-8506-46ca-a938-cfdcf6fd6b24",
       "role": "primary",
-      "ts": 1778476014532
+      "ts": 1778476369978
     },
     {
       "t": "agentDespawn",
       "agentId": "2a832b37-8506-46ca-a938-cfdcf6fd6b24",
-      "ts": 1778476014532
+      "ts": 1778476369978
     },
     {
       "t": "agentSpawn",
       "agentId": "2e8a55a7-66dd-4a45-b516-55ecc2941a7d",
       "role": "primary",
-      "ts": 1778476014534
+      "ts": 1778476369980
     },
     {
       "t": "agentSpawn",
       "agentId": "33d7f996-50bb-4451-bbfb-83963fdce5b2",
       "role": "primary",
-      "ts": 1778476014556
+      "ts": 1778476370003
     },
     {
       "t": "agentSpawn",
       "agentId": "35760567-9d36-47fb-bdc8-f24110dac8fb",
       "role": "primary",
-      "ts": 1778476014586
+      "ts": 1778476370029
     },
     {
       "t": "agentSpawn",
       "agentId": "4fc7e154-7541-44e8-b5ff-16299387ab70",
       "role": "primary",
-      "ts": 1778476014607
+      "ts": 1778476370049
     },
     {
       "t": "agentSpawn",
       "agentId": "5f0ebca2-b199-4ebc-9af0-c6963bee2fe4",
       "role": "primary",
-      "ts": 1778476014634
+      "ts": 1778476370072
     },
     {
       "t": "agentDespawn",
       "agentId": "5f0ebca2-b199-4ebc-9af0-c6963bee2fe4",
-      "ts": 1778476014634
+      "ts": 1778476370072
     },
     {
       "t": "agentSpawn",
       "agentId": "715b89be-18ca-4237-9303-cc33dbda9ed1",
       "role": "primary",
-      "ts": 1778476014659
+      "ts": 1778476370092
     },
     {
       "t": "agentSpawn",
       "agentId": "717503e1-9529-4145-8035-abf478e31092",
       "role": "primary",
-      "ts": 1778476014680
+      "ts": 1778476370111
     },
     {
       "t": "agentSpawn",
       "agentId": "74ec45f3-1060-435a-b339-52f99c9a47e4",
       "role": "primary",
-      "ts": 1778476014684
+      "ts": 1778476370114
     },
     {
       "t": "agentDespawn",
       "agentId": "74ec45f3-1060-435a-b339-52f99c9a47e4",
-      "ts": 1778476014687
+      "ts": 1778476370117
     },
     {
       "t": "agentSpawn",
       "agentId": "77b84912-2bb6-4f85-a4a9-72c801ed3142",
       "role": "primary",
-      "ts": 1778476014687
+      "ts": 1778476370118
     },
     {
       "t": "agentDespawn",
       "agentId": "77b84912-2bb6-4f85-a4a9-72c801ed3142",
-      "ts": 1778476014688
+      "ts": 1778476370118
     },
     {
       "t": "agentSpawn",
       "agentId": "7bf36b67-b056-421f-a0f1-5b4721e593b5",
       "role": "primary",
-      "ts": 1778476014746
+      "ts": 1778476370156
     },
     {
       "t": "agentSpawn",
       "agentId": "7c1802d0-dfb9-4fa4-b3e6-c792eba7a7a0",
       "role": "primary",
-      "ts": 1778476014803
+      "ts": 1778476370217
     },
     {
       "t": "agentSpawn",
       "agentId": "7f077e2e-aa4d-4ec5-b521-4d613316a70f",
       "role": "primary",
-      "ts": 1778476014892
+      "ts": 1778476370288
     },
     {
       "t": "agentSpawn",
       "agentId": "7f9dc232-0728-41cb-aebf-4f494ac10fcb",
       "role": "primary",
-      "ts": 1778476014942
+      "ts": 1778476370328
     },
     {
       "t": "agentDespawn",
       "agentId": "7f9dc232-0728-41cb-aebf-4f494ac10fcb",
-      "ts": 1778476014946
+      "ts": 1778476370331
     },
     {
       "t": "agentSpawn",
       "agentId": "842b4272-65eb-4f28-801f-280998c154da",
       "role": "primary",
-      "ts": 1778476014966
+      "ts": 1778476370352
     },
     {
       "t": "agentSpawn",
       "agentId": "8ba6edf3-5181-4998-929d-b47be54680d0",
       "role": "primary",
-      "ts": 1778476014998
+      "ts": 1778476370380
     },
     {
       "t": "agentDespawn",
       "agentId": "8ba6edf3-5181-4998-929d-b47be54680d0",
-      "ts": 1778476014999
+      "ts": 1778476370381
     },
     {
       "t": "agentSpawn",
       "agentId": "8de078ed-2952-4e35-8aa1-917c593dc95f",
       "role": "primary",
-      "ts": 1778476015003
+      "ts": 1778476370385
     },
     {
       "t": "agentDespawn",
       "agentId": "8de078ed-2952-4e35-8aa1-917c593dc95f",
-      "ts": 1778476015008
+      "ts": 1778476370390
     },
     {
       "t": "agentSpawn",
       "agentId": "973a7078-26ac-4fd7-ab48-f1b72dad7db2",
       "role": "primary",
-      "ts": 1778476015010
+      "ts": 1778476370391
     },
     {
       "t": "agentSpawn",
       "agentId": "97b1949a-db7d-4f97-bf51-e2ee09ea5610",
       "role": "primary",
-      "ts": 1778476015110
+      "ts": 1778476370490
     },
     {
       "t": "agentSpawn",
       "agentId": "99521593-190b-425a-89ef-9e871b85e712",
       "role": "primary",
-      "ts": 1778476015235
+      "ts": 1778476370617
     },
     {
       "t": "agentSpawn",
       "agentId": "a610e121-e68a-45ad-b748-e10ad301258d",
       "role": "primary",
-      "ts": 1778476015237
+      "ts": 1778476370619
     },
     {
       "t": "agentDespawn",
       "agentId": "a610e121-e68a-45ad-b748-e10ad301258d",
-      "ts": 1778476015238
+      "ts": 1778476370620
     },
     {
       "t": "agentSpawn",
       "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
       "role": "primary",
-      "ts": 1778476015250
+      "ts": 1778476370633
     },
     {
       "t": "agentDespawn",
       "agentId": "a6f08a05-173d-49b7-ac95-d82b7215d165",
-      "ts": 1778476015260
+      "ts": 1778476370643
     },
     {
       "t": "agentSpawn",
       "agentId": "aba725c8-d5dd-4c05-9676-b2465862121a",
       "role": "primary",
-      "ts": 1778476015263
+      "ts": 1778476370646
     },
     {
       "t": "agentSpawn",
       "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
       "role": "primary",
-      "ts": 1778476015285
+      "ts": 1778476370670
     },
     {
       "t": "agentDespawn",
       "agentId": "abfdf75b-b09a-4128-8139-6d0f7c838ff4",
-      "ts": 1778476015296
+      "ts": 1778476370682
     },
     {
       "t": "agentSpawn",
       "agentId": "b5754f86-b72e-4443-9122-0ff9b833ddf0",
       "role": "primary",
-      "ts": 1778476015297
+      "ts": 1778476370683
     },
     {
       "t": "agentSpawn",
       "agentId": "bda75e2f-334e-4a09-9a4f-7a911d602474",
       "role": "primary",
-      "ts": 1778476015299
+      "ts": 1778476370684
     },
     {
       "t": "agentDespawn",
       "agentId": "bda75e2f-334e-4a09-9a4f-7a911d602474",
-      "ts": 1778476015299
+      "ts": 1778476370685
     },
     {
       "t": "agentSpawn",
       "agentId": "bdf9ac61-0fe9-4c58-a775-cf7a1810e756",
       "role": "primary",
-      "ts": 1778476015299
+      "ts": 1778476370685
     },
     {
       "t": "agentDespawn",
       "agentId": "bdf9ac61-0fe9-4c58-a775-cf7a1810e756",
-      "ts": 1778476015300
+      "ts": 1778476370686
     },
     {
       "t": "agentDespawn",
       "agentId": "sub_hxC3zHoU",
-      "ts": 1778476015300
+      "ts": 1778476370686
     },
     {
       "t": "agentSpawn",
       "agentId": "cfd9ee25-0c37-4e00-9cfa-f5903ed397a8",
       "role": "primary",
-      "ts": 1778476015301
+      "ts": 1778476370688
     },
     {
       "t": "agentDespawn",
       "agentId": "cfd9ee25-0c37-4e00-9cfa-f5903ed397a8",
-      "ts": 1778476015304
+      "ts": 1778476370690
     },
     {
       "t": "agentSpawn",
       "agentId": "d2d1e67e-8675-4971-9215-7dfb8ddd075e",
       "role": "primary",
-      "ts": 1778476015310
+      "ts": 1778476370697
     },
     {
       "t": "agentDespawn",
       "agentId": "d2d1e67e-8675-4971-9215-7dfb8ddd075e",
-      "ts": 1778476015316
+      "ts": 1778476370704
     },
     {
       "t": "agentSpawn",
       "agentId": "d2f65042-2223-48bc-9433-541bc2b7e17d",
       "role": "primary",
-      "ts": 1778476015317
+      "ts": 1778476370704
     },
     {
       "t": "agentDespawn",
       "agentId": "d2f65042-2223-48bc-9433-541bc2b7e17d",
-      "ts": 1778476015317
+      "ts": 1778476370704
     },
     {
       "t": "agentSpawn",
-      "agentId": "session_1778908316892",
+      "agentId": "session_1778908672274",
       "role": "primary",
-      "ts": 1778476015335
+      "ts": 1778476370717
     },
     {
       "t": "agentSpawn",
       "agentId": "d86d4b22-2e82-4f7a-9bca-790cf610426c",
       "role": "primary",
-      "ts": 1778476015439
+      "ts": 1778476370808
     },
     {
       "t": "agentSpawn",
       "agentId": "d8aa8a0d-6d8e-4287-bed1-3b41cd7cdb66",
       "role": "primary",
-      "ts": 1778476015494
+      "ts": 1778476370863
     },
     {
       "t": "agentDespawn",
       "agentId": "d8aa8a0d-6d8e-4287-bed1-3b41cd7cdb66",
-      "ts": 1778476015497
+      "ts": 1778476370865
     },
     {
       "t": "agentSpawn",
       "agentId": "dbcc0143-5a9b-4f72-a0ad-6f11c2016f37",
       "role": "primary",
-      "ts": 1778476015505
+      "ts": 1778476370872
     },
     {
       "t": "agentSpawn",
       "agentId": "de4b812e-a0b4-4fa9-bec9-dd4a0bc7c509",
       "role": "primary",
-      "ts": 1778476015511
+      "ts": 1778476370877
     },
     {
       "t": "agentSpawn",
       "agentId": "ebf7bead-00e8-4b92-8bfe-440d83fd7828",
       "role": "primary",
-      "ts": 1778476015524
+      "ts": 1778476370888
     },
     {
       "t": "agentDespawn",
       "agentId": "ebf7bead-00e8-4b92-8bfe-440d83fd7828",
-      "ts": 1778476015531
+      "ts": 1778476370895
     },
     {
       "t": "agentSpawn",
       "agentId": "ec17f230-a418-4343-9358-bb75138221d0",
       "role": "primary",
-      "ts": 1778476015534
+      "ts": 1778476370898
     },
     {
       "t": "agentDespawn",
       "agentId": "ec17f230-a418-4343-9358-bb75138221d0",
-      "ts": 1778476015537
+      "ts": 1778476370901
     },
     {
       "t": "agentSpawn",
       "agentId": "f849dc9b-0695-46f5-9392-e33a3899a64e",
       "role": "primary",
-      "ts": 1778476015570
+      "ts": 1778476370929
     },
     {
       "t": "agentSpawn",
       "agentId": "fb727417-a968-47fb-baac-496724d1e7bb",
       "role": "primary",
-      "ts": 1778476015601
+      "ts": 1778476370956
     },
     {
       "t": "agentSpawn",
       "agentId": "fe235c88-893d-41e5-93bc-b31a9bd119f7",
       "role": "primary",
-      "ts": 1778476015607
+      "ts": 1778476370962
     },
     {
       "t": "agentDespawn",
       "agentId": "fe235c88-893d-41e5-93bc-b31a9bd119f7",
-      "ts": 1778476015610
+      "ts": 1778476370965
     }
   ]
 }
