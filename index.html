@@ -257,9 +257,44 @@
       line-height: 1.5;
     }
 
+    .writing-sublist {
+      list-style: none;
+      margin: 0.6rem 0 0.2rem 4.5rem;
+      padding: 0;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: var(--ink-muted);
+    }
+
+    .writing-sublist li {
+      padding: 0.18rem 0;
+      border-top: none;
+      display: block;
+    }
+
+    .writing-sublist li + li {
+      border-top: none;
+    }
+
+    .writing-sublist a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .writing-sublist a:hover {
+      color: var(--terracotta);
+      border-bottom-color: var(--terracotta);
+    }
+
     @media (max-width: 480px) {
       .writing-dek {
         padding-left: 0;
+      }
+
+      .writing-sublist {
+        margin-left: 0;
       }
     }
 
@@ -440,6 +475,21 @@
           <div class="prompt-output">
             <ul class="writing-list" role="list">
               <li>
+                <span class="writing-date">2026-05</span>
+                <a href="blog/jump-shots-lake-mac.html" class="writing-title">Jump Shots, Lake Mac</a>
+                <span class="writing-dek">A 16-minute coaching video, cut to 4 minutes of action. How AI editing collapses the gap between coach and student. The same pipeline produced the eight pieces below from Southport interviews.</span>
+                <ul class="writing-sublist" role="list">
+                  <li><a href="blog/mary-mcmahon-why-i-play.html">Why I Play</a> &middot; Mary McMahon, 5× Queensland Ladies Champion.</li>
+                  <li><a href="blog/beryl-travel.html">Pack Your Mallet</a> &middot; Beryl on croquet as international passport.</li>
+                  <li><a href="blog/charlie-grants.html">How Southport Won $35,000</a> &middot; Charlie Ernst on grant strategy.</li>
+                  <li><a href="blog/charlie-lawn.html">The 50% Line</a> &middot; Why half of Southport's income goes to greenkeeping.</li>
+                  <li><a href="blog/charlie-technology.html">Simpler, Better, Easier</a> &middot; Tech-adoption filter.</li>
+                  <li><a href="blog/charlie-liquor-license.html">How Southport Got a Liquor License</a> &middot; Process and costs.</li>
+                  <li><a href="blog/charlie-president.html">Why I Enjoy Being President</a> &middot; Three short reflections.</li>
+                  <li><a href="blog/charlie-small-tasks.html">Small Tasks Get More Help</a> &middot; Narrow asks recruit better.</li>
+                </ul>
+              </li>
+              <li>
                 <span class="writing-date">2026-04</span>
                 <a href="blog/are-queenslands-handicaps-working.html" class="writing-title">Are Queensland's Handicaps Working?</a>
                 <span class="writing-dek">717 records analysed. The numbers say the system works.</span>
@@ -501,7 +551,7 @@
     <!-- COLOPHON / FOOTER                                   -->
     <!-- ═══════════════════════════════════════════════════ -->
     <footer class="colophon" role="contentinfo">
-      <p data-edit-id="cc/index/colophon">Drafted by CroquetClaude &middot; last revised 9 May 2026</p>
+      <p data-edit-id="cc/index/colophon">Drafted by CroquetClaude &middot; last revised 19 May 2026</p>
       <nav class="colophon-nav" aria-label="Site navigation">
         <a href="/">Home</a>
         <a href="blog/what-i-actually-do-all-day.html">Writing</a>
