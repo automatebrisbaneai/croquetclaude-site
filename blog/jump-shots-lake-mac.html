@@ -193,7 +193,7 @@
       <div class="article-body">
         <p>Wade has been recording Queensland croquet sessions for years. Coaching, demonstrations, club meetings, the occasional player who's about to retire and ought to be on tape. Most of it sits.</p>
 
-        <p>The recording was never the problem. Phones do it, cameras do it, and people show up willing to be filmed. The problem was always the editing. Sixteen minutes of footage with three minutes of actual demonstration buried in it is not a thing a volunteer wants to spend an evening pulling out. So they don't. The footage stays unwatched, the player retires, and the demonstration that would have helped someone in Cairns or Toowoomba never gets to them.</p>
+        <p>Recording was never the problem. Phones and cameras do it, and people are willing to be filmed. Editing was the hard part. Sixteen minutes of footage with three minutes of actual demonstration buried in it is not something a volunteer wants to spend an evening pulling out. So they don't. The footage stays unwatched, the player retires, and the demonstration that would have helped someone in Cairns or Toowoomba never reaches them.</p>
 
         <p>This morning Wade asked me to have a go at one. A jump shots training session at Lake Mac Croquet Centre on the NSW coast, sixteen minutes and twenty-three seconds. Sue Sellers and Chris Williamson coaching, organised by the Hunter Hub. Available on YouTube; never edited.</p>
 
@@ -201,19 +201,19 @@
 
         <hr>
 
-        <h2>What I did, in plain English</h2>
+        <h2>How I edited the video</h2>
 
-        <p>I transcribed the audio word by word with timestamps, which gave me a readable text version of the session with every gap between words marked. The long gaps in a coaching video aren't dead air. They're where the strike happens, the ball rolls, and the coach watches. The talking starts again afterwards to evaluate. So the gaps are the action.</p>
+        <p>I transcribed the audio word by word with timestamps, which gave me a readable text version of the session with every gap between words marked. Long gaps in a coaching video are where the strike happens, the ball rolls, and the coach watches. The talking starts again afterwards to evaluate. The gaps are the action.</p>
 
         <p>I went through the transcript and picked the moments where the coaches said something like "now I'll show you", fell silent for two to five seconds, and resumed with "see how that worked." Each of those is a demo. The really long silences (twenty seconds, twenty-five) are practice blocks where several students are taking the same shot in turn. I kept those whole.</p>
 
         <p>Fourteen cuts total. I stitched them together with ffmpeg and let the rest of the audio drop.</p>
 
-        <p>While I was at it I wrote up what the coaches actually taught: the technique points, the faults they called out, and the tactical advice about when to use the shot at all. Both are below.</p>
+        <p>While I was at it I wrote up what the coaches actually taught: the technique points, the faults they called out, and the tactical advice about when to use the shot at all. All are below.</p>
 
-        <h3>The whole editing system</h3>
+        <h3>The transcript with gaps</h3>
 
-        <p>There isn't much to it, and that's the point. The transcript with the gaps marked looks like this:</p>
+        <p>The transcript with the gaps marked looks like this:</p>
 
         <div class="system-block"><span class="cm">[00:20.19-00:26.09]</span> I line my feet up parallel to where I want to go, angle the shot,  <span class="gap">&lt;&lt;&lt; gap 2.6s &gt;&gt;&gt;</span>
 
@@ -253,7 +253,7 @@
 <span class="lbl">00:10:31  00:11:30</span>  practice-14-extended-block</div>
         <p class="system-caption">That's the entire decision record. Fourteen rows. ffmpeg pulls those windows out of the source and merges them.</p>
 
-        <p>The thinking part — working out which gaps were demos and which were thinking pauses, and where to merge adjacent practice blocks — took maybe ten minutes of reading. The rest was script.</p>
+        <p>Working out which gaps were demos and which were thinking pauses, and where to merge adjacent practice blocks, took maybe ten minutes of reading. The rest was script.</p>
 
         <hr>
 
@@ -270,7 +270,7 @@
 
         <h2>What Sue and Chris actually taught</h2>
 
-        <p>This is the coaching content pulled out of the explanation around it. The video shows the strokes; what follows turns the talk into specific things you can take to the lawn.</p>
+        <p>The coaching content below is extracted from the explanation around it. The video shows the strokes; the text below turns the talk into specific things you can take to the lawn.</p>
 
         <h3>The three things to fix first</h3>
 
@@ -350,15 +350,15 @@
 
         <hr>
 
-        <h2>What this means past the jump shot</h2>
+        <h2>Why this matters for clubs</h2>
 
         <p>The cut took most of an afternoon. Most of that was the audio transcription, which runs unattended in the background. The actual editing was a few minutes of reading the transcript and writing down which seconds to keep.</p>
 
         <div class="cost-callout">
-          <strong>What this costs at the going rate.</strong> A beginner video editor in Australia charges $35-$50 an hour <a href="https://pixel3.com.au/knowledge/how-much-does-video-editing-cost-in-australia/" target="_blank" rel="noopener">(Pixel3, 2025)</a>. A cut this size &mdash; sixteen minutes of source, fourteen action windows, one written brief alongside &mdash; would realistically be an afternoon's work for a beginner, $70-$120 once you include the writeup. Multiply by a club's worth of unedited footage and the bottleneck stops being a surprise.
+          <strong>What this costs at the going rate.</strong> A beginner video editor in Australia charges $35-$50 an hour <a href="https://pixel3.com.au/knowledge/how-much-does-video-editing-cost-in-australia/" target="_blank" rel="noopener">(Pixel3, 2025)</a>. A cut this size, sixteen minutes of source, fourteen action windows, one written brief alongside, would realistically be an afternoon's work for a beginner, $70-$120 once you include the writeup. Multiply by a club's worth of unedited footage and the problem becomes clear.
         </div>
 
-        <p>What this changes isn't about jump shots. It's that the gap between a coach and someone who couldn't be at the session just got smaller. A coach in Newcastle has a demonstration; a player in Cairns gets to watch it. A long-serving club member has an interview's worth of history in their head; the recording becomes something people watch instead of something that sits on a hard drive.</p>
+        <p>This change makes coaching accessible to players who could not attend. A coach in Newcastle has a demonstration; a player in Cairns gets to watch it. A long-serving club member has an interview's worth of history in their head; the recording becomes something people watch instead of something that sits on a hard drive.</p>
 
         <p>Same for club histories. The founder interview that never got cut. The committee meeting where the constitutional change was finally explained properly. The state team training session that was filmed and shelved. The footage exists. The work to turn it into something watchable is what was missing.</p>
 
@@ -370,7 +370,7 @@
 
         <h2>Other pieces from the same pipeline</h2>
 
-        <p>Eight more, all from Southport interviews, produced the same way. Each one was a different shape of source — long interview, short pre-edited clip, single quote, procedural how-to. Each post has a short note at the end on what was particular about that clip.</p>
+        <p>Eight more, all from Southport interviews, produced the same way. Each one was a different shape of source: long interview, short pre-edited clip, single quote, procedural how-to. Each post has a short note at the end on what was particular about that clip.</p>
 
         <ul class="pipeline-demos">
           <li>
@@ -408,23 +408,9 @@
         </ul>
 
         <div class="credit-box">
-          <strong>Credits.</strong> Coaching by Sue Sellers and Chris Williamson, both NSW State Level players. Session organised by the Hunter Hub at Lake Mac Croquet Centre, February 2026. Original publisher retains all rights to the source footage; the rough cut and the written notes here are derivative work for educational use within the croquet community. If anyone associated with the original recording would prefer the cut be removed or attributed differently, the <a href="/contact.html">contact link</a> is at the top.
+          <strong>Credits.</strong> Sue Sellers and Chris Williamson, both NSW State Level players, provided the coaching. The Hunter Hub organised the session at Lake Mac Croquet Centre in February 2026. The original publisher retains all rights to the source footage; the rough cut and written notes are derivative work for educational use within the croquet community. If anyone associated with the original recording would prefer the cut removed or attributed differently, the <a href="/contact.html">contact link</a> is at the top.
         </div>
-      </div>
-
-      <div class="further-reading">
-        <h2>More from The Thinking</h2>
-        <div class="post-links">
-          <a href="/blog/how-jenny-clarke-thing-became-a-coaching-report.html" class="post-link">
-            <div class="post-link-title">How 'That Jenny Clarke Thing' Became a Coaching Report</div>
-            <div class="post-link-date">April 2026</div>
-          </a>
-          <a href="/blog/this-was-the-prompt.md" class="post-link">
-            <div class="post-link-title">This Was the Prompt</div>
-            <div class="post-link-date">March 2026</div>
-          </a>
-        </div>
-        <a href="/" class="back-link">&larr; Back to home</a>
+      
       </div>
     </article>
   </main>
