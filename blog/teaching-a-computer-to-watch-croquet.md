@@ -65,11 +65,13 @@ A croquet player who reads that for half a minute can replay the game in their h
 
 This first version covers Golf Croquet only. Association Croquet has its own concepts (peels, croquet strokes, leaves, baulks) that don't translate, so it'll get a separate document when someone has time to write one.
 
-**4. Ask a human when the software isn't sure.** This is the new part. The software is good at the easy shots, like a clear positioning play or an obvious clearance. It struggles on the moments that matter most: a hoop attempt that barely succeeds or barely fails, an unusual joker shot, a stroke where the camera happened to move at the wrong second. For those, it flags the shot as uncertain and asks a person to look.
+**4. Ask a human when the geometry isn't enough.** This is the new part. From the ball positions before and after a shot, most categories drop out cleanly. The ball passed through a hoop's coordinates: hoop run. It contacted an opponent ball that then moved: clearance. It just travelled to a chosen spot: positioning. Easy answers in the easy cases.
+
+The hard cases are where the geometry is uncertain. A player walks through the frame and we lose the ball for a second. Two shots happen close together and the scoreboard says a hoop ran but we can't tell which one ran it. A ball clipped a hoop wire and bounced back to almost the same spot, so was it a failed hoop attempt or just a small position adjustment? For those, the software flags the shot and asks a person.
 
 You can see the shape of it below.
 
-That's a real shot from the 2025 Queensland Open Final. The software guessed positioning. The scoreboard ticked over six seconds later, so we know someone ran a hoop within seconds of this clip. But did this shot run it, or did the next player run on the following turn? The software can't tell. That's exactly when it asks a person. Multiple human answers, combined with what the scoreboard tells us about the timing, eventually settle the question. The agreed answer goes into a learning set, and the software gets better at the next shot like this one.
+That's a real shot from the 2025 Queensland Open Final. Working from the ball positions alone, the software called this positioning: the ball moved to a spot, no clear hoop-wire crossing in the tracked trajectory. But the scoreboard ticked over six seconds later, so we know someone ran a hoop within a few seconds of this clip. Either this shot did run it and the tracking missed the wire-crossing, or the next player ran on their turn. The software can't tell which. That's exactly when it asks a person. Multiple human answers, combined with the scoreboard timing, eventually settle it. The agreed answer goes into a learning set, and the software gets better at the next shot like this one.
 
 [Try the classify-and-learn preview.](/classify/) Four clips from this game, four questions, see what other people called each one and why.
 
