@@ -85,7 +85,8 @@ Three things happen at once when a person answers:
 
 - **Hearing the shots: works.** Around 175 shots detected on a 40-minute tournament game.
 - **Finding the balls: works on fixed-camera footage.** Three of four balls reliably located in clean frames. Handheld footage is still the hard case.
-- **Identifying the kind of shot from AI alone: doesn't work yet.** Off-the-shelf AI struggles to spot a ball passing through a hoop's wires. The event is too small (a 10-pixel ball) and too quick (less than a second) for a general-purpose vision model to catch reliably. That's why a human-in-the-loop is needed.
+- **Classifying the kind of shot from ball positions: works for most shots.** Once we know where each ball was before and after a shot, the category drops out geometrically. Did the ball pass through a hoop's coordinates? That's a hoop run. Did it contact an opponent ball and move it? That's a clearance. Did it just move to a chosen spot? That's positioning. No vision-AI needed for the shot type itself: the ball positions tell us.
+- **The edge cases need human help.** When ball tracking is uncertain, when the camera moves at the wrong moment, when the question is whether THIS shot ran the hoop or the NEXT player did, the geometry alone isn't enough. The classify page is for those cases.
 - **Notation:** CAN draft at version 0.1, ready for community review.
 - **The classify-and-learn page:** built as a preview. The live version, hooked up to real low-confidence questions from real games, is the next thing to build.
 
