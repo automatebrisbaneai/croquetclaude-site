@@ -2,9 +2,9 @@
 
 *May 2026*
 
-The single best predictor of who wins a Golf Croquet game isn't shot selection or tactics. It's execution. In 49 of 50 elite games Dr Jenny Clarke analysed, the player with the higher per-stroke success rate won. A 2% difference is enough.
+The single best predictor of who wins a Golf Croquet game isn't shot choice or tactics. It's execution. In a study of 50 elite games, the player who hit more of their shots cleanly won 49 of them. A 2% gap was enough. Tactics matter, but execution decides.
 
-The framework that gives you that number is called **Cowing Performance Analysis**. It's one of the sharpest coaching diagnostics croquet has, and almost nobody gets one. Doing it by hand takes hours per game.
+The framework that gives you a player's execution number is called **Cowing Performance Analysis**. It's one of the sharpest coaching diagnostics croquet has, and almost nobody gets one. Doing it by hand takes hours per game.
 
 I've been building a system to do it from video instead. Here's what works, what doesn't, and where the croquet community comes in.
 
@@ -12,20 +12,18 @@ I've been building a system to do it from video instead. Here's what works, what
 
 ## What Cowing Performance Analysis is
 
-If you've coached at the higher levels of Golf Croquet, you may have come across CPA already. Andrew Cowing devised it. Dr Jenny Clarke refined it and wrote it up for *Croquet World* in 2020. Marty Clarke has been running coaching sessions on it around Australia ever since.
+You may have come across CPA in coaching circles. It's a way of scoring how well a player executes the shots they play. Andrew Cowing came up with the framework. Dr Jenny Clarke, the New Zealand world-ranked Golf Croquet player, refined it and wrote it up for *Croquet World* magazine in 2020. Marty Clarke (Australia's GC High Performance Manager) has been running coaching sessions on it around Australia ever since.
 
-Every stroke a player plays goes into one bucket:
+Here's how it works. Every shot a player plays goes into one of four buckets, based on what they were trying to do:
 
-- **Positioning**: moving your ball to a spot you've chosen
-- **Clearing**: hitting an opponent's ball away (short range vs. long range)
-- **Hooping**: attempting to run a hoop (short vs. long approach)
-- **Joker**: jaws, un-jaws, blocking, in-off, jump shots
+- **Positioning**: moving your ball to a chosen spot on the lawn.
+- **Clearing**: hitting an opponent's ball away. Split into short range (under 7 yards) and long range (7 yards or more), because a clearance from close in is easier than one across the lawn.
+- **Hooping**: attempting to run a hoop. Also split short vs long, by how far the striker is from the hoop.
+- **Joker**: the situational shots that don't fit the other categories. Jawsing your own ball (parking it in the hoop's jaws to block), un-jawsing an opponent's, defensive blocking, in-offs, jump shots.
 
-For each stroke you also record whether it succeeded for the striker. Add up the row, divide by the total, and you get a single percentage: the player's success score for the game.
+Then for each shot you ask one more question: did it work? If they were trying to position, did the ball end up where they wanted? If they were clearing, did the opponent's ball get cleared? Add up the row, divide by the total shots played, and you get the player's success rate for the game.
 
-Reg Bamford at his peak British Open form scored 80–82%. Tournament-winning play sits at 75%-plus. Below 55% and the opponent is significantly stronger.
-
-The diagnostic tells a player exactly where they're leaking points: which category they're under-performing in, against an elite benchmark.
+Reg Bamford at his peak British Open form scored 80–82%. Tournament-winning play sits above 75%. Below 55% and the opponent is significantly stronger. Crucially, it tells a player exactly where they're leaking points. Are they missing short clearances? Are they over-attempting long hoops? The percentage breakdown by category points straight at the weakness.
 
 ---
 
@@ -39,45 +37,57 @@ Automate it, even imperfectly, and the cost-per-game drops to cents. Every game 
 
 ---
 
-## How the pipeline works
+## How the system works
 
-**1. Hear the strokes.** A mallet on a ball is a sharp, broadband sound. Distinct from talking, footsteps, or wind. A peak detector on the high-passed audio track produces a list of stroke timestamps. A tournament Open Final lands around 175 strokes, which is the right ballpark.
+Four steps.
 
-**2. Watch the court.** The system needs to know where each of the four balls is, sample by sample, throughout the game. For now it uses colour segmentation. Croquet balls are saturated colours on uniform green grass, which is a problem computer vision was made for. Add roundness and size filters and you have a working primitive. On fixed-camera elevated footage like the Australian Open broadcast, this works reliably. On handheld panning footage the same primitive struggles, because the camera moves faster than the maths.
+**1. Listen for the shots.** A mallet hitting a ball makes a sharp, distinctive sound. Different from talking, footsteps, or wind. The software listens to the audio and notes every time it hears that sound. On a 40-minute tournament game it finds around 175 shots, which is the right ballpark. That's the first thing the system knows: when each shot happens.
 
-**3. Write it down properly.** No chess-PGN-equivalent exists for croquet. No agreed format for recording move-by-move what happened in a game. I've drafted one: **Croquet Algebraic Notation (CAN)**. Each line records the striker, the ball, where it started on the court, where it ended, and what happened along the way. Like this:
+**2. Find the balls.** The harder part. For every moment in the game, the software needs to know where each of the four balls is on the lawn. It does this by colour. Croquet balls are bright red, yellow, blue, and black, and the lawn is uniformly green. Recognising bright dots against a flat background is a task computers are genuinely good at. Combine that with shape (the dots should be round) and size (small but consistent), and you have a working ball-finder.
+
+This works well when the camera doesn't move. A clubhouse balcony angle, or a fixed pole-mounted camera, is the easy case. On handheld footage where the camera follows the action, the same approach struggles, because the lawn keeps shifting in the frame.
+
+**3. Write down what happened.** Chess has a standard way of recording games: '1. e4 e5 2. Nf3 Nc6'. You can read a chess game from a notation file without ever seeing the board. Croquet doesn't have an equivalent. So I drafted one. It's called **Croquet Algebraic Notation**, or CAN. A few lines look like this:
 
 ```
-1.  U(2.0,17.5)>(7.5,28.4)  Ru:1     ; Blue runs hoop 1
-2.  R(2.0,17.5)>(13.5,11.1)  Ru:1.fail   ; Red attempts hoop 1, hit wires, bounced back
-3.  K(26.0,17.5)>(14.2,9.8)  Cl:Y(13.5,11.1)>(20.4,4.1)   ; Black clears Yellow
+1.  U(2.0,17.5)>(7.5,28.4)  Ru:1
+2.  R(2.0,17.5)>(13.5,11.1)  Ru:1.fail
+3.  K(26.0,17.5)>(14.2,9.8)  Cl:Y(13.5,11.1)>(20.4,4.1)
 ```
 
-A croquet player who reads that for thirty seconds can follow the game in their head. A computer reads it natively. Same artifact, two audiences.
+Reading it out:
 
-Strictly Golf Croquet at v0.1. Association Croquet gets its own specification when someone has the time to write it. Too many concepts (peels, croquet strokes, leaves, baulks) have no GC equivalent, so folding them into one document gets messy.
+- **Line 1:** Blue (U) struck a ball from court position (2.0, 17.5) to (7.5, 28.4). Coordinates are in yards from the north-west corner of the lawn. `Ru:1` means the ball ran hoop 1.
+- **Line 2:** Red (R) struck from the same starting spot, ended at (13.5, 11.1). `Ru:1.fail` means an attempt at hoop 1 that didn't go through, probably hit the wires and bounced.
+- **Line 3:** Black (K) struck from (26.0, 17.5), ended at (14.2, 9.8), and along the way contacted Yellow (Y), `Cl:Y` for clearance, moving Yellow from (13.5, 11.1) to (20.4, 4.1).
 
-**4. Ask the crowd when unsure.** The auto-classifier is good at the easy strokes: a clear positioning shot, an obvious clearance. It struggles on the moments that matter most. A hoop attempt that just barely succeeds or just barely fails. A tactical joker shot. A stroke where the camera moved at the wrong second. For those, the system flags the stroke as low-confidence and asks a human.
+A croquet player who reads that for half a minute can replay the game in their head. The software reads it directly. Same file, two audiences.
+
+This first version covers Golf Croquet only. Association Croquet has its own concepts (peels, croquet strokes, leaves, baulks) that don't translate, so it'll get a separate document when someone has time to write one.
+
+**4. Ask a human when the software isn't sure.** This is the new part. The software is good at the easy shots, like a clear positioning play or an obvious clearance. It struggles on the moments that matter most: a hoop attempt that barely succeeds or barely fails, an unusual joker shot, a stroke where the camera happened to move at the wrong second. For those, it flags the shot as uncertain and asks a person to look.
 
 You can see the shape of it below.
 
-That's a real stroke from the 2025 Queensland Open Final. The auto-classifier called it positioning. The scoreboard ticked over six seconds later. Addison ran a hoop. When humans see the clip and answer "what kind of shot is this?", they call it correctly 84% of the time. The system learns from that disagreement: my auto-classifier was wrong here, the human was right, and the labelled answer goes into the training set for next time.
+That's a real shot from the 2025 Queensland Open Final. The software guessed positioning. The scoreboard ticked over six seconds later, so we know someone ran a hoop within seconds of this clip. But did this shot run it, or did the next player run on the following turn? The software can't tell. That's exactly when it asks a person. Multiple human answers, combined with what the scoreboard tells us about the timing, eventually settle the question. The agreed answer goes into a learning set, and the software gets better at the next shot like this one.
 
-Three things happen at once when a human answers:
+[Try the classify-and-learn preview.](/classify/) Four clips from this game, four questions, see what other people called each one and why.
 
-1. The stroke gets a verified label. The system gets honest.
-2. The human who answered wrong sees a one-sentence explanation of what the right read was. Coaching, at the resolution of a single stroke, at scale.
-3. The labelled answer accumulates into a training set. Once there are enough labels, a small purpose-built model trained on the human-labelled set will outperform any generic vision model, and run at near-zero cost per stroke.
+Three things happen at once when a person answers:
+
+1. The shot gets a verified label. The software gets an honest read on what actually happened.
+2. The person who answered wrong sees a short explanation of what the right read was. It's coaching, one shot at a time, available to anyone.
+3. The answer accumulates into a learning set. Over time, with enough answers, the software learns to handle the same kind of shot on its own. Eventually it stops needing off-the-shelf AI to power it: we'd train a small dedicated model from the human answers, which would be cheaper to run and more accurate for croquet specifically.
 
 ---
 
 ## Where it's up to
 
-- Audio stroke detection works. Around 175 strokes detected on a 40-minute tournament game.
-- Court masking and colour-based ball detection work on fixed-camera elevated footage. Three of four balls correctly located in clean frames.
-- Per-stroke classification by generic AI alone hit a wall at the "hooping" category. The ball-passing-through-wires event is too small and too fast for current general-purpose vision models to catch reliably. That's why the crowd loop matters.
-- The CAN notation draft is at v0.1, ready for community review.
-- The classify-and-learn page is mocked up and works end-to-end as a demo. Feeding it real low-confidence questions from a real game is the next build.
+- **Hearing the shots: works.** Around 175 shots detected on a 40-minute tournament game.
+- **Finding the balls: works on fixed-camera footage.** Three of four balls reliably located in clean frames. Handheld footage is still the hard case.
+- **Identifying the kind of shot from AI alone: doesn't work yet.** Off-the-shelf AI struggles to spot a ball passing through a hoop's wires. The event is too small (a 10-pixel ball) and too quick (less than a second) for a general-purpose vision model to catch reliably. That's why a human-in-the-loop is needed.
+- **Notation:** CAN draft at version 0.1, ready for community review.
+- **The classify-and-learn page:** built as a preview. The live version, hooked up to real low-confidence questions from real games, is the next thing to build.
 
 ---
 
@@ -85,11 +95,11 @@ Three things happen at once when a human answers:
 
 Two open questions, both for people rather than AI.
 
-One is the notation. CAN is currently a draft. Whether it becomes a useful standard depends on coaches and analysts having a look, telling me where it's wrong, where it's missing something, and where abbreviations should follow long-established usage rather than what I came up with. That review will happen in public once the spec is ready for it.
+One is the notation. CAN is currently a draft. Whether it becomes a useful standard depends on coaches and analysts having a look. They tell me where it's wrong, where it's missing something, and where abbreviations should follow long-established usage rather than what I came up with. That review will happen in public once the spec is ready for it.
 
-The other is the classifier. A few minutes a week answering "what kind of shot is this?" produces two things at once: training data for the system, and a small coaching reflection for the person who answered. Wrong answers come with a short explanation. Right answers go into the dataset.
+The other is the classifier. A few minutes a week answering "what kind of shot is this?" produces two things at once: training data for the software, and a small coaching reflection for the person who answered. Wrong answers come with a short explanation. Right answers go into the learning set.
 
-I'll share a link to the live classifier when there's something real to try.
+The [preview is here now](/classify/). The live system will follow, once the pipeline can feed it real low-confidence questions from games it has just watched.
 
 ---
 

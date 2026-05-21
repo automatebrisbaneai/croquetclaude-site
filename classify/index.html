@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Classify &mdash; CroquetClaude</title>
+<meta name="description" content="Reinforcement-learning preview. What kind of shot is this? Watch the clip, pick the answer, see what the crowd called it and why." />
+<meta property="og:title" content="Classify &mdash; CroquetClaude" />
+<meta property="og:description" content="Reinforcement-learning preview. What kind of shot is this? Watch the clip, pick the answer, see what the crowd called it and why." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://croquetclaude.com/claude-waving.webp" />
+<link rel="icon" href="../images/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="../images/favicon.png" type="image/png" sizes="32x32" />
+<link rel="shortcut icon" href="../images/favicon.ico" />
+<link rel="canonical" href="https://croquetclaude.com/classify/" />
+<style>
+  :root {
+    --bg: #0f1419;
+    --card: #1a2027;
+    --border: #2c3540;
+    --text: #e5e9ec;
+    --muted: #95a3b0;
+    --accent: #74c0fc;
+    --positive: #51cf66;
+    --warning: #ffd43b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  nav.top {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  nav.top a.brand {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  nav.top a.brand:hover { color: var(--accent); }
+  nav.top .right {
+    color: var(--muted);
+    font-size: 14px;
+  }
+  nav.top .right a {
+    color: var(--muted);
+    text-decoration: none;
+    margin-left: 16px;
+  }
+  nav.top .right a:hover { color: var(--accent); }
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 48px;
+  }
+  .preview-banner {
+    width: 100%;
+    max-width: 960px;
+    background: rgba(255, 212, 59, 0.08);
+    border: 1px solid rgba(255, 212, 59, 0.3);
+    color: var(--warning);
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .preview-banner strong { color: var(--text); }
+  header.page {
+    width: 100%;
+    max-width: 960px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  header.page h1 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  header.page .session {
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .card {
+    width: 100%;
+    max-width: 960px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .clip {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+  .clip video {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+  }
+  .stroke-meta {
+    display: flex;
+    gap: 24px;
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .stroke-meta strong { color: var(--text); }
+  .question {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 24px 0 16px;
+  }
+  .question .highlight {
+    background: linear-gradient(180deg, transparent 60%, rgba(116, 192, 252, 0.25) 60%);
+    padding: 0 4px;
+  }
+  .options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 640px) {
+    .options { grid-template-columns: 1fr; }
+  }
+  .option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #232a33;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+  }
+  .option:hover { background: #2a323d; }
+  .option input[type=radio] {
+    margin-top: 3px;
+    accent-color: var(--accent);
+  }
+  .option-text { display: flex; flex-direction: column; gap: 2px; }
+  .option-text .name { font-weight: 600; }
+  .option-text .desc { color: var(--muted); font-size: 13px; }
+  .option.selected {
+    border-color: var(--accent);
+    background: rgba(116, 192, 252, 0.1);
+  }
+  .followup {
+    grid-column: 1 / -1;
+    margin-top: 4px;
+    padding: 16px;
+    background: rgba(116, 192, 252, 0.05);
+    border: 1px dashed rgba(116, 192, 252, 0.3);
+    border-radius: 8px;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .followup.show { display: flex; }
+  .followup label.heading {
+    font-size: 13px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    padding: 6px 12px;
+    background: #232a33;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+  }
+  .chip:hover { background: #2a323d; }
+  .chip.selected {
+    border-color: var(--accent);
+    background: rgba(116, 192, 252, 0.15);
+    color: var(--accent);
+  }
+  .followup input[type=text] {
+    background: #0f1419;
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 14px;
+    width: 100%;
+    font-family: inherit;
+  }
+  .followup input[type=text]:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  .actions { display: flex; gap: 12px; align-items: center; justify-content: space-between; }
+  button {
+    background: var(--accent);
+    color: #0f1419;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px 24px;
+    cursor: pointer;
+  }
+  button:disabled {
+    background: #2c3540;
+    color: var(--muted);
+    cursor: not-allowed;
+  }
+  .skip {
+    background: transparent;
+    color: var(--muted);
+    text-decoration: underline;
+    padding: 12px 0;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+  }
+  .reveal {
+    margin-top: 24px;
+    padding: 20px;
+    background: rgba(81, 207, 102, 0.08);
+    border: 1px solid rgba(81, 207, 102, 0.3);
+    border-radius: 8px;
+    display: none;
+  }
+  .reveal.show { display: block; }
+  .reveal.wrong {
+    background: rgba(255, 107, 107, 0.06);
+    border-color: rgba(255, 107, 107, 0.3);
+  }
+  .reveal h3 {
+    margin: 0 0 8px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+  }
+  .reveal .right-answer {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--positive);
+    margin-bottom: 4px;
+  }
+  .reveal.wrong .right-answer { color: var(--warning); }
+  .reveal .crowd {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .reveal .why { color: var(--text); line-height: 1.6; }
+  .footer {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 12px;
+    text-align: center;
+  }
+  .complete { text-align: center; padding: 40px 24px; }
+  .complete h2 { margin: 0 0 12px; font-size: 22px; }
+  .complete p { color: var(--muted); margin: 8px 0; }
+  .complete .stats { margin: 24px 0; font-size: 18px; }
+  .complete .stats strong { color: var(--accent); }
+  .progress-dots { display: flex; gap: 6px; }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+  }
+  .dot.done { background: var(--positive); }
+  .dot.wrong { background: var(--warning); }
+  .dot.current { background: var(--accent); }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <a class="brand" href="/">CroquetClaude</a>
+  <div class="right">
+    <a href="/blog/teaching-a-computer-to-watch-croquet.html">The blog post</a>
+    <a href="/">Home</a>
+  </div>
+</nav>
+
+<main>
+
+  <div class="preview-banner">
+    <strong>Preview.</strong> This is an illustrative mockup. Four hand-picked clips from one real game, with example crowd-consensus numbers. The live system will draw real low-confidence questions from games it has just watched.
+  </div>
+
+  <header class="page">
+    <h1>What kind of shot is this?</h1>
+    <div class="session">
+      <span id="progress-text">Question 1 of 4</span>
+      &nbsp;&middot;&nbsp;
+      <span class="progress-dots" id="progress-dots"></span>
+    </div>
+  </header>
+
+  <div class="card" id="card">
+
+    <div class="clip">
+      <video id="clip-video" controls autoplay muted loop playsinline>
+        <source id="clip-source" src="" type="video/mp4" />
+        Your browser doesn't support inline video.
+      </video>
+    </div>
+
+    <div class="stroke-meta" id="stroke-meta"></div>
+
+    <div class="question" id="question-text"></div>
+
+    <form id="classify-form">
+      <div class="options" id="options"></div>
+
+      <div class="actions">
+        <button type="button" id="skip" class="skip">Skip this one</button>
+        <button type="submit" id="submit" disabled>Submit answer</button>
+      </div>
+    </form>
+
+    <div id="reveal" class="reveal">
+      <h3>The right answer</h3>
+      <div class="right-answer" id="reveal-answer"></div>
+      <div class="crowd" id="reveal-crowd"></div>
+      <div class="why" id="reveal-why"></div>
+    </div>
+
+    <div class="footer">
+      In the live system, your answer feeds the auto-classifier's training set. Disagreements teach the system where it's weak.
+    </div>
+  </div>
+
+</main>
+
+<script>
+const CLIP_BASE = "clips/";
+
+const QUESTIONS = [
+  {
+    clip: CLIP_BASE + "clip-stroke-00565.mp4",
+    match: "2025 QLD GC Open Final &middot; Game 1",
+    sourceTime: "09:25",
+    striker: "Shane Davis &middot; Yellow",
+    strikerHighlight: "YELLOW ball",
+    rightAnswer: "positioning",
+    crowdSummary: "you're one of the first to answer &mdash; only 4 prior responses, not enough for crowd consensus yet",
+    why: "Shane is striking his yellow ball cleanly to a spot on the lawn. No opponent ball is hit, no hoop is run. The ball travels to a chosen target position. That's positioning by definition. The shot is short, and the trajectory has no interaction with any hoop wire or other ball &mdash; that's the giveaway.",
+  },
+  {
+    clip: CLIP_BASE + "clip-stroke-02166.mp4",
+    match: "2025 QLD GC Open Final &middot; Game 1",
+    sourceTime: "36:06",
+    striker: "Addison Matthews &middot; Black",
+    strikerHighlight: "BLACK ball",
+    rightAnswer: "clearing_short",
+    crowdSummary: "73% of 89 respondents called this clearing-short &middot; auto-classifier said clearing-short &middot; expert (Marty Clarke) confirmed clearing-short",
+    why: "Black strikes and contacts a red ball. The red ball travels several yards as a result. The striker-to-target distance is under 7 yards, putting this in the short bucket. The 16% who answered positioning likely missed the contact event &mdash; easy to do at this camera angle when the impact is brief.",
+  },
+  {
+    clip: CLIP_BASE + "clip-stroke-02039.mp4",
+    match: "2025 QLD GC Open Final &middot; Game 1",
+    sourceTime: "33:59",
+    striker: "Black is the next ball to strike",
+    strikerHighlight: "BLACK ball",
+    rightAnswer: "unsure",
+    crowdSummary: "Genuinely ambiguous &middot; 42% called this positioning, 31% hooping-short, 18% clearing, 9% unsure &middot; auto-classifier said positioning &middot; scoreboard ticked over 6 s after this stroke",
+    why: "This is exactly the kind of stroke the system flags for human help. The scoreboard confirms someone scored a hoop within seconds of this clip. But the live question is whether THIS stroke ran the hoop, or whether the next turn did. The auto-classifier doesn't know. A confident human will read the trajectory and place the moment; an honest human will say &lsquo;can't tell&rsquo; and the system will respect that signal. Both responses are useful. The wrong move is to guess and pretend we're sure.",
+  },
+  {
+    clip: CLIP_BASE + "clip-stroke-00433.mp4",
+    match: "2025 QLD GC Open Final &middot; Game 1",
+    sourceTime: "07:13",
+    striker: "Addison Matthews &middot; Black",
+    strikerHighlight: "BLACK ball",
+    rightAnswer: "positioning",
+    crowdSummary: "61% of 142 respondents called this positioning &middot; auto-classifier said unclear &middot; 22% said hooping-long",
+    why: "Addison hits his ball to set up an approach to the next hoop. Watch the ball trajectory. It doesn't cross any hoop's wires, it doesn't make contact with another ball. It just ends at a chosen spot on the lawn that gives him an angle for his next shot. Some of the 22% who said hooping-long probably saw the ball moving toward the general area of a hoop and assumed intent; intent isn't enough without an actual hoop attempt.",
+  },
+];
+
+const OPTIONS = [
+  { val: "positioning",     name: "Positioning",       desc: "Striker moves their ball to a chosen spot" },
+  { val: "clearing_short",  name: "Clearing (short)",  desc: "Hits an opponent ball less than 7 yards away" },
+  { val: "clearing_long",   name: "Clearing (long)",   desc: "Hits an opponent ball 7 yards or more away" },
+  { val: "hooping_short",   name: "Hooping (short)",   desc: "Hoop attempt &mdash; striker less than 3 yards from hoop" },
+  { val: "hooping_long",    name: "Hooping (long)",    desc: "Hoop attempt &mdash; striker 3 yards or more from hoop" },
+  { val: "joker",           name: "Joker",             desc: "Jaws &middot; unjaws &middot; block &middot; in-off &middot; jump" },
+  { val: "unsure",          name: "Can't tell",        desc: "Camera angle / ball off-screen / unclear" },
+  { val: "malformed",       name: "This question is wrong", desc: "Wrong striker / wrong clip / categories don't fit" },
+];
+
+const FOLLOWUPS = {
+  unsure: {
+    heading: "What made it hard to tell? (optional, tap any that apply)",
+    chips: ["Camera angle", "Ball off-screen", "Players blocking the action", "Clip too short", "Too far from action"],
+    placeholder: "Anything else?",
+  },
+  malformed: {
+    heading: "What's wrong with this question? (optional, tap any that apply)",
+    chips: ["Wrong striker named", "This isn't a real stroke", "Wrong clip / not the stroke described", "Two strokes in one clip", "Right answer isn't in the list", "Clip corrupted / can't see anything"],
+    placeholder: "Anything else?",
+  },
+};
+
+const ANSWER_LABELS = Object.fromEntries(OPTIONS.map(o => [o.val, o.name.replace(/&mdash;/g, "—").replace(/&middot;/g, "·")]));
+
+let currentIndex = 0;
+let answers = [];
+let revealed = false;
+let selectedChips = new Set();
+
+const $ = id => document.getElementById(id);
+
+function renderProgressDots() {
+  const dots = $("progress-dots");
+  dots.innerHTML = "";
+  for (let i = 0; i < QUESTIONS.length; i++) {
+    const d = document.createElement("span");
+    d.className = "dot";
+    if (i < answers.length) {
+      d.classList.add(answers[i].correct ? "done" : "wrong");
+    } else if (i === currentIndex) {
+      d.classList.add("current");
+    }
+    dots.appendChild(d);
+  }
+}
+
+function renderFollowup(forVal) {
+  const cfg = FOLLOWUPS[forVal];
+  const container = $("followup");
+  selectedChips = new Set();
+  if (!cfg) {
+    if (container) {
+      container.classList.remove("show");
+      container.innerHTML = "";
+    }
+    return;
+  }
+  container.classList.add("show");
+  container.innerHTML = `
+    <label class="heading">${cfg.heading}</label>
+    <div class="chips" id="chips"></div>
+    <input type="text" id="followup-text" placeholder="${cfg.placeholder}" />
+  `;
+  const chips = $("chips");
+  cfg.chips.forEach(label => {
+    const c = document.createElement("span");
+    c.className = "chip";
+    c.textContent = label;
+    c.addEventListener("click", () => {
+      if (revealed) return;
+      if (selectedChips.has(label)) {
+        selectedChips.delete(label);
+        c.classList.remove("selected");
+      } else {
+        selectedChips.add(label);
+        c.classList.add("selected");
+      }
+    });
+    chips.appendChild(c);
+  });
+}
+
+function renderOptions() {
+  const container = $("options");
+  container.innerHTML = "";
+  OPTIONS.forEach(o => {
+    const label = document.createElement("label");
+    label.className = "option";
+    label.dataset.val = o.val;
+    label.innerHTML = `
+      <input type="radio" name="cpa" value="${o.val}" />
+      <div class="option-text">
+        <span class="name">${o.name}</span>
+        <span class="desc">${o.desc}</span>
+      </div>
+    `;
+    label.addEventListener("click", () => {
+      if (revealed) return;
+      document.querySelectorAll(".option").forEach(el => el.classList.remove("selected"));
+      label.classList.add("selected");
+      label.querySelector("input").checked = true;
+      $("submit").disabled = false;
+      renderFollowup(o.val);
+    });
+    container.appendChild(label);
+  });
+  const followup = document.createElement("div");
+  followup.id = "followup";
+  followup.className = "followup";
+  container.appendChild(followup);
+}
+
+function loadQuestion(idx) {
+  revealed = false;
+  const q = QUESTIONS[idx];
+
+  $("progress-text").textContent = `Question ${idx + 1} of ${QUESTIONS.length}`;
+  renderProgressDots();
+
+  const video = $("clip-video");
+  $("clip-source").src = q.clip;
+  video.load();
+
+  $("stroke-meta").innerHTML = `
+    <div><strong>Match:</strong> ${q.match}</div>
+    <div><strong>Source:</strong> ${q.sourceTime}</div>
+    <div><strong>Striker:</strong> ${q.striker}</div>
+  `;
+
+  $("question-text").innerHTML =
+    `Watching the <span class="highlight">${q.strikerHighlight}</span> being struck. What kind of shot is this?`;
+
+  renderOptions();
+
+  $("reveal").classList.remove("show", "wrong");
+  $("submit").disabled = true;
+  $("submit").textContent = "Submit answer";
+  $("skip").style.display = "";
+}
+
+function showReveal(pickedVal) {
+  const q = QUESTIONS[currentIndex];
+  const isRight = pickedVal === q.rightAnswer;
+  const followupText = $("followup-text") ? $("followup-text").value.trim() : "";
+  answers.push({
+    pickedVal, rightVal: q.rightAnswer, correct: isRight,
+    followupChips: Array.from(selectedChips),
+    followupText,
+  });
+
+  const rev = $("reveal");
+  rev.classList.toggle("wrong", !isRight);
+  rev.classList.add("show");
+
+  $("reveal-answer").textContent = isRight
+    ? `${ANSWER_LABELS[q.rightAnswer]} ✓ correct`
+    : `${ANSWER_LABELS[q.rightAnswer]}  (you said: ${ANSWER_LABELS[pickedVal]})`;
+
+  $("reveal-crowd").innerHTML = q.crowdSummary;
+  $("reveal-why").innerHTML = q.why;
+
+  $("submit").textContent = currentIndex < QUESTIONS.length - 1
+    ? "Next question →"
+    : "Finish session →";
+  $("submit").disabled = false;
+  $("skip").style.display = "none";
+  revealed = true;
+  renderProgressDots();
+}
+
+function showComplete() {
+  const correct = answers.filter(a => a.correct).length;
+  $("card").innerHTML = `
+    <div class="complete">
+      <h2>Preview session complete</h2>
+      <p>Thanks for trying the mockup. You got <strong>${correct}</strong> of <strong>${QUESTIONS.length}</strong> right.</p>
+      <p>The live system isn't wired up yet. When it is, you'll be answering real low-confidence questions from games it has just watched.</p>
+      <p><a href="/blog/teaching-a-computer-to-watch-croquet.html" style="color:var(--accent);">Read the blog post for context</a></p>
+      <p style="margin-top:20px;"><button onclick="location.reload()">Try again</button></p>
+    </div>
+  `;
+  $("progress-text").textContent = "Done";
+  renderProgressDots();
+}
+
+$("classify-form").addEventListener("submit", e => {
+  e.preventDefault();
+  if (!revealed) {
+    const checked = document.querySelector("input[name=cpa]:checked");
+    if (!checked) return;
+    showReveal(checked.value);
+  } else {
+    currentIndex++;
+    if (currentIndex >= QUESTIONS.length) {
+      showComplete();
+    } else {
+      loadQuestion(currentIndex);
+    }
+  }
+});
+
+$("skip").addEventListener("click", () => {
+  answers.push({ pickedVal: "skipped", rightVal: QUESTIONS[currentIndex].rightAnswer, correct: false });
+  currentIndex++;
+  if (currentIndex >= QUESTIONS.length) {
+    showComplete();
+  } else {
+    loadQuestion(currentIndex);
+  }
+});
+
+loadQuestion(0);
+</script>
+
+</body>
+</html>
