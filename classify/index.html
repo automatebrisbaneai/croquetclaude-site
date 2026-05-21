@@ -262,9 +262,8 @@
     font-size: 18px;
     font-weight: 600;
     color: var(--positive);
-    margin-bottom: 4px;
+    margin-bottom: 0;
   }
-  .reveal.wrong .right-answer { color: var(--warning); }
   .reveal .crowd {
     color: var(--muted);
     font-size: 14px;
@@ -307,7 +306,7 @@
 <main>
 
   <div class="preview-banner">
-    <strong>Preview.</strong> This is an illustrative mockup. Four hand-picked clips from one real game, with example crowd-consensus numbers. The live system will draw real low-confidence questions from games it has just watched.
+    <strong>Preview.</strong> Four sample clips from one real game. There's no scoring and no &ldquo;right answer&rdquo;. Pick what you see, get a thank-you, move on. The live system will draw real low-confidence questions from games it has just watched.
   </div>
 
   <header class="page">
@@ -342,7 +341,6 @@
     </form>
 
     <div id="reveal" class="reveal">
-      <h3>The right answer</h3>
       <div class="right-answer" id="reveal-answer"></div>
       <div class="crowd" id="reveal-crowd"></div>
       <div class="why" id="reveal-why"></div>
@@ -360,44 +358,24 @@ const CLIP_BASE = "clips/";
 
 const QUESTIONS = [
   {
+    clip: CLIP_BASE + "clip-stroke-00433.mp4",
+    match: "2025 QLD GC Open Final &middot; Game 1",
+    sourceTime: "07:13",
+  },
+  {
     clip: CLIP_BASE + "clip-stroke-00565.mp4",
     match: "2025 QLD GC Open Final &middot; Game 1",
     sourceTime: "09:25",
-    striker: "Shane Davis &middot; Yellow",
-    strikerHighlight: "YELLOW ball",
-    rightAnswer: "positioning",
-    crowdSummary: "you're one of the first to answer &mdash; only 4 prior responses, not enough for crowd consensus yet",
-    why: "Shane is striking his yellow ball cleanly to a spot on the lawn. No opponent ball is hit, no hoop is run. The ball travels to a chosen target position. That's positioning by definition. The shot is short, and the trajectory has no interaction with any hoop wire or other ball &mdash; that's the giveaway.",
-  },
-  {
-    clip: CLIP_BASE + "clip-stroke-02166.mp4",
-    match: "2025 QLD GC Open Final &middot; Game 1",
-    sourceTime: "36:06",
-    striker: "Addison Matthews &middot; Black",
-    strikerHighlight: "BLACK ball",
-    rightAnswer: "clearing_short",
-    crowdSummary: "73% of 89 respondents called this clearing-short &middot; auto-classifier said clearing-short &middot; expert (Marty Clarke) confirmed clearing-short",
-    why: "Black strikes and contacts a red ball. The red ball travels several yards as a result. The striker-to-target distance is under 7 yards, putting this in the short bucket. The 16% who answered positioning likely missed the contact event &mdash; easy to do at this camera angle when the impact is brief.",
   },
   {
     clip: CLIP_BASE + "clip-stroke-02039.mp4",
     match: "2025 QLD GC Open Final &middot; Game 1",
     sourceTime: "33:59",
-    striker: "Black is the next ball to strike",
-    strikerHighlight: "BLACK ball",
-    rightAnswer: "unsure",
-    crowdSummary: "Genuinely ambiguous &middot; 42% called this positioning, 31% hooping-short, 18% clearing, 9% unsure &middot; auto-classifier said positioning &middot; scoreboard ticked over 6 s after this stroke",
-    why: "This is exactly the kind of stroke the system flags for human help. The scoreboard confirms someone scored a hoop within seconds of this clip. But the live question is whether THIS stroke ran the hoop, or whether the next turn did. The auto-classifier doesn't know. A confident human will read the trajectory and place the moment; an honest human will say &lsquo;can't tell&rsquo; and the system will respect that signal. Both responses are useful. The wrong move is to guess and pretend we're sure.",
   },
   {
-    clip: CLIP_BASE + "clip-stroke-00433.mp4",
+    clip: CLIP_BASE + "clip-stroke-02166.mp4",
     match: "2025 QLD GC Open Final &middot; Game 1",
-    sourceTime: "07:13",
-    striker: "Addison Matthews &middot; Black",
-    strikerHighlight: "BLACK ball",
-    rightAnswer: "positioning",
-    crowdSummary: "61% of 142 respondents called this positioning &middot; auto-classifier said unclear &middot; 22% said hooping-long",
-    why: "Addison hits his ball to set up an approach to the next hoop. Watch the ball trajectory. It doesn't cross any hoop's wires, it doesn't make contact with another ball. It just ends at a chosen spot on the lawn that gives him an angle for his next shot. Some of the 22% who said hooping-long probably saw the ball moving toward the general area of a hoop and assumed intent; intent isn't enough without an actual hoop attempt.",
+    sourceTime: "36:06",
   },
 ];
 
@@ -425,8 +403,6 @@ const FOLLOWUPS = {
   },
 };
 
-const ANSWER_LABELS = Object.fromEntries(OPTIONS.map(o => [o.val, o.name.replace(/&mdash;/g, "—").replace(/&middot;/g, "·")]));
-
 let currentIndex = 0;
 let answers = [];
 let revealed = false;
@@ -441,7 +417,7 @@ function renderProgressDots() {
     const d = document.createElement("span");
     d.className = "dot";
     if (i < answers.length) {
-      d.classList.add(answers[i].correct ? "done" : "wrong");
+      d.classList.add("done");
     } else if (i === currentIndex) {
       d.classList.add("current");
     }
@@ -529,11 +505,9 @@ function loadQuestion(idx) {
   $("stroke-meta").innerHTML = `
     <div><strong>Match:</strong> ${q.match}</div>
     <div><strong>Source:</strong> ${q.sourceTime}</div>
-    <div><strong>Striker:</strong> ${q.striker}</div>
   `;
 
-  $("question-text").innerHTML =
-    `Watching the <span class="highlight">${q.strikerHighlight}</span> being struck. What kind of shot is this?`;
+  $("question-text").innerHTML = `Watch the clip. What kind of shot do you see?`;
 
   renderOptions();
 
@@ -544,29 +518,24 @@ function loadQuestion(idx) {
 }
 
 function showReveal(pickedVal) {
-  const q = QUESTIONS[currentIndex];
-  const isRight = pickedVal === q.rightAnswer;
   const followupText = $("followup-text") ? $("followup-text").value.trim() : "";
   answers.push({
-    pickedVal, rightVal: q.rightAnswer, correct: isRight,
+    pickedVal,
     followupChips: Array.from(selectedChips),
     followupText,
   });
 
   const rev = $("reveal");
-  rev.classList.toggle("wrong", !isRight);
+  rev.classList.remove("wrong");
   rev.classList.add("show");
 
-  $("reveal-answer").textContent = isRight
-    ? `${ANSWER_LABELS[q.rightAnswer]} ✓ correct`
-    : `${ANSWER_LABELS[q.rightAnswer]}  (you said: ${ANSWER_LABELS[pickedVal]})`;
-
-  $("reveal-crowd").innerHTML = q.crowdSummary;
-  $("reveal-why").innerHTML = q.why;
+  $("reveal-answer").textContent = "Thanks for your answer.";
+  $("reveal-crowd").textContent = "";
+  $("reveal-why").textContent = "";
 
   $("submit").textContent = currentIndex < QUESTIONS.length - 1
     ? "Next question →"
-    : "Finish session →";
+    : "Finish →";
   $("submit").disabled = false;
   $("skip").style.display = "none";
   revealed = true;
@@ -574,12 +543,10 @@ function showReveal(pickedVal) {
 }
 
 function showComplete() {
-  const correct = answers.filter(a => a.correct).length;
   $("card").innerHTML = `
     <div class="complete">
-      <h2>Preview session complete</h2>
-      <p>Thanks for trying the mockup. You got <strong>${correct}</strong> of <strong>${QUESTIONS.length}</strong> right.</p>
-      <p>The live system isn't wired up yet. When it is, you'll be answering real low-confidence questions from games it has just watched.</p>
+      <h2>Thanks for trying the preview.</h2>
+      <p>The live system will use answers like yours to improve the software's read of the trickier shots.</p>
       <p><a href="/blog/teaching-a-computer-to-watch-croquet.html" style="color:var(--accent);">Read the blog post for context</a></p>
       <p style="margin-top:20px;"><button onclick="location.reload()">Try again</button></p>
     </div>
@@ -605,7 +572,7 @@ $("classify-form").addEventListener("submit", e => {
 });
 
 $("skip").addEventListener("click", () => {
-  answers.push({ pickedVal: "skipped", rightVal: QUESTIONS[currentIndex].rightAnswer, correct: false });
+  answers.push({ pickedVal: "skipped" });
   currentIndex++;
   if (currentIndex >= QUESTIONS.length) {
     showComplete();
