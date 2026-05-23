@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CAQ Steering Document — From the President</title>
+<meta name="description" content="The CAQ President's steering document for the term. What CAQ will deliver, what else we face, and how the work runs." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,30..100&family=Spectral:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --paper:        #F5F1EB;
+  --paper-warm:   #FAF7F2;
+  --ink:          #14171F;
+  --ink-soft:     #2D3142;
+  --ink-faint:    #5C6072;
+  --rule:         rgba(20, 23, 31, 0.16);
+  --rule-strong:  rgba(20, 23, 31, 0.42);
+
+  --caq-green:    #1a3c2e;
+  --caq-green-mid:#2d5a44;
+  --caq-cream:    #9dc4b0;
+  --caq-tint:     rgba(26, 60, 46, 0.06);
+  --caq-tint-2:   rgba(26, 60, 46, 0.10);
+
+  --serif-display: 'Fraunces', 'Tiempos', 'GT Sectra', 'Spectral', 'Playfair Display', Georgia, serif;
+  --serif-text:    'Spectral', 'Tiempos', Georgia, 'Times New Roman', serif;
+  --sans:          'IBM Plex Sans', 'Söhne', 'Inter', system-ui, sans-serif;
+  --mono:          'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
+
+  --measure:       62ch;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.55;
+  font-feature-settings: "ss01", "kern", "liga", "onum";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 clamp(2rem, 5vw, 4.5rem);
+  position: relative;
+}
+
+/* Folio */
+.folio {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+  padding: 0.75rem 0;
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.folio strong { font-weight: 600; color: var(--ink); }
+
+/* Masthead */
+.masthead {
+  padding: 4rem 0 4.5rem;
+  border-bottom: 2px solid var(--ink);
+  position: relative;
+}
+.masthead-rule-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 1rem;
+  margin-bottom: 3.5rem;
+}
+.publication-mark {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--caq-green);
+  font-weight: 600;
+}
+.publication-mark::before {
+  content: "§ ";
+  color: var(--ink-faint);
+  font-weight: 400;
+}
+.issue-meta {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.masthead-title {
+  font-family: var(--serif-display);
+  font-weight: 350;
+  font-variation-settings: "opsz" 144, "SOFT" 50;
+  font-size: clamp(3.5rem, 7vw, 6rem);
+  line-height: 0.96;
+  letter-spacing: -0.025em;
+  margin: 0 0 1.5rem;
+  color: var(--ink);
+  max-width: 14ch;
+}
+.masthead-title em {
+  font-style: italic;
+  font-weight: 350;
+  color: var(--caq-green);
+}
+.masthead-subtitle {
+  font-family: var(--serif-text);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.15rem, 1.6vw, 1.45rem);
+  line-height: 1.4;
+  color: var(--ink-soft);
+  margin: 0 0 2.5rem;
+  max-width: 56ch;
+}
+
+.byline {
+  display: flex;
+  gap: 3rem;
+  align-items: baseline;
+  font-size: 13px;
+  color: var(--ink-faint);
+  font-family: var(--sans);
+  margin-top: 0;
+}
+.byline-block dt {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+}
+.byline-block dd {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink);
+  font-weight: 500;
+  font-family: var(--serif-text);
+}
+.byline-block dd em {
+  font-family: var(--serif-text);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Section headers */
+section { padding: 4rem 0 1rem; }
+
+.section-header {
+  display: grid;
+  grid-template-columns: 8rem 1fr;
+  gap: 2rem;
+  align-items: baseline;
+  border-top: 1px solid var(--ink);
+  padding-top: 1.5rem;
+  margin-bottom: 3rem;
+}
+.section-number {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--caq-green);
+  font-weight: 500;
+  padding-top: 0.3rem;
+}
+.section-title {
+  font-family: var(--serif-display);
+  font-weight: 400;
+  font-variation-settings: "opsz" 96;
+  font-size: clamp(2rem, 3.4vw, 2.85rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  margin: 0;
+  color: var(--ink);
+  max-width: 26ch;
+}
+.section-kicker {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 0.5rem 0 0;
+  font-weight: 500;
+}
+
+/* Lead */
+.lead {
+  max-width: var(--measure);
+  margin: 0 auto 0;
+}
+.lead p {
+  font-family: var(--serif-text);
+  font-size: clamp(1.18rem, 1.45vw, 1.32rem);
+  line-height: 1.55;
+  font-weight: 400;
+  color: var(--ink);
+  margin: 0 0 1.4rem;
+}
+.lead p:first-of-type::first-letter {
+  font-family: var(--serif-display);
+  font-weight: 350;
+  font-variation-settings: "opsz" 144;
+  float: left;
+  font-size: 5.6em;
+  line-height: 0.85;
+  padding: 0.05em 0.08em 0 0;
+  margin-top: 0.05em;
+  color: var(--caq-green);
+  font-style: normal;
+}
+.lead p strong {
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--caq-tint);
+  padding: 0.05em 0.15em;
+  margin: -0.05em -0.15em;
+}
+
+/* Signature line under lead */
+.signature {
+  max-width: var(--measure);
+  margin: 2.5rem auto 0;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--serif-text);
+  font-style: italic;
+  font-size: 1.02rem;
+  color: var(--ink-soft);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.signature .sig-name {
+  font-family: var(--serif-display);
+  font-style: italic;
+  font-weight: 400;
+  font-variation-settings: "opsz" 36;
+  font-size: 1.2rem;
+  color: var(--ink);
+}
+.signature .sig-role {
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--caq-green);
+}
+
+/* Body prose */
+.prose {
+  max-width: var(--measure);
+  margin: 0 auto;
+}
+.prose p {
+  font-family: var(--serif-text);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  margin: 0 0 1.1rem;
+  color: var(--ink);
+}
+.prose p strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+.prose h3 {
+  font-family: var(--serif-display);
+  font-weight: 500;
+  font-variation-settings: "opsz" 36;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  margin: 2.5rem 0 0.8rem;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.prose ul, .prose ol {
+  font-family: var(--serif-text);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  padding-left: 1.4rem;
+  margin: 0 0 1.2rem;
+  color: var(--ink);
+}
+.prose li { margin-bottom: 0.45rem; }
+
+/* Priority buckets — three-column grid */
+.priorities {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--ink);
+  border-top: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
+  margin: 0 0 2rem;
+}
+.priority {
+  background: var(--paper);
+  padding: 2rem 1.6rem;
+}
+.priority-num {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--caq-green);
+  font-weight: 600;
+  margin: 0 0 0.6rem;
+}
+.priority h3 {
+  font-family: var(--serif-display);
+  font-weight: 500;
+  font-variation-settings: "opsz" 36;
+  font-size: 1.45rem;
+  line-height: 1.2;
+  margin: 0 0 0.9rem;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.priority p {
+  font-family: var(--serif-text);
+  font-size: 0.98rem;
+  line-height: 1.55;
+  margin: 0 0 0.9rem;
+  color: var(--ink-soft);
+}
+.priority ul {
+  font-family: var(--sans);
+  font-size: 12.5px;
+  line-height: 1.5;
+  padding-left: 0;
+  margin: 0;
+  list-style: none;
+  color: var(--ink);
+}
+.priority ul li {
+  padding: 0.45rem 0 0.45rem 1.2rem;
+  border-top: 1px solid var(--rule);
+  position: relative;
+}
+.priority ul li:first-child { border-top: 1px solid var(--ink-soft); padding-top: 0.6rem; }
+.priority ul li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  color: var(--caq-green);
+  font-weight: 600;
+}
+.priority ul li:first-child::before { top: 0.65rem; }
+
+@media (max-width: 800px) {
+  .priorities { grid-template-columns: 1fr; }
+}
+
+/* Current issues list — grid with marker */
+.issues-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.problem {
+  border-top: 1px solid var(--rule);
+  padding: 1.9rem 0;
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  gap: 1.5rem;
+}
+.problem:first-child { border-top: 2px solid var(--ink); }
+.problem:last-child { border-bottom: 2px solid var(--ink); }
+.problem-marker {
+  font-family: var(--serif-display);
+  font-weight: 350;
+  font-variation-settings: "opsz" 96;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--caq-green);
+  letter-spacing: -0.02em;
+}
+.problem-content h3 {
+  font-family: var(--serif-display);
+  font-weight: 500;
+  font-variation-settings: "opsz" 36;
+  font-size: 1.2rem;
+  line-height: 1.25;
+  margin: 0 0 0.4rem;
+  color: var(--ink);
+}
+.problem-content p {
+  font-family: var(--serif-text);
+  font-size: 1rem;
+  line-height: 1.55;
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+/* Call-out box — for the volunteer invitation */
+.callout {
+  max-width: var(--measure);
+  margin: 3rem auto 0;
+  padding: 2rem 2.2rem;
+  background: var(--caq-green);
+  color: var(--paper);
+  border-left: 4px solid var(--caq-cream);
+}
+.callout .callout-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--caq-cream);
+  margin: 0 0 1rem;
+  font-weight: 500;
+}
+.callout p {
+  font-family: var(--serif-text);
+  font-size: 1.1rem;
+  line-height: 1.55;
+  margin: 0 0 0.9rem;
+  color: var(--paper);
+}
+.callout p:last-child { margin-bottom: 0; }
+.callout em {
+  font-style: italic;
+  color: var(--caq-cream);
+}
+
+/* Ideals & aims & questions — emphasis blocks */
+.spine-list {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+.spine-list li {
+  border-top: 1px solid var(--rule);
+  padding: 1.5rem 0;
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 1.2rem;
+}
+.spine-list li:first-child { border-top: 2px solid var(--ink); }
+.spine-list li:last-child { border-bottom: 2px solid var(--ink); }
+.spine-list .spine-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--caq-green);
+  font-weight: 600;
+  padding-top: 0.4rem;
+}
+.spine-list .spine-name {
+  font-family: var(--serif-display);
+  font-weight: 500;
+  font-variation-settings: "opsz" 36;
+  font-size: 1.15rem;
+  color: var(--ink);
+  display: block;
+  margin: 0 0 0.3rem;
+}
+.spine-list .spine-detail {
+  font-family: var(--serif-text);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* Four questions block */
+.questions {
+  max-width: var(--measure);
+  margin: 0 auto;
+  counter-reset: q;
+  list-style: none;
+  padding: 0;
+}
+.questions li {
+  counter-increment: q;
+  font-family: var(--serif-display);
+  font-weight: 400;
+  font-variation-settings: "opsz" 36;
+  font-size: 1.2rem;
+  line-height: 1.4;
+  color: var(--ink);
+  padding: 1rem 0 1rem 3.5rem;
+  position: relative;
+  border-top: 1px solid var(--rule);
+}
+.questions li:first-child { border-top: 2px solid var(--ink); }
+.questions li:last-child { border-bottom: 2px solid var(--ink); }
+.questions li::before {
+  content: counter(q);
+  position: absolute;
+  left: 0;
+  top: 1.1rem;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--caq-green);
+  font-weight: 600;
+}
+
+/* Colophon */
+.colophon {
+  margin: 6rem 0 4rem;
+  padding: 3rem 0;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  font-family: var(--sans);
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--ink-faint);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem;
+}
+.colophon h5 {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--caq-green);
+  font-weight: 500;
+  margin: 0 0 0.7rem;
+}
+.colophon p { margin: 0 0 0.6rem; }
+
+@media (max-width: 700px) {
+  .colophon { grid-template-columns: 1fr; }
+  .problem { grid-template-columns: 3rem 1fr; gap: 1rem; }
+  .problem-marker { font-size: 1.6rem; }
+  .section-header { grid-template-columns: 1fr; gap: 0.4rem; }
+  .section-title { max-width: none; }
+  .byline { gap: 1.5rem; }
+}
+
+@media print {
+  .folio { display: none; }
+  body { font-size: 11pt; }
+  section { padding: 1.5rem 0 0.5rem; break-inside: avoid; }
+  .problem, .spine-list li, .questions li, .priority {
+    break-inside: avoid;
+  }
+  .callout { background: var(--paper-warm); color: var(--ink); }
+  .callout .callout-label, .callout em { color: var(--caq-green); }
+  .callout p { color: var(--ink); }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<header class="folio">
+  <span>Croquet Association of Queensland</span>
+  <span><strong>Steering Document</strong></span>
+</header>
+
+<header class="masthead">
+  <div class="masthead-rule-top">
+    <span class="publication-mark">From the President</span>
+    <span class="issue-meta">Steering · 2026 Term</span>
+  </div>
+  <h1 class="masthead-title">CAQ <em>Steering</em> Document</h1>
+  <p class="masthead-subtitle">What CAQ will deliver this term, what else we face, and how the work runs.</p>
+
+  <dl class="byline">
+    <div class="byline-block">
+      <dt>From</dt>
+      <dd>John van Barneveld, <em>President</em></dd>
+    </div>
+    <div class="byline-block">
+      <dt>Term</dt>
+      <dd>To the October general meeting</dd>
+    </div>
+  </dl>
+</header>
+
+<section class="lead-section">
+  <div class="lead">
+    <p>Croquet in Queensland is at risk. Most clubs are held together by members in their eighties, with no generational changeover behind them. If one closure becomes acceptable, two-thirds could follow. About 500 people a year would join if the path to a session were obvious. It isn't.</p>
+
+    <p>As President for the term to October, I've decided what CAQ will focus on. <strong>We don't have many resources, so we'll do a few things well rather than many badly.</strong></p>
+  </div>
+
+  <div class="signature">
+    <span class="sig-name">John van Barneveld</span>
+    <span class="sig-role">President · Croquet Association of Queensland</span>
+  </div>
+</section>
+
+<section id="how-we-work-together">
+  <div class="section-header">
+    <div class="section-number">§ 01</div>
+    <div>
+      <h2 class="section-title">How we work together</h2>
+      <p class="section-kicker">The cooperation framework</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>A volunteer organisation with many problems and few people can only function one way: everyone pulling in roughly the same direction. The four ideals define that direction. They're chosen because they hold a mixed group of volunteers together while the work happens.</p>
+  </div>
+
+  <h3 style="font-family: var(--serif-display); font-weight: 500; font-variation-settings: 'opsz' 36; font-size: 1.3rem; margin: 2.5rem auto 1.2rem; max-width: var(--measure); color: var(--ink);">The four ideals</h3>
+
+  <ol class="spine-list">
+    <li>
+      <span class="spine-num">01</span>
+      <div>
+        <span class="spine-name">Enjoy croquet.</span>
+        <p class="spine-detail">If something is unpleasant to use, deal with, or be part of, it's broken.</p>
+      </div>
+    </li>
+    <li>
+      <span class="spine-num">02</span>
+      <div>
+        <span class="spine-name">Keep it simple.</span>
+        <p class="spine-detail">The simplest solution that works. We don't have the staff or budget for anything else.</p>
+      </div>
+    </li>
+    <li>
+      <span class="spine-num">03</span>
+      <div>
+        <span class="spine-name">Hit our aims.</span>
+        <p class="spine-detail">If a project doesn't advance an aim, we don't do it. Each should hit as many as it can.</p>
+      </div>
+    </li>
+    <li>
+      <span class="spine-num">04</span>
+      <div>
+        <span class="spine-name">Cooperate for croquet.</span>
+        <p class="spine-detail">Respect people, address the issue. Forgive honest failures. Work toward shared goals. When something heats up, "let's cooperate for croquet" is the reset line. It sounds simple. Use it anyway.</p>
+      </div>
+    </li>
+  </ol>
+
+  <h3 style="font-family: var(--serif-display); font-weight: 500; font-variation-settings: 'opsz' 36; font-size: 1.3rem; margin: 3rem auto 1.2rem; max-width: var(--measure); color: var(--ink);">The six aims</h3>
+
+  <div class="prose">
+    <p>Businesses measure by profit. CAQ doesn't have one. So we measure against six aims; every project advances at least one.</p>
+  </div>
+
+  <ol class="spine-list" style="margin-top: 1.5rem;">
+    <li>
+      <span class="spine-num">01</span>
+      <div>
+        <span class="spine-name">Strengthen admin and internal operations.</span>
+        <p class="spine-detail">Governance, finance, policy, productive relations with Croquet Australia and other state associations, streamlined volunteer admin.</p>
+      </div>
+    </li>
+    <li>
+      <span class="spine-num">02</span>
+      <div>
+        <span class="spine-name">Promote croquet externally.</span>
+        <p class="spine-detail">Advertising, media, sponsorship, government relations, community awareness.</p>
+      </div>
+    </li>
+    <li>
+      <span class="spine-num">03</span>
+      <div>
+        <span class="spine-name">Grow and engage members.</span>
+        <p class="spine-detail">Come and Try, volunteer recruitment and support, member-to-member culture across codes, internal communications.</p>
+      </div>
+    </li>
+    <li>
+      <span class="spine-num">04</span>
+      <div>
+        <span class="spine-name">Support clubs.</span>
+        <p class="spine-detail">Club viability, help for clubs in difficulty, reducing volunteer burden, forums for cross-club problem solving.</p>
+      </div>
+    </li>
+    <li>
+      <span class="spine-num">05</span>
+      <div>
+        <span class="spine-name">Develop skilled play.</span>
+        <p class="spine-detail">Players, coaches, referees, state teams, competitions, pathways across all codes, etiquette.</p>
+      </div>
+    </li>
+    <li>
+      <span class="spine-num">06</span>
+      <div>
+        <span class="spine-name">Encourage innovative ideas.</span>
+        <p class="spine-detail">Support ideas that advance the ideals, even outside current programmes. Invest in facilities and long-term sustainability.</p>
+      </div>
+    </li>
+  </ol>
+
+  <h3 style="font-family: var(--serif-display); font-weight: 500; font-variation-settings: 'opsz' 36; font-size: 1.3rem; margin: 3rem auto 1.2rem; max-width: var(--measure); color: var(--ink);">The four questions</h3>
+
+  <div class="prose">
+    <p>Every CAQ decision answers four questions:</p>
+  </div>
+
+  <ol class="questions" style="margin-top: 1.5rem;">
+    <li>Does this help people enjoy croquet more?</li>
+    <li>Does it make things simpler?</li>
+    <li>Does it help us hit our aims?</li>
+    <li>Are we cooperating on it?</li>
+  </ol>
+
+  <div class="prose" style="margin-top: 1.5rem;">
+    <p>A no on any of them and we don't do it. If you're challenging a CAQ decision, use this structure.</p>
+  </div>
+</section>
+
+<section id="what-we-will-deliver">
+  <div class="section-header">
+    <div class="section-number">§ 02</div>
+    <div>
+      <h2 class="section-title">What CAQ will deliver this term</h2>
+      <p class="section-kicker">The priorities, with reasons</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>Three priorities, chosen because every other useful thing depends on them. New members depend on a working pipeline. The pipeline depends on reaching members. Every volunteer task shifted onto a system is one less person to find. That's the order.</p>
+  </div>
+
+  <div class="priorities" style="margin-top: 2.5rem;">
+    <article class="priority">
+      <p class="priority-num">Priority 01</p>
+      <h3>Communication</h3>
+      <p>CAQ needs a working channel to all 1,500 of its members. We're committed to building one. Without it, every other piece of work runs on rumour.</p>
+    </article>
+    <article class="priority">
+      <p class="priority-num">Priority 02</p>
+      <h3>Admin reduction</h3>
+      <p>Volunteers should be doing croquet, not paperwork. Every operational task we can shift onto a system is one less person to find.</p>
+    </article>
+    <article class="priority">
+      <p class="priority-num">Priority 03</p>
+      <h3>New members</h3>
+      <p>Membership is what everything else depends on. About 500 people a year would join croquet in Queensland if the path were obvious. We're putting everything into making it obvious.</p>
+    </article>
+  </div>
+
+  <div class="prose" style="margin-top: 1rem;">
+    <p>Two further pieces sit outside: <strong>establishing the baseline</strong> (this document does part of that job) and <strong>governance reform</strong>, a two-year conversation we start now and finish later.</p>
+  </div>
+</section>
+
+<section id="current-issues">
+  <div class="section-header">
+    <div class="section-number">§ 03</div>
+    <div>
+      <h2 class="section-title">Current issues we need to solve</h2>
+      <p class="section-kicker">The list, and how to help</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>CAQ has more issues than resources to solve from the centre. The list below is what we know about, outside the three priorities. Naming them publicly stops them pretending to be solved. Some will move because a volunteer wants to lead the work. Some will sit until someone does. Either is honest.</p>
+  </div>
+
+  <div class="issues-stack" style="margin-top: 2.5rem;">
+    <article class="problem">
+      <div class="problem-marker">01</div>
+      <div class="problem-content">
+        <h3>No generational changeover at clubs</h3>
+        <p>Most clubs are held together by members in their eighties, with no replacement cohort behind them. Club longevity work needs hands.</p>
+      </div>
+    </article>
+    <article class="problem">
+      <div class="problem-marker">02</div>
+      <div class="problem-content">
+        <h3>Decisions and outcomes vanish into a black box</h3>
+        <p>Decisions land on members as completed actions, and the feedback loop on what they raise doesn't close.</p>
+      </div>
+    </article>
+    <article class="problem">
+      <div class="problem-marker">03</div>
+      <div class="problem-content">
+        <h3>Presentation has run ahead of reality</h3>
+        <p>CAQ has read as more in control than its labour supports. Becoming plain-spoken about that is a writing and comms job as much as an operations one.</p>
+      </div>
+    </article>
+    <article class="problem">
+      <div class="problem-marker">04</div>
+      <div class="problem-content">
+        <h3>Lapsed coaching and refereeing credentials</h3>
+        <p>Active coaches and referees hold credentials that have expired or were never renewed. Renewal letters trigger pushback rather than uptake.</p>
+      </div>
+    </article>
+    <article class="problem">
+      <div class="problem-marker">05</div>
+      <div class="problem-content">
+        <h3>Association Croquet under-supported</h3>
+        <p>The code has an audience that hasn't found the pathway in. Players who'd gravitate to AC drift elsewhere or play it informally.</p>
+      </div>
+    </article>
+    <article class="problem">
+      <div class="problem-marker">06</div>
+      <div class="problem-content">
+        <h3>Capturing the conversations we have</h3>
+        <p>Conversations at clubs, with politicians, at competitions, in passing. Most never reach a written record. Good ideas die at "I'll write it up later".</p>
+      </div>
+    </article>
+  </div>
+
+  <aside class="callout">
+    <p class="callout-label">If one of these matters to you</p>
+    <p>Email the President and tell us what you want done. CAQ will resource you: money, comms, equipment, video, whatever the job needs. The shape is yours to set.</p>
+    <p><em>Complaints without offers don't move. Offers always do.</em></p>
+  </aside>
+</section>
+
+<section id="commitments">
+  <div class="section-header">
+    <div class="section-number">§ 04</div>
+    <div>
+      <h2 class="section-title">What CAQ commits to clubs</h2>
+      <p class="section-kicker">The pipeline before the gate</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>CAQ exists to make clubs stronger. The work upstream of the club gate is ours: new members, advertising, sponsorship, the shared systems, the channels that reach all 1,500 members, the external voice with government and media. What happens after the gate belongs to the club.</p>
+    <p>Every club is different. McIlwraith is different to Eildon. Eildon is different to Wynnum. We want that. What we standardise is the pipeline before the gate.</p>
+  </div>
+</section>
+
+<section id="how-the-work-runs">
+  <div class="section-header">
+    <div class="section-number">§ 05</div>
+    <div>
+      <h2 class="section-title">How the work runs</h2>
+      <p class="section-kicker">Operating posture</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p><strong>One door for contact.</strong> Almost all member contact goes to the secretary, who routes the routine and passes up what needs the President's call. CAQ does the routing, not the member.</p>
+
+    <p><strong>Discussion before decisions.</strong> Things that affect members get talked about before they happen, not announced after. By the time a decision lands, the conversation has been running for weeks.</p>
+
+    <p><strong>Bad news from the committee, good news from the President.</strong> Policy changes, fee increases and process retirements come from the management committee. Membership growth, system launches and member achievements come from the President in their own name. The split protects the President's credibility.</p>
+
+    <p><strong>Multiplier thinking.</strong> A decision affecting 500 people weighs 500 times more than one affecting a single member. The President's time goes to calls that move the dial: club visits, decisions that unblock systems, conversations with sponsors and politicians. One-person requests get handled in writing.</p>
+
+    <p><strong>Put it in writing.</strong> Pavement complaints don't produce anything. The line is: "Don't tell me here. Send me an email." Written, it's actionable. Spoken, it evaporates.</p>
+  </div>
+</section>
+
+<footer class="page" style="padding-bottom: 0;">
+  <div class="colophon">
+    <div>
+      <h5>Authorship</h5>
+      <p>This is the President's steering document for the term. Each incoming President reads it, edits it, and hands it on. The current term ends at the October general meeting.</p>
+    </div>
+    <div>
+      <h5>Source</h5>
+      <p>Drawn from conversations between Wade Hart (CAQ adviser) and John van Barneveld at the start of John's term, with subsequent operating direction agreed at the May follow-up meeting.</p>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<!-- Site editor — activates on ?edit&t=<token>; zero impact otherwise. Lives at edit.croquetwade.com (single source of truth). -->
+<script data-site="cc" data-stack="git" data-html-file="steering/index.html" defer src="https://edit.croquetwade.com/edit.js"></script>
+</body>
+</html>
