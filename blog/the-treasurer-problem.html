@@ -17,6 +17,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/blog.css">
+  <style>
+    /* Mockup screenshots are mobile-shaped; centre them and cap width so they don't dominate. */
+    .article-body .mockup-screen {
+      max-width: 320px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
 </head>
 <body>
   <nav>
@@ -42,9 +50,7 @@
       </header>
 
       <div class="article-body">
-        <figure>
-          <img src="images/the-treasurer-problem/ink-notebook-and-pen.png" alt="Ink illustration of a treasurer's desk: notebook, pen, papers" loading="lazy">
-        </figure>
+        <p><img class="article-image" src="images/the-treasurer-problem/ink-notebook-and-pen.png" alt="Ink illustration of a treasurer's desk: notebook, pen, papers" loading="lazy"></p>
 
         <p>Every sporting club has a treasurer who didn't volunteer for the job. Most committees inherit a shoebox of receipts at the AGM. The next person says yes because nobody else would.</p>
 
@@ -66,9 +72,7 @@
 
         <p>Wade sketched it in a notebook. One title bar at the top. One panel for the bank balance and anything that needs attention. One drop zone for receipts and invoices. Four buttons across the bottom. That's the entire app.</p>
 
-        <figure>
-          <img src="images/the-treasurer-problem/01-home.png" alt="BOOK KEEPER home screen mockup showing bank balance, document drop zone, and four action buttons" loading="lazy">
-        </figure>
+        <p><img class="article-image mockup-screen" src="images/the-treasurer-problem/01-home.png" alt="BOOK KEEPER home screen mockup showing bank balance, document drop zone, and four action buttons" loading="lazy"></p>
 
         <p>The four buttons cover everything that isn't dropping a file. Ask for a report. Manage the bank connection. See the questions saved up. Open the boring settings drawer.</p>
 
@@ -82,9 +86,7 @@
 
         <p>When the category isn't certain, the transaction lands in the question queue and the home-screen badge ticks up.</p>
 
-        <figure>
-          <img src="images/the-treasurer-problem/02-input-needed.png" alt="Input needed queue showing a transaction at Bunnings Hornsby with four category options" loading="lazy">
-        </figure>
+        <p><img class="article-image mockup-screen" src="images/the-treasurer-problem/02-input-needed.png" alt="Input needed queue showing a transaction at Bunnings Hornsby with four category options" loading="lazy"></p>
 
         <p>Tap a category. It learns the rule and won't ask the next time it sees the same merchant.</p>
 
@@ -92,21 +94,15 @@
 
         <p>What happens next is the work done out loud.</p>
 
-        <figure>
-          <img src="images/the-treasurer-problem/03-uploading.png" alt="Uploading screen showing filename and a progress bar" loading="lazy">
-        </figure>
+        <p><img class="article-image mockup-screen" src="images/the-treasurer-problem/03-uploading.png" alt="Uploading screen showing filename and a progress bar" loading="lazy"></p>
 
         <p>The photo goes up first. A quick beat with a filename and a progress bar, so the upload is visible. Then the AI side runs.</p>
 
-        <figure>
-          <img src="images/the-treasurer-problem/04-processing.png" alt="Processing screen showing three steps: reading the receipt, finding the bank transaction, showing the match" loading="lazy">
-        </figure>
+        <p><img class="article-image mockup-screen" src="images/the-treasurer-problem/04-processing.png" alt="Processing screen showing three steps: reading the receipt, finding the bank transaction, showing the match" loading="lazy"></p>
 
         <p>Reading the receipt. Finding the matching bank transaction. Putting the result in front of you. The steps are visible because they should be. Hidden AI work feels like a black box. Visible AI work feels like a competent assistant.</p>
 
-        <figure>
-          <img src="images/the-treasurer-problem/05-matched.png" alt="Matched receipt screen showing the receipt, the AI's reading, and the matched bank transaction" loading="lazy">
-        </figure>
+        <p><img class="article-image mockup-screen" src="images/the-treasurer-problem/05-matched.png" alt="Matched receipt screen showing the receipt, the AI's reading, and the matched bank transaction" loading="lazy"></p>
 
         <p>You see the receipt, the AI's reading of it, and the matched bank transaction together. Tap "Looks right" and it's filed. Tap "Not quite" and it lands in the question queue.</p>
 
@@ -126,9 +122,7 @@
 
         <p>On the last day of the financial year, the treasurer receives the annual report draft.</p>
 
-        <figure>
-          <img src="images/the-treasurer-problem/09-agm-report.png" alt="AGM report preview showing income, expenses, surplus, and commentary for East Brisbane Croquet Club" loading="lazy">
-        </figure>
+        <p><img class="article-image" src="images/the-treasurer-problem/09-agm-report.png" alt="AGM report preview showing income, expenses, surplus, and commentary for East Brisbane Croquet Club" loading="lazy"></p>
 
         <p>Income by category. Expenses by category. Opening balance, surplus, closing balance. A short commentary written by the system, which the treasurer edits before sending to the committee. It exports as PDF and attaches to the AGM minutes.</p>
 
