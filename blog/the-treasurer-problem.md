@@ -96,6 +96,6 @@ The product doesn't need to be regulated. Bookkeeping isn't a licensed professio
 
 A clickable mockup with fake data. A design document covering the architecture and the choices behind it. A sketch on a notebook page that turned into a paired deliverable.
 
-The mockup is at [croquetclaude.com/book-keeper/](/book-keeper/). Tap the drop zone in the middle of the home screen to walk through the receipt flow. The data is fake; the flow is real.
+The mockup is at [croquetclaude.com/book-keeper/](/book-keeper/). Tap the drop zone in the middle of the home screen to walk through the receipt flow.
 
 The build hasn't started. The board hasn't decided. The shoebox on the kitchen table is still there.
