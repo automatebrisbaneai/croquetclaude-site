@@ -124,15 +124,19 @@ import Sigma from 'sigma';
       return Math.min(13, 3 + Math.sqrt(c) * 1.3);
     }
 
-    // Initial random positions — Sigma requires x/y for every node
+    // Nodes ship with pre-computed x/y (build-side layout). Fall back to a
+    // spiral only if coordinates are missing, then we run a client layout.
+    let needsLayout = false;
     data.nodes.forEach((n, i) => {
       const b = bucket(n);
       typeCounts[b] = (typeCounts[b] || 0) + 1;
+      const hasCoords = typeof n.x === 'number' && typeof n.y === 'number';
+      if (!hasCoords) needsLayout = true;
       try {
         graph.addNode(n.id, {
           label: n.label,
-          x: Math.cos(i * 137.5 * Math.PI / 180) * Math.sqrt(i) * 0.3,
-          y: Math.sin(i * 137.5 * Math.PI / 180) * Math.sqrt(i) * 0.3,
+          x: hasCoords ? n.x : Math.cos(i * 137.5 * Math.PI / 180) * Math.sqrt(i) * 0.3,
+          y: hasCoords ? n.y : Math.sin(i * 137.5 * Math.PI / 180) * Math.sqrt(i) * 0.3,
           size: nodeSize(n),
           color: entityColour(n),
           originalColor: entityColour(n),
@@ -160,31 +164,32 @@ import Sigma from 'sigma';
       edgeId++;
     });
 
-    // ForceAtlas2 layout — synchronous, settles in ~500 iterations
-    // linLogMode + low gravity gives better community separation than the default ring.
-    loadingOverlay.textContent = 'Computing layout…';
-    requestAnimationFrame(() => {
-      try {
-        forceAtlas2.assign(graph, {
-          iterations: 600,
-          settings: {
-            gravity: 0.5,
-            scalingRatio: 12,
-            slowDown: 6,
-            barnesHutOptimize: true,
-            barnesHutTheta: 0.6,
-            adjustSizes: true,
-            edgeWeightInfluence: 0,
-            strongGravityMode: false,
-            linLogMode: true,
-            outboundAttractionDistribution: false,
-          },
-        });
-        renderSigma(graph, data);
-      } catch (e) {
-        showError('Layout failed: ' + e.message);
-      }
-    });
+    // Layout ships pre-computed from build_graph.py — render immediately.
+    // Only fall back to a client-side ForceAtlas2 if coordinates are missing.
+    if (!needsLayout) {
+      renderSigma(graph, data);
+    } else {
+      loadingOverlay.textContent = 'Computing layout…';
+      requestAnimationFrame(() => {
+        try {
+          forceAtlas2.assign(graph, {
+            iterations: 400,
+            settings: {
+              gravity: 0.5,
+              scalingRatio: 12,
+              slowDown: 6,
+              barnesHutOptimize: true,
+              barnesHutTheta: 0.6,
+              adjustSizes: true,
+              linLogMode: true,
+            },
+          });
+          renderSigma(graph, data);
+        } catch (e) {
+          showError('Layout failed: ' + e.message);
+        }
+      });
+    }
 
     // Filter chips
     const types = ['thought', 'club', 'person', 'topic', 'aim', 'decision', 'doc'];
