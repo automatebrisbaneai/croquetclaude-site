@@ -1,15 +1,16 @@
 /**
  * hero-terrain.js — CroquetClaude dithered ember-terrain hero.
  *
- * A WebGL fragment shader: an angular, faceted heightfield is lit with a
- * fake normal, then run through pixelate -> ordered (Bayer) dither ->
- * colour-quantise against the CC warm ramp (ink -> terracotta -> burnt
- * orange -> amber -> paper). The field is massed at the left/right edges so
- * the centre stays clean for the headline, and it drifts/morphs over time.
+ * A WebGL fragment shader. A terraced, angular heightfield is relief-mapped so
+ * the blocks appear to extrude toward the viewer, lit with a fake normal, then
+ * run through pixelate -> ordered (Bayer) dither -> colour-quantise against the
+ * CC warm ramp (ink -> terracotta -> burnt orange -> amber -> paper), and
+ * finally an RGB-triad LED shadow-mask for the warm pixel shimmer. The field is
+ * massed at the left/right edges so the centre stays clean for the headline,
+ * and it drifts / morphs over time.
  *
- * Drop-in: needs <canvas id="cc-hero-canvas"> inside an element. Respects
- * prefers-reduced-motion (renders one static frame) and pauses when the hero
- * scrolls out of view.
+ * Drop-in: needs <canvas id="cc-hero-canvas">. Respects prefers-reduced-motion
+ * (one static frame) and pauses when scrolled out of view.
  */
 (function () {
   const cv = document.getElementById('cc-hero-canvas');
@@ -35,15 +36,18 @@
   }
   // ridged fbm -> sharp angular canyon facets
   float ridge(vec2 p){
-    float v=0.0, amp=0.55, fq=1.0;
-    for(int i=0;i<5;i++){
+    float v=0.0, amp=0.58, fq=1.0;
+    for(int i=0;i<4;i++){
       float n=vnoise(p*fq);
       n=1.0-abs(n*2.0-1.0);
       n*=n;
-      v+=n*amp; fq*=2.03; amp*=0.5;
+      v+=n*amp; fq*=2.05; amp*=0.5;
     }
     return v;
   }
+  // terraced height -> flat blocky facets
+  float terr(vec2 p){ return floor(ridge(p)*7.0)/7.0; }
+
   // 4x4 ordered (Bayer) dither -> 0..1 threshold
   float bayer4(vec2 c){
     int x=int(mod(c.x,4.0)); int y=int(mod(c.y,4.0));
@@ -57,45 +61,63 @@
   }
   // CC warm palette ramp by band index
   vec3 pal(float i){
-    vec3 c = vec3(0.055,0.043,0.031);                 // 0 deep ink
+    vec3 c = vec3(0.043,0.034,0.025);                 // 0 deep ink
     c = mix(c, vec3(0.247,0.114,0.106), step(0.5,i)); // 1 dark terracotta
     c = mix(c, vec3(0.678,0.310,0.322), step(1.5,i)); // 2 terracotta  #ad4f52
-    c = mix(c, vec3(0.831,0.439,0.220), step(2.5,i)); // 3 burnt orange
-    c = mix(c, vec3(0.851,0.604,0.235), step(3.5,i)); // 4 amber       #d99a3c
-    c = mix(c, vec3(0.956,0.933,0.859), step(4.5,i)); // 5 paper highlight
+    c = mix(c, vec3(0.847,0.435,0.196), step(2.5,i)); // 3 burnt orange
+    c = mix(c, vec3(0.882,0.624,0.235), step(3.5,i)); // 4 amber       #e19f3c
+    c = mix(c, vec3(0.964,0.941,0.871), step(4.5,i)); // 5 paper highlight
     return c;
   }
 
   void main(){
-    float PIX = 5.0;                                    // pixel-cell size (device px)
+    float PIX = 6.0;                                    // pixel-cell size (device px)
     vec2 frag = floor(gl_FragCoord.xy / PIX) * PIX + PIX*0.5;
     vec2 uv = frag / u_res;
     float aspect = u_res.x / u_res.y;
 
     // canyon walls: field at the left & right edges, clean centre for text
     float edge = abs(uv.x - 0.5) * 2.0;                 // 0 centre -> 1 edges
-    float wall = smoothstep(0.34, 1.0, edge);
-    // top & bottom fade so the band feels contained
+    float wall = smoothstep(0.30, 1.0, edge);
     float vfade = smoothstep(0.0, 0.16, uv.y) * smoothstep(0.0, 0.22, 1.0 - uv.y);
-    wall *= mix(0.55, 1.0, vfade);
+    wall *= mix(0.5, 1.0, vfade);
 
-    // animated / morphing domain (the form drifting behind the dither)
-    vec2 q = vec2(uv.x*aspect, uv.y) * 5.2;
+    // animated / morphing domain
+    vec2 q = vec2(uv.x*aspect, uv.y) * 5.0;
     q += vec2(u_time*0.045, sin(u_time*0.11)*0.35 - u_time*0.02);
     float ang = sin(u_time*0.05)*0.18;
     mat2 rot = mat2(cos(ang),-sin(ang),sin(ang),cos(ang));
     q = rot*q;
 
-    // height + fake-normal lighting for faceted 3D feel
-    float e = 0.05;
-    float h  = ridge(q);
-    float hx = ridge(q+vec2(e,0.0));
-    float hy = ridge(q+vec2(0.0,e));
-    vec3  n  = normalize(vec3(h-hx, h-hy, e*1.6));
-    float lit = clamp(dot(n, normalize(vec3(-0.55,0.5,0.62))), 0.0, 1.0);
-    float rim = smoothstep(0.04, 0.16, length(vec2(h-hx, h-hy))); // crisp canyon edges
+    // RELIEF MARCH: blocks extrude toward the viewer (downward = nearer).
+    // Step a ray from the near plane (rayH=1) into the field; first terrace it
+    // pierces is the visible surface. The distance marched = how far the block
+    // face recedes, which we darken to read the extruded side.
+    vec2 ex = vec2(0.0, 0.085);                         // domain march per step
+    float rayH = 1.0;
+    vec2 sp = q;
+    float h = terr(sp);
+    for (int i=0;i<8;i++){
+      if (h >= rayH) break;
+      rayH -= 0.125;
+      sp += ex;
+      h = terr(sp);
+    }
+    float depth = 1.0 - rayH;                           // 0 near .. ~1 deep (side faces)
 
-    float val = h * (0.42 + 0.78*lit) + rim*0.30;
+    // fake-normal lighting from the relief-shifted position
+    float e = 0.05;
+    float hx = terr(sp+vec2(e,0.0));
+    float hy = terr(sp+vec2(0.0,e));
+    vec3  n  = normalize(vec3(h-hx, h-hy, e*1.4));
+    float lit = clamp(dot(n, normalize(vec3(-0.55,0.5,0.62))), 0.0, 1.0);
+    float rim = step(0.0001, abs(h-hx)+abs(h-hy));      // hard facet edges (top lips)
+
+    float side = smoothstep(0.0, 0.5, depth);           // receding front/side faces
+    float val = h * (0.42 + 0.70*lit);
+    val *= (1.0 - 0.34*side);                           // darken extruded faces -> 3D
+    val += rim * 0.26 * (1.0 - side);                   // bright top lip
+    val = pow(clamp(val, 0.0, 1.5), 1.04);              // mild contrast
     float field = val * wall;
 
     // quantise to bands with ordered dither
@@ -104,13 +126,18 @@
     float band = clamp(floor(field*levels + dith), 0.0, levels);
     vec3 col = pal(band);
 
-    // LED / aperture-grille texture: thin gaps + per-column shimmer
+    // RGB-triad LED shadow-mask: each cell split into R|G|B sub-columns. A warm
+    // colour decomposes into bright red + green dots with dark "blue" gaps, which
+    // is the warm Hermes shimmer (never blue-tinted).
+    float sub = mod(floor(gl_FragCoord.x / (PIX/3.0)), 3.0);
+    vec3 chan = sub < 0.5 ? vec3(col.r, 0.0, 0.0)
+              : sub < 1.5 ? vec3(0.0, col.g, 0.0)
+                          : vec3(0.0, 0.0, col.b);
+    chan *= 2.9;
     vec2 cell = fract(gl_FragCoord.xy / PIX);
-    float gap = smoothstep(0.0,0.12,cell.x)*smoothstep(0.0,0.12,cell.y)
-              * smoothstep(0.0,0.12,1.0-cell.x)*smoothstep(0.0,0.12,1.0-cell.y);
-    col *= 0.80 + 0.20*gap;
-    float colm = mod(floor(gl_FragCoord.x/PIX),3.0);
-    col *= 0.92 + 0.08*step(0.5,colm);
+    float scan = smoothstep(0.0,0.14,cell.y)*smoothstep(0.0,0.14,1.0-cell.y);
+    chan *= 0.6 + 0.4*scan;
+    col = mix(col, chan, 0.5);
 
     gl_FragColor = vec4(col,1.0);
   }`;
@@ -151,7 +178,7 @@
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }
 
-  if (reduced) { draw(8.0); return; }      // single representative frame
+  if (reduced) { draw(8.0); return; }
 
   let running = true, t0 = null;
   function frame(t) {
@@ -162,7 +189,6 @@
   }
   requestAnimationFrame(frame);
 
-  // pause when scrolled away (battery / GPU)
   if ('IntersectionObserver' in window) {
     new IntersectionObserver((ents) => {
       const vis = ents[0].isIntersecting;
