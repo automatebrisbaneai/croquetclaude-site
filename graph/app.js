@@ -1,7 +1,7 @@
 // CroquetClaude knowledge graph viewer
 // Loads graph.json, renders with Sigma.js (WebGL), handles search/filter/select.
 
-import { Graph, forceAtlas2, Sigma } from './vendor/libs.js';
+import { Graph, forceAtlas2, Sigma } from '/graph/vendor/libs.js';
 
 (function () {
   'use strict';
@@ -78,7 +78,7 @@ import { Graph, forceAtlas2, Sigma } from './vendor/libs.js';
   };
 
   // Pull graph.json
-  fetch('graph.json', { cache: 'no-cache' })
+  fetch('/graph/graph.json', { cache: 'no-cache' })
     .then(r => {
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.json();
