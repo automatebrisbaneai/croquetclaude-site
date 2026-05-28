@@ -1,9 +1,7 @@
 // CroquetClaude knowledge graph viewer
 // Loads graph.json, renders with Sigma.js (WebGL), handles search/filter/select.
 
-import Graph from 'graphology';
-import forceAtlas2 from 'graphology-layout-forceatlas2';
-import Sigma from 'sigma';
+import { Graph, forceAtlas2, Sigma } from './vendor/libs.js';
 
 (function () {
   'use strict';
