@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CroquetClaude — Knowledge Graph</title>
+<meta name="description" content="A map of what CroquetClaude knows about Queensland croquet — meetings, decisions, people, clubs, topics, all connected.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f4ee;
+    --panel: #ffffff;
+    --ink: #1d1d1b;
+    --muted: #6b6963;
+    --hair: #e7e2d6;
+    --accent: #2c4660;
+
+    --c-meeting: #c8553d;
+    --c-decision: #d4a017;
+    --c-insight: #7a5fa3;
+    --c-club_signal: #4a7c59;
+    --c-interaction: #4a8a8e;
+    --c-research: #6b8caf;
+    --c-email_exchange: #a4a094;
+    --c-general: #b8b4a8;
+    --c-compliance: #8a5a44;
+    --c-vendor: #8a8674;
+    --c-funding_programme: #b8923c;
+    --c-programme: #9d7ab3;
+    --c-study: #5a7a9b;
+    --c-event: #c97a5c;
+    --c-legal_reference: #6b5a44;
+    --c-web_capture: #95918a;
+
+    --c-club: #2d7a4a;
+    --c-person: #c14a6b;
+    --c-topic: #d99838;
+    --c-aim: #4a3a7a;
+    --c-decision-ent: #b88a1a;
+    --c-doc: #7a7368;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    overflow: hidden;
+  }
+
+  header {
+    padding: 14px 20px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--hair);
+    z-index: 10;
+  }
+  h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.01em;
+  }
+  h1 .accent { color: var(--accent); }
+  header p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--muted);
+    max-width: 880px;
+    line-height: 1.45;
+  }
+  #stats {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  #stats b { color: var(--ink); font-weight: 600; }
+
+  main {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    height: calc(100vh - 80px);
+  }
+  @media (max-width: 720px) {
+    main { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+    #sidebar { max-height: 220px; border-right: none; border-bottom: 1px solid var(--hair); }
+  }
+
+  #sidebar {
+    background: var(--panel);
+    border-right: 1px solid var(--hair);
+    padding: 14px 16px;
+    overflow-y: auto;
+    font-size: 13px;
+  }
+  #search {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--hair);
+    border-radius: 6px;
+    font: inherit;
+    font-size: 13px;
+    margin-bottom: 12px;
+    background: var(--bg);
+  }
+  #search:focus { outline: none; border-color: var(--accent); background: var(--panel); }
+
+  fieldset {
+    border: none;
+    padding: 0;
+    margin: 0 0 12px 0;
+  }
+  legend {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 6px;
+    padding: 0;
+  }
+  .filter-row {
+    display: flex;
+    align-items: center;
+    padding: 4px 0;
+    cursor: pointer;
+    user-select: none;
+  }
+  .filter-row input { margin: 0 8px 0 0; cursor: pointer; }
+  .filter-row .sw {
+    width: 10px; height: 10px; border-radius: 50%;
+    margin-right: 8px; flex-shrink: 0;
+  }
+  .filter-row .count {
+    margin-left: auto;
+    color: var(--muted);
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  #details {
+    padding-top: 12px;
+    border-top: 1px solid var(--hair);
+  }
+  #details .hint { color: var(--muted); font-style: italic; font-size: 12px; }
+  #details h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+    line-height: 1.3;
+  }
+  #details .meta {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+  }
+  #details h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin: 12px 0 4px 0;
+    font-weight: 500;
+  }
+  #details ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  #details li {
+    padding: 4px 0;
+    color: var(--ink);
+    font-size: 12px;
+    line-height: 1.35;
+    cursor: pointer;
+    border-bottom: 1px solid #f3eee2;
+  }
+  #details li:hover { color: var(--accent); }
+  #details li .date {
+    color: var(--muted);
+    font-size: 11px;
+    margin-right: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  #graph-container {
+    position: relative;
+    background: var(--bg);
+    overflow: hidden;
+  }
+  #sigma-container {
+    position: absolute;
+    inset: 0;
+  }
+  .overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    pointer-events: none;
+    color: var(--muted);
+    font-size: 14px;
+    text-align: center;
+    padding: 20px;
+  }
+  .overlay.error { color: #b14b3a; }
+
+  #hover-label {
+    position: absolute;
+    background: rgba(29,29,27,0.92);
+    color: white;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 5;
+    white-space: nowrap;
+    display: none;
+    transform: translate(-50%, -130%);
+  }
+
+  .legend {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: rgba(255,255,255,0.92);
+    border: 1px solid var(--hair);
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 11px;
+    color: var(--muted);
+    max-width: 220px;
+    line-height: 1.5;
+  }
+  .legend strong { color: var(--ink); display: block; margin-bottom: 4px; font-size: 11px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>What <span class="accent">CroquetClaude</span> knows</h1>
+  <p>Every meeting, conversation, email, decision and document about Queensland croquet, distilled into the entities it touches — clubs, people, topics, aims. Click any node to see what it connects to.</p>
+  <div id="stats">Loading…</div>
+</header>
+<main>
+  <aside id="sidebar">
+    <input type="search" id="search" placeholder="Search clubs, people, topics…" autocomplete="off">
+    <fieldset id="filters">
+      <legend>Show</legend>
+      <!-- generated -->
+    </fieldset>
+    <div id="details">
+      <p class="hint">Click any node in the graph to see what it links to.</p>
+    </div>
+  </aside>
+  <div id="graph-container">
+    <div id="sigma-container"></div>
+    <div id="hover-label"></div>
+    <div id="loading-overlay" class="overlay">Loading the graph…</div>
+    <div id="error-overlay" class="overlay error" style="display:none"></div>
+    <div class="legend" id="legend"></div>
+  </div>
+</main>
+
+<script type="importmap">
+{
+  "imports": {
+    "graphology": "https://cdn.jsdelivr.net/npm/graphology@0.26.0/+esm",
+    "graphology-layout-forceatlas2": "https://cdn.jsdelivr.net/npm/graphology-layout-forceatlas2@0.10.1/+esm",
+    "sigma": "https://cdn.jsdelivr.net/npm/sigma@3.0.3/+esm"
+  }
+}
+</script>
+<script type="module" src="app.js"></script>
+</body>
+</html>
