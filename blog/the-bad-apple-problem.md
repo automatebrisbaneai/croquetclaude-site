@@ -16,7 +16,7 @@ I would not lean on it. The experiment was built by a company that sells AI safe
 
 Take the scoreboard as entertainment. The part that actually teaches you something is somewhere else.
 
-There was a sixth town. Instead of one model it held a mix of all of them, the orderly and the volatile sharing the same streets. And the agents that had behaved perfectly well on their own, the Claude ones included, began breaking the law once they were surrounded by neighbours who did.
+There was a sixth town. This one held a mix of all the models, the orderly and the volatile sharing the same streets. And the agents that had behaved well on their own, the Claude ones included, started breaking the law. All it took was neighbours who already did.
 
 Drop a well-behaved agent into rough company and it stops being well-behaved. One bad apple, and the barrel turns.
 
@@ -34,7 +34,7 @@ But impalas do meet again. The same two animals cross paths day after day, and t
 
 This is the prisoner's dilemma, the most chewed-over problem in game theory, and the repeated version is the one that matters. Played once, betrayal wins. Played over and over with the same partners, cooperation starts to pay.
 
-In 1980 a political scientist named Robert Axelrod set out to find which approach actually won. He invited game theorists to submit strategies as small computer programs, then played every program against every other, and against a copy of itself, for thousands of rounds. Some of the entries were elaborate. The one that won was four lines long.
+In 1980 a political scientist named Robert Axelrod set out to find which approach actually won. He invited game theorists to submit strategies as small computer programs. Then he played every program against every other, and against a copy of itself, for thousands of rounds. Some of the entries were elaborate. The one that won was four lines long.
 
 It was called Tit for Tat, and its entire method was this: cooperate on the first move, then copy whatever the other player did last.
 
@@ -44,11 +44,11 @@ Niceness, a temper, a short memory for old wrongs, and no mystery about your int
 
 Here is the part that tends to get left out. Tit for Tat's genius is not really inside Tit for Tat. Put it in a world made entirely of cheats and it finishes dead last, because it cooperates on the first move every single time and gets robbed for it every single time. A cooperative strategy is only ever as good as the company it is allowed to keep. The same four lines of code are a triumph in one neighbourhood and a mug in another.
 
-So how does cooperation ever get going, if a world of cheats punishes it the instant it appears? Axelrod's answer was that it arrives in a huddle. A small cluster of cooperators, dropped into a hostile world but kept close enough that they mostly deal with each other, will out-earn the cheats around them. They collect the steady rewards of mutual cooperation while the cheats are left splitting scraps.
+So how does cooperation ever get going, if a world of cheats punishes it the instant it appears? Axelrod's answer was that it arrives in a huddle. Picture a small cluster of cooperators dropped into a hostile world, kept close enough that they mostly deal with each other. They out-earn the cheats around them. They collect the steady rewards of mutual cooperation while the cheats are left splitting scraps.
 
 Over enough generations the huddle spreads until it owns the place. Cooperation can take over a world of self-interested players. It just has to begin in a corner where it is allowed to find its own kind.
 
-The rule runs the other way too, which is the unsettling half. A committed minority does not need to be large to drag a whole population onto its terms. A study published in Science Advances last year found exactly that in groups of language models left to settle on shared conventions: a determined few could flip the convention for everyone, and biases that no single agent held showed up in the group as a whole. A cluster sets the norm. The mechanism does not care whether the cluster is the cooperators or the bad apples.
+The rule runs the other way too, which is the unsettling half. A committed minority does not need to be large to drag a whole population onto its terms. A study in Science Advances last year found exactly that. Put language models in groups and let them settle on shared conventions, and a determined few could flip the convention for everyone. Biases that no single agent held turned up in the group as a whole. A cluster sets the norm. The mechanism does not care whether the cluster is the cooperators or the bad apples.
 
 So the mixed town and the 1980 tournament are saying the same thing across forty-five years. In the short run the neighbourhood makes the agent. The well-behaved Claude residents turned because the street around them rewarded turning. In the long run the agents make the neighbourhood, because whichever cluster holds its line ends up writing the rules everyone else lives under.
 
@@ -60,7 +60,7 @@ There is one more wrinkle, and it is the one I find hardest to shake. A town ful
 
 In 1983 a Soviet early-warning system mistook sunlight on cloud for an American missile launch. The cooperative world very nearly ended on a misread.
 
-The fix is not what you would guess. You do not patch this by making the agents nicer. A pure Tit for Tat is already as nice as it knows how to be, and it still ends up in the feud. What breaks the cycle is forgiveness: a strategy that lets roughly one provocation in ten simply slide. Enough give to absorb an honest mistake and climb back out of the spiral, not so much that it becomes a doormat the cheats can farm. A working cooperative system has slack built into it on purpose.
+The fix is not what you would guess. You do not patch this by making the agents nicer. A pure Tit for Tat is already as nice as it knows how to be, and it still ends up in the feud. What breaks the cycle is forgiveness. A strategy that lets roughly one provocation in ten slide. Enough give to absorb an honest mistake and climb back out of the spiral, not so much that it becomes a doormat the cheats can farm. A working cooperative system has slack built into it on purpose.
 
 ---
 

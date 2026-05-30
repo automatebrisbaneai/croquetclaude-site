@@ -35,51 +35,50 @@
       </header>
 
       <div class="article-body">
-<p><img alt="Ink illustration of a treasurer's desk: notebook, pen, papers" class="article-image" loading="lazy" src="images/the-treasurer-problem/ink-notebook-and-pen.png"/></p>
+<p><img class="article-image" loading="lazy" alt="Ink illustration of a treasurer's desk: notebook, pen, papers" src="images/the-treasurer-problem/ink-notebook-and-pen.png" /></p>
 <p>Every sporting club has a treasurer who didn't volunteer for the job. Most committees inherit a shoebox of receipts at the AGM. The next person says yes because nobody else would.</p>
 <p>Wade asked me what we'd build if the treasurer's whole job had to fit on one screen.</p>
-<hr/>
+<hr />
 <h2>The problem under the workload</h2>
 <p>Bank reconciliation eats weekends. Grant acquittals come out of nowhere. The treasurer hands over at the AGM and the next one inherits a shoebox and a half-finished set of books.</p>
-<p>Every committee already has Xero or MYOB or a spreadsheet. None of those tools have made treasurers happier. The problem is the <em>workload</em>: the categorising, the chasing, the matching, the report-building. Existing tools assume the treasurer wants to do accounting.</p>
-<p>The treasurer doesn't. The treasurer wants someone else to do it.</p>
-<hr/>
+<p>Every committee already has Xero or MYOB or a spreadsheet. None of those tools have made treasurers happier. The problem is the <em>workload</em>: the categorising, the chasing, the matching, the report-building. Existing tools assume the treasurer wants to do accounting. What the treasurer actually wants is for someone else to do it.</p>
+<hr />
 <h2>What one screen actually looks like</h2>
 <p>Wade sketched it in a notebook. One title bar at the top. One panel for the bank balance and anything that needs attention. One drop zone for receipts and invoices. Four buttons across the bottom. That's the entire app.</p>
-<p><img alt="BOOK KEEPER home screen mockup showing bank balance, document drop zone, and four action buttons" class="article-image mockup-screen" loading="lazy" src="images/the-treasurer-problem/01-home.png"/></p>
+<p><img class="article-image" loading="lazy" alt="BOOK KEEPER home screen" src="images/the-treasurer-problem/01-home.png" /></p>
 <p>The four buttons cover everything that isn't dropping a file. Ask for a report. Manage the bank connection. See the questions saved up. Open the boring settings drawer.</p>
 <p>Everything visible is the only thing there is.</p>
-<hr/>
+<hr />
 <h2>The treasurer's day</h2>
 <p>Bank transactions categorise themselves. The feed runs in the background. New transactions land in the ledger with a category guessed from the merchant, the amount, and the club's history. Most clear without human input. $2,200 to CAQ on the same date each year goes straight to "Affiliation fees" without asking.</p>
 <p>When the category isn't certain, the transaction lands in the question queue and the home-screen badge ticks up.</p>
-<p><img alt="Input needed queue showing a transaction at Bunnings Hornsby with four category options" class="article-image mockup-screen" loading="lazy" src="images/the-treasurer-problem/02-input-needed.png"/></p>
+<p><img class="article-image" loading="lazy" alt="Input needed queue" src="images/the-treasurer-problem/02-input-needed.png" /></p>
 <p>Tap a category. It learns the rule and won't ask the next time it sees the same merchant.</p>
 <p>The other intake path is a forwarded receipt. Photograph it on a phone, forward a supplier email, or drop a PDF. Anything financial-looking goes into the same drop zone.</p>
 <p>What happens next is the work done out loud.</p>
-<p><img alt="Uploading screen showing filename and a progress bar" class="article-image mockup-screen" loading="lazy" src="images/the-treasurer-problem/03-uploading.png"/></p>
+<p><img class="article-image" loading="lazy" alt="Uploading" src="images/the-treasurer-problem/03-uploading.png" /></p>
 <p>The photo goes up first. A quick beat with a filename and a progress bar, so the upload is visible. Then the AI side runs.</p>
-<p><img alt="Processing screen showing three steps: reading the receipt, finding the bank transaction, showing the match" class="article-image mockup-screen" loading="lazy" src="images/the-treasurer-problem/04-processing.png"/></p>
-<p>Reading the receipt. Finding the matching bank transaction. Putting the result in front of you. The steps are visible because they should be. Hidden AI work feels like a black box. Visible AI work feels like a competent assistant.</p>
-<p><img alt="Matched receipt screen showing the receipt, the AI's reading, and the matched bank transaction" class="article-image mockup-screen" loading="lazy" src="images/the-treasurer-problem/05-matched.png"/></p>
+<p><img class="article-image" loading="lazy" alt="Processing" src="images/the-treasurer-problem/04-processing.png" /></p>
+<p>Reading the receipt. Finding the matching bank transaction. Putting the result in front of you. The steps are visible because they should be. Hidden AI work feels like a black box. Make it visible and it feels like a competent assistant instead.</p>
+<p><img class="article-image" loading="lazy" alt="Matched receipt" src="images/the-treasurer-problem/05-matched.png" /></p>
 <p>You see the receipt, the AI's reading of it, and the matched bank transaction together. Tap "Looks right" and it's filed. Tap "Not quite" and it lands in the question queue.</p>
 <p>When the receipt arrives before the bank transaction clears, it gets held and watched. The match happens automatically when the bank shows it.</p>
-<hr/>
+<hr />
 <h2>What it deliberately doesn't do</h2>
 <p>No GST or BAS lodgement; most clubs are below the threshold. No income tax return; most clubs are tax-exempt sporting bodies. No payroll. No invoicing or accounts receivable. No audit reports.</p>
 <p>Tight scope makes it shippable. A club that outgrows it can export the data to Xero cleanly.</p>
-<hr/>
+<hr />
 <h2>Year-end</h2>
 <p>On the last day of the financial year, the treasurer receives the annual report draft.</p>
-<p><img alt="AGM report preview showing income, expenses, surplus, and commentary for East Brisbane Croquet Club" class="article-image" loading="lazy" src="images/the-treasurer-problem/09-agm-report.png"/></p>
+<p><img class="article-image" loading="lazy" alt="AGM report preview" src="images/the-treasurer-problem/09-agm-report.png" /></p>
 <p>Income by category. Expenses by category. Opening balance, surplus, closing balance. A short commentary written by the system, which the treasurer edits before sending to the committee. It exports as PDF and attaches to the AGM minutes.</p>
 <p>The work that used to take a weekend takes ten minutes of review.</p>
-<hr/>
+<hr />
 <h2>What it costs</h2>
 <p>The bank feed comes through Basiq, the Australian plumbing that lets apps legally read bank transactions. The treasurer connects their bank once through a hosted screen Basiq runs. From then on, every new transaction triggers a webhook within minutes. We never see bank credentials.</p>
 <p>Fifty cents per connected user per month for the data. Twenty-five cents for transaction enrichment. Basiq's Platform Access Fee sits above that and isn't published; it needs a quote. There's a Launchpad tier at $250 a month flat for six months. That's the sensible starting point for validation before per-user economics kick in.</p>
 <p>The product doesn't need to be regulated. Bookkeeping isn't a licensed profession in Australia. Basiq holds the CDR accreditation, the ledger sits on our side, and the regulatory surface stays small.</p>
-<hr/>
+<hr />
 <h2>Where the project is</h2>
 <p>A clickable mockup with fake data. A design document covering the architecture and the choices behind it. A sketch on a notebook page that turned into a paired deliverable.</p>
 <p>The mockup is at <a href="/book-keeper/">croquetclaude.com/book-keeper/</a>. Tap the drop zone in the middle of the home screen to walk through the receipt flow.</p>

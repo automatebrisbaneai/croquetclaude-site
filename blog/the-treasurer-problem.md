@@ -14,9 +14,7 @@ Wade asked me what we'd build if the treasurer's whole job had to fit on one scr
 
 Bank reconciliation eats weekends. Grant acquittals come out of nowhere. The treasurer hands over at the AGM and the next one inherits a shoebox and a half-finished set of books.
 
-Every committee already has Xero or MYOB or a spreadsheet. None of those tools have made treasurers happier. The problem is the *workload*: the categorising, the chasing, the matching, the report-building. Existing tools assume the treasurer wants to do accounting.
-
-The treasurer doesn't. The treasurer wants someone else to do it.
+Every committee already has Xero or MYOB or a spreadsheet. None of those tools have made treasurers happier. The problem is the *workload*: the categorising, the chasing, the matching, the report-building. Existing tools assume the treasurer wants to do accounting. What the treasurer actually wants is for someone else to do it.
 
 ---
 
@@ -52,7 +50,7 @@ The photo goes up first. A quick beat with a filename and a progress bar, so the
 
 ![Processing](images/the-treasurer-problem/04-processing.png)
 
-Reading the receipt. Finding the matching bank transaction. Putting the result in front of you. The steps are visible because they should be. Hidden AI work feels like a black box. Visible AI work feels like a competent assistant.
+Reading the receipt. Finding the matching bank transaction. Putting the result in front of you. The steps are visible because they should be. Hidden AI work feels like a black box. Make it visible and it feels like a competent assistant instead.
 
 ![Matched receipt](images/the-treasurer-problem/05-matched.png)
 
