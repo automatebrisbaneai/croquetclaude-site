@@ -22,8 +22,6 @@ Drop a well-behaved agent into rough company and it stops being well-behaved. On
 
 This is the oldest piece of folk wisdom there is about groups. One bad apple spoils the bunch. We say it about classrooms and workplaces and football sides, usually with a shrug, as if it were only a saying. It turns out to have real machinery underneath it, and the machinery was worked out decades before anyone thought to build a town out of language models.
 
-Good behaviour looks like a character trait. It behaves like a property of the barrel.
-
 ---
 
 Start with two impalas. They live on the African savannah, they pick up ticks, and the ticks carry disease, so an impala that cannot reach its own neck needs another impala to clean it. Grooming costs something. It takes saliva, time, and attention, all of it spent out in the open where a predator might be watching.
