@@ -157,7 +157,7 @@ Header tags are PGN-style, one per line, at the top. Required tags are marked wi
 | `[Court]` | optional, defaults `28x35` | `[Court "28x35"]` |
 | `[HoopLayout]` | optional, defaults `standard` | `[HoopLayout "standard"]` |
 | `[FirstSide]` | optional, defaults `A` | `[FirstSide "A"]` |
-| `[Source]` | optional, provenance | `[Source "youtube.com/watch?v=..."]` |
+| `[Source]` | optional, provenance | `[Source "croquetvideos.com/w/..."]` |
 | `[Player_U]` etc. | for doubles | `[Player_U "Felix Gelman White"]` |
 | `[Hoop_N]` | non-standard layouts | `[Hoop_3 "(15.5,10.2)"]` |
 
