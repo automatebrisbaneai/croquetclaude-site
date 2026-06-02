@@ -43,9 +43,11 @@ Four steps.
 
 **1. Listen for the shots.** A mallet hitting a ball makes a sharp, distinctive sound. Different from talking, footsteps, or wind. The software listens to the audio and notes every time it hears that sound. On a 40-minute tournament game it finds around 175 shots, which is the right ballpark. That's the first thing the system knows: when each shot happens.
 
-**2. Find the balls.** The harder part. For every moment in the game, the software needs to know where each of the four balls is on the lawn. It does this by colour. Croquet balls are bright red, yellow, blue, and black, and the lawn is uniformly green. Recognising bright dots against a flat background is a task computers are genuinely good at. Combine that with shape (the dots should be round) and size (small but consistent), and you have a working ball-finder.
+**2. Find the balls.** This is the hard part, and the part the whole project turns on. For every moment in the game the software needs to know where each of the four balls sits on the lawn. The obvious way is colour. The balls are bright red, yellow, blue and black, the lawn is flat green, and picking bright dots off a plain background is something computers do well. In a clean, close frame it finds three of the four without much fuss.
 
-This works well when the camera doesn't move. A clubhouse balcony angle, or a fixed pole-mounted camera, is the easy case. On handheld footage where the camera follows the action, the same approach struggles, because the lawn keeps shifting in the frame.
+A whole broadcast game is harder. The balls are often small and distant, and a croquet lawn is full of other bright, coloured things: the centre peg, shelter signs, a player's shirt, the white boundary lines, the clubhouse behind. The colour method finds those too. So the software crops each candidate and checks it really is a ball before trusting it, and getting that check right is most of the battle.
+
+It is the kind of problem that looks solved long before it is. An early version of that check had a bug that waved too many false positives through, so the results looked better than they were until I caught it and tightened it. The lesson stuck: this project is won or lost on ball detection, not on the clever work downstream. That is where the effort goes now, and the newest computer-vision research points to a fix that fits it perfectly, which I will come to.
 
 **3. Write down what happened.** Chess has a standard way of recording games: '1. e4 e5 2. Nf3 Nc6'. You can read a chess game from a notation file without ever seeing the board. Croquet doesn't have an equivalent. So I drafted one. It's called **Croquet Algebraic Notation**, or CAN. A few lines look like this:
 
@@ -86,21 +88,25 @@ Three things happen at once when a person answers:
 ## Where it's up to
 
 - **Hearing the shots: works.** Around 175 shots detected on a 40-minute tournament game.
-- **Finding the balls: works on fixed-camera footage.** Three of four balls reliably located in clean frames. Handheld footage is still the hard case.
-- **Classifying the kind of shot from ball positions: works for most shots.** Once we know where each ball was before and after a shot, the category drops out geometrically. Did the ball pass through a hoop's coordinates? That's a hoop run. Did it contact an opponent ball and move it? That's a clearance. Did it just move to a chosen spot? That's positioning. No vision-AI needed for the shot type itself: the ball positions tell us.
-- **The edge cases need human help.** When ball tracking is uncertain, when the camera moves at the wrong moment, when the question is whether THIS shot ran the hoop or the NEXT player did, the geometry alone isn't enough. The classify page is for those cases.
+- **Reading the shot, once the positions are known: works.** The category drops out from the coordinates. A ball through a hoop's posts ran the hoop. A ball that strikes an opponent and moves it cleared. A ball that travels to open lawn was positioning. Where the system stays silent, it is because a position is missing, not because it guessed wrong.
+- **Finding the balls: the one thing left to crack.** Three of four in a clean frame is the easy case. Catching every ball across a whole game, small and distant and half-hidden behind players, is the real work, and it is where the research below comes in.
+- **The honest score so far.** Held to a strict bar, every stroke either right or left blank and never guessed, the system stands behind about 43% of a full game today. That is a floor, not a ceiling: it is the share it can already prove, and almost all the rest is waiting on better ball detection. The target is 75%, and the path there is clear.
 - **Notation:** CAN draft at version 0.1, ready for community review.
-- **The classify-and-learn page:** built as a preview. The live version, hooked up to real low-confidence questions from real games, is the next thing to build.
+- **The classify-and-learn page:** built as a preview. The live version, fed by real questions from games it has just watched, is next.
 
 ---
 
 ## Where the community comes in
 
-Two open questions, both for people rather than AI.
+Three ways in, all for people rather than AI.
 
-One is the notation. CAN is currently a draft. Whether it becomes a useful standard depends on coaches and analysts having a look. They tell me where it's wrong, where it's missing something, and where abbreviations should follow long-established usage rather than what I came up with. That review will happen in public once the spec is ready for it.
+The first is the thing people are best at and computers find hardest: spotting the balls. A person glances at a frame and says straight away, "there's the red ball, just behind the player." The plan is a Spot the Ball page that shows you a moment the software is unsure about, with its best guess already marked, and lets you confirm it, nudge it to the right spot, or add a ball it missed. Every answer does two jobs. It fixes that game's analysis, and it builds a library of people pointing at balls.
 
-The other is the classifier. A few minutes a week answering "what kind of shot is this?" produces two things at once: training data for the software, and a small coaching reflection for the person who answered. Wrong answers come with a short explanation. Right answers go into the learning set.
+That second job is the one that turns this around. The newest vision research lands on the same instinct a coach has: don't describe a picture in words, point at it. Models that point at what they are looking at, instead of narrating it, come out faster and more accurate, and you teach them by showing them where people already pointed. That is exactly what Spot the Ball collects. The crowd points, the detector learns to point, and the hard part of this project gets easier game by game. The page is designed and waiting its turn behind other work, so it is not live yet, but it is the piece that matters most.
+
+The second is the notation. CAN is currently a draft. Whether it becomes a useful standard depends on coaches and analysts having a look. They tell me where it's wrong, where it's missing something, and where abbreviations should follow long-established usage rather than what I came up with. That review will happen in public once the spec is ready for it.
+
+The third is the classifier. A few minutes a week answering "what kind of shot is this?" produces two things at once: training data for the software, and a small coaching reflection for the person who answered. Wrong answers come with a short explanation. Right answers go into the learning set.
 
 The [preview is here now](/classify/). The live system will follow, once the pipeline can feed it real low-confidence questions from games it has just watched.
 
