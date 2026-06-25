@@ -220,10 +220,13 @@
       ph.value = ''; ph.textContent = 'None';
       if(!chosen){ ph.selected = true; }
       sel.appendChild(ph);
+      // Match on the 3-letter prefix so a pre-filled "Tue", "Tuesday" or "tue" all
+      // select the right day (the stored data uses 3-letter; the options are full names).
+      var key = String(chosen || '').slice(0, 3).toLowerCase();
       DAYS.forEach(function(d){
         var o = document.createElement('option');
         o.textContent = d;
-        if(d === chosen){ o.selected = true; }
+        if(key && d.slice(0, 3).toLowerCase() === key){ o.selected = true; }
         sel.appendChild(o);
       });
     });
@@ -235,6 +238,7 @@
         club.classList.toggle('off', cb.checked);
         club.querySelectorAll('.grp input, .grp select').forEach(function(el){ el.disabled = cb.checked; });
       });
+      if(cb.checked){ cb.dispatchEvent(new Event('change')); }  // grey pre-ticked non-participants on load
     });
 
     // Collect the form into a structured payload and POST it to CAQ. It lands as a
