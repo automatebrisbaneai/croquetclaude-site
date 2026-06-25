@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Come and Try — North Brisbane club times</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Lato:wght@400;700;900&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --maroon:#73182C; --maroon-hover:#8a2438; --cream:#FCF6DA; --on-maroon:#FCF6DA;
+    --green:#82b25e; --bronze:#74694b; --surface:#FFFFFF; --ink:#1C1816; --body:#37352F;
+    --hair:rgba(115,24,44,.18);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--body);font-family:"Lora",Georgia,serif;line-height:1.55}
+  .wrap{max-width:820px;margin:0 auto;padding:0 1.1rem 4rem}
+
+  header.mast{background:var(--maroon);color:var(--on-maroon);padding:2.2rem 1.1rem 2rem;text-align:center}
+  .eyebrow{font-family:"Lato",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.26em;font-size:.72rem;color:var(--on-maroon);opacity:.85}
+  h1{font-family:"Abril Fatface",serif;font-weight:400;font-size:clamp(1.9rem,1rem+3.6vw,3rem);line-height:1.08;letter-spacing:.01em;margin:.5rem auto .2rem;max-width:18ch}
+  .mast p{font-family:"Lato",sans-serif;font-size:.95rem;margin:.4rem auto 0;max-width:46ch;opacity:.92}
+
+  .intro{background:var(--surface);border:1px solid var(--hair);border-radius:6px;padding:1.3rem 1.4rem;margin:1.8rem 0}
+  .intro h2{font-family:"Lato",sans-serif;text-transform:uppercase;letter-spacing:.16em;font-size:.78rem;color:var(--maroon);margin:0 0 .6rem}
+  .intro p{margin:.5rem 0;font-size:1rem}
+  .intro ul{margin:.5rem 0 0;padding-left:1.1rem}
+  .intro li{margin:.3rem 0}
+
+  .club{background:var(--surface);border:1px solid var(--hair);border-radius:6px;padding:1.2rem 1.3rem;margin:1rem 0}
+  .club-head{display:flex;justify-content:space-between;align-items:baseline;gap:.6rem;flex-wrap:wrap;margin:0 0 .6rem}
+  .club-head h3{font-family:"Abril Fatface",serif;font-weight:400;color:var(--maroon);font-size:1.45rem;margin:0}
+  .nonpart{font-family:"Lato",sans-serif;font-size:.74rem;font-weight:700;letter-spacing:.03em;color:var(--bronze);display:inline-flex;align-items:center;gap:.4rem;cursor:pointer;white-space:nowrap}
+  .nonpart input{accent-color:var(--maroon);width:1rem;height:1rem;cursor:pointer}
+  .grp{margin:.8rem 0 .2rem}
+  .grp > .lab{font-family:"Lato",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:.7rem;color:var(--bronze);display:block;margin-bottom:.4rem}
+  .row{display:flex;gap:.5rem;margin-bottom:.45rem;flex-wrap:wrap}
+  .row select,.row input{font-family:"Lato",sans-serif;font-size:.92rem;color:var(--ink);background:var(--cream);border:1px solid var(--hair);border-radius:4px;padding:.5rem .55rem}
+  .row select{flex:0 0 8.5rem}
+  .row input.time{flex:1 1 8rem;min-width:7rem}
+  .row input.name{flex:1 1 9rem;min-width:7rem}
+  .row input.wide{flex:1 1 100%}
+  .note{font-family:"Lato",sans-serif;font-size:.78rem;color:var(--green);font-weight:700;margin:.4rem 0 .2rem}
+
+  /* Non-participant: grey the club body out, lock its fields */
+  .club.off{background:#f6f1e0;border-style:dashed}
+  .club.off .grp,.club.off .note{opacity:.4}
+  .row input:disabled,.row select:disabled{background:#efe9d4;color:var(--bronze);cursor:not-allowed}
+
+  .submit-wrap{text-align:center;margin:2rem 0 0}
+  button.send{font-family:"Lato",sans-serif;font-weight:900;text-transform:uppercase;letter-spacing:.12em;font-size:.9rem;color:var(--on-maroon);background:var(--maroon);border:none;border-radius:5px;padding:.95rem 2.4rem;cursor:pointer}
+  button.send:hover{background:var(--maroon-hover)}
+  .fine{font-family:"Lato",sans-serif;font-size:.74rem;color:var(--bronze);margin:.7rem 0 0}
+  .done{display:none;background:var(--green);color:var(--ink);font-family:"Lato",sans-serif;font-weight:700;text-align:center;padding:1rem;border-radius:6px;margin-top:1rem}
+</style>
+</head>
+<body>
+  <header class="mast">
+    <div class="eyebrow">Croquet Queensland &middot; Come and Try</div>
+    <h1>North Brisbane club times</h1>
+    <p>The times for your region's clubs, ready for you to confirm.</p>
+  </header>
+
+  <div class="wrap">
+    <section class="intro">
+      <h2>What this is for</h2>
+      <p>Come and Try is bringing new people to clubs across Queensland. We are starting carefully and will widen the campaign across the regions <strong>once we know the system is coping</strong> &mdash; so the job now is to be organised and ready to go the moment we open your region up.</p>
+      <p>For each of your clubs, we need:</p>
+      <ul>
+        <li><strong>A club host</strong> &mdash; the person we coordinate with, and how to reach them.</li>
+        <li><strong>Come and Try times</strong> &mdash; up to two set times a week when a newcomer can turn up for a taster.</li>
+        <li><strong>Club play days</strong> &mdash; up to three regular playing days, so a newcomer knows when to come back.</li>
+        <li><strong>Membership fee</strong> &mdash; roughly, so guests can be told what joining costs.</li>
+      </ul>
+      <p>Most are pre-filled from what we had in April. Just <strong>confirm or correct</strong> them and hit submit at the bottom. If a club isn't taking part, tick <em>Not participating</em>. It all comes straight back to us.</p>
+    </section>
+
+    <form id="scrForm" data-region="north-brisbane">
+      <div class="club">
+        <div class="club-head"><h3>Eildon</h3><label class="nonpart"><input type="checkbox" class="np" /> Not participating</label></div>
+        <div class="grp"><span class="lab">Club Host</span>
+          <div class="row"><input class="name" value="" placeholder="Host name" /><input class="time" value="" placeholder="Mobile" /><input class="time" value="" placeholder="Email" /></div>
+        </div>
+        <div class="grp"><span class="lab">Come and Try times</span>
+          <div class="row"><select data-day="Wed"></select><input class="time" value="1pm" /></div>
+          <div class="row"><select data-day=""></select><input class="time" placeholder="time" /></div>
+        </div>
+        <div class="grp"><span class="lab">Regular club play days</span>
+          <div class="row"><select data-day="Tue"></select><input class="time" value="8:30am" /></div>
+          <div class="row"><select data-day="Fri"></select><input class="time" value="8:30am" /></div>
+          <div class="row"><select data-day=""></select><input class="time" placeholder="time" /></div>
+        </div>
+        <div class="grp"><span class="lab">Membership fee</span><div class="row"><input class="time wide" value="" placeholder="eg. $200/qtr" /></div></div>
+        <div class="grp"><span class="lab">Notes</span><div class="row"><input class="time wide" value="" placeholder="Anything else" /></div></div>
+      </div>
+
+      <div class="club">
+        <div class="club-head"><h3>McIlwraith</h3><label class="nonpart"><input type="checkbox" class="np" /> Not participating</label></div>
+        <div class="grp"><span class="lab">Club Host</span>
+          <div class="row"><input class="name" value="Kerrie Hodgson" placeholder="Host name" /><input class="time" value="0430 054 288" placeholder="Mobile" /><input class="time" value="secretary@mcilwraithcroquetclub.com" placeholder="Email" /></div>
+        </div>
+        <div class="grp"><span class="lab">Come and Try times</span>
+          <div class="row"><select data-day="Thu"></select><input class="time" value="3pm" /></div>
+          <div class="row"><select data-day=""></select><input class="time" placeholder="time" /></div>
+        </div>
+        <div class="grp"><span class="lab">Regular club play days</span>
+          <div class="row"><select data-day="Wednesday"></select><input class="time" value="09:00" /></div>
+          <div class="row"><select data-day="Saturday"></select><input class="time" value="13:00" /></div>
+          <div class="row"><select data-day=""></select><input class="time" placeholder="time" /></div>
+        </div>
+        <div class="grp"><span class="lab">Membership fee</span><div class="row"><input class="time wide" value="" placeholder="eg. $200/qtr" /></div></div>
+        <div class="grp"><span class="lab">Notes</span><div class="row"><input class="time wide" value="" placeholder="Anything else" /></div></div>
+      </div>
+
+      <div class="club">
+        <div class="club-head"><h3>Merthyr</h3><label class="nonpart"><input type="checkbox" class="np" /> Not participating</label></div>
+        <div class="grp"><span class="lab">Club Host</span>
+          <div class="row"><input class="name" value="" placeholder="Host name" /><input class="time" value="" placeholder="Mobile" /><input class="time" value="" placeholder="Email" /></div>
+        </div>
+        <div class="grp"><span class="lab">Come and Try times</span>
+          <div class="row"><select data-day=""></select><input class="time" placeholder="time" /></div>
+          <div class="row"><select data-day=""></select><input class="time" placeholder="time" /></div>
+        </div>
+        <div class="grp"><span class="lab">Regular club play days</span>
+          <div class="row"><select data-day=""></select><input class="time" placeholder="time" /></div>
+          <div class="row"><select data-day=""></select><input class="time" placeholder="time" /></div>
+          <div class="row"><select data-day=""></select><input class="time" placeholder="time" /></div>
+        </div>
+        <div class="grp"><span class="lab">Membership fee</span><div class="row"><input class="time wide" value="" placeholder="eg. $200/qtr" /></div></div>
+        <div class="grp"><span class="lab">Notes</span><div class="row"><input class="time wide" value="Runs a paid C&amp;T ($15/4wks)" placeholder="Anything else" /></div></div>
+      </div>
+
+      <div class="club">
+        <div class="club-head"><h3>Moreton Bay Gateball</h3><label class="nonpart"><input type="checkbox" class="np" /> Not participating</label></div>
+        <div class="grp"><span class="lab">Club Host</span>
+          <div class="row"><input class="name" value="" placeholder="Host name" /><input class="time" value="" placeholder="Mobile" /><input class="time" value="" placeholder="Email" /></div>
+        </div>
+        <div class="grp"><span class="lab">Come and Try times</span>
+          <div class="row"><select data-day=""></select><input class="time" placeholder="time" /></div>
+          <div class="row"><select data-day=""></select><input class="time" placeholder="time" /></div>
+        </div>
+        <div class="grp"><span class="lab">Regular club play days</span>
+          <div class="row"><select data-day=""></select><input class="time" placeholder="time" /></div>
+          <div class="row"><select data-day=""></select><input class="time" placeholder="time" /></div>
+          <div class="row"><select data-day=""></select><input class="time" placeholder="time" /></div>
+        </div>
+        <div class="grp"><span class="lab">Membership fee</span><div class="row"><input class="time wide" value="" placeholder="eg. $200/qtr" /></div></div>
+        <div class="grp"><span class="lab">Notes</span><div class="row"><input class="time wide" value="" placeholder="Anything else" /></div></div>
+      </div>
+
+      <div class="club">
+        <div class="club-head"><h3>Pine Rivers</h3><label class="nonpart"><input type="checkbox" class="np" /> Not participating</label></div>
+        <div class="grp"><span class="lab">Club Host</span>
+          <div class="row"><input class="name" value="" placeholder="Host name" /><input class="time" value="" placeholder="Mobile" /><input class="time" value="" placeholder="Email" /></div>
+        </div>
+        <div class="grp"><span class="lab">Come and Try times</span>
+          <div class="row"><select data-day="Tue"></select><input class="time" value="1pm" /></div>
+          <div class="row"><select data-day="Sat"></select><input class="time" value="9am" /></div>
+        </div>
+        <div class="grp"><span class="lab">Regular club play days</span>
+          <div class="row"><select data-day="Tue"></select><input class="time" value="1pm" /></div>
+          <div class="row"><select data-day="Thu"></select><input class="time" value="9am" /></div>
+          <div class="row"><select data-day="Fri"></select><input class="time" value="1pm" /></div>
+        </div>
+        <div class="grp"><span class="lab">Membership fee</span><div class="row"><input class="time wide" value="" placeholder="eg. $200/qtr" /></div></div>
+        <div class="grp"><span class="lab">Notes</span><div class="row"><input class="time wide" value="" placeholder="Anything else" /></div></div>
+      </div>
+
+      <div class="club">
+        <div class="club-head"><h3>Toombul</h3><label class="nonpart"><input type="checkbox" class="np" /> Not participating</label></div>
+        <div class="grp"><span class="lab">Club Host</span>
+          <div class="row"><input class="name" value="Betty" placeholder="Host name" /><input class="time" value="0406 188 147" placeholder="Mobile" /><input class="time" value="" placeholder="Email" /></div>
+        </div>
+        <div class="grp"><span class="lab">Come and Try times</span>
+          <div class="row"><select data-day="Wed"></select><input class="time" value="11am" /></div>
+          <div class="row"><select data-day="Sat"></select><input class="time" value="11am" /></div>
+        </div>
+        <div class="grp"><span class="lab">Regular club play days</span>
+          <div class="row"><select data-day="Wed"></select><input class="time" value="8-12" /></div>
+          <div class="row"><select data-day="Sat"></select><input class="time" value="8-12" /></div>
+          <div class="row"><select data-day=""></select><input class="time" placeholder="time" /></div>
+        </div>
+        <div class="grp"><span class="lab">Membership fee</span><div class="row"><input class="time wide" value="" placeholder="eg. $200/qtr" /></div></div>
+        <div class="grp"><span class="lab">Notes</span><div class="row"><input class="time wide" value="Pilot club — keen and ready" placeholder="Anything else" /></div></div>
+      </div>
+
+      <div class="club">
+        <div class="club-head"><h3>Windsor</h3><label class="nonpart"><input type="checkbox" class="np" /> Not participating</label></div>
+        <div class="grp"><span class="lab">Club Host</span>
+          <div class="row"><input class="name" value="" placeholder="Host name" /><input class="time" value="" placeholder="Mobile" /><input class="time" value="" placeholder="Email" /></div>
+        </div>
+        <div class="grp"><span class="lab">Come and Try times</span>
+          <div class="row"><select data-day="Wed"></select><input class="time" value="12:30pm" /></div>
+          <div class="row"><select data-day="Sat"></select><input class="time" value="12:30pm" /></div>
+        </div>
+        <div class="grp"><span class="lab">Regular club play days</span>
+          <div class="row"><select data-day="Wed"></select><input class="time" value="12:30pm" /></div>
+          <div class="row"><select data-day="Sat"></select><input class="time" value="12:30pm" /></div>
+          <div class="row"><select data-day=""></select><input class="time" placeholder="time" /></div>
+        </div>
+        <div class="grp"><span class="lab">Membership fee</span><div class="row"><input class="time wide" value="" placeholder="eg. $200/qtr" /></div></div>
+        <div class="grp"><span class="lab">Notes</span><div class="row"><input class="time wide" value="Come and try day July 4" placeholder="Anything else" /></div></div>
+      </div>
+      <div class="submit-wrap">
+        <button type="submit" class="send">Send these to CAQ</button>
+        <p class="fine">Goes straight to CroquetClaude &middot; we will be in touch if anything needs a tweak</p>
+        <div class="done" id="done">Thanks &mdash; got it. Your region is one step closer to ready.</div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Populate every day dropdown with the full week. "None" is selectable so a
+    // pre-filled day can be cleared; blank rows default to it.
+    var DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+    document.querySelectorAll('select[data-day]').forEach(function(sel){
+      var chosen = sel.getAttribute('data-day');
+      var ph = document.createElement('option');
+      ph.value = ''; ph.textContent = 'None';
+      if(!chosen){ ph.selected = true; }
+      sel.appendChild(ph);
+      DAYS.forEach(function(d){
+        var o = document.createElement('option');
+        o.textContent = d;
+        if(d === chosen){ o.selected = true; }
+        sel.appendChild(o);
+      });
+    });
+
+    // Not-participating tick: grey the club body and lock all its fields.
+    document.querySelectorAll('.np').forEach(function(cb){
+      cb.addEventListener('change', function(){
+        var club = cb.closest('.club');
+        club.classList.toggle('off', cb.checked);
+        club.querySelectorAll('.grp input, .grp select').forEach(function(el){ el.disabled = cb.checked; });
+      });
+    });
+
+    // Collect the form into a structured payload and POST it to CAQ. It lands as a
+    // PENDING submission; CroquetClaude checks it before anything reaches the live system.
+    function collectClub(c){
+      var g = c.querySelectorAll('.grp');
+      var host = g[0].querySelectorAll('input');
+      function rows(grp){
+        return [].slice.call(grp.querySelectorAll('.row')).map(function(r){
+          var s = r.querySelector('select'), t = r.querySelector('input');
+          return { day: s ? s.value : '', time: t ? t.value : '' };
+        }).filter(function(x){ return x.day || x.time; });
+      }
+      return {
+        club: c.querySelector('h3').textContent.trim(),
+        not_participating: c.querySelector('.np').checked,
+        host: host[0].value, mobile: host[1].value, email: host[2].value,
+        come_and_try: rows(g[1]),
+        play_days: rows(g[2]),
+        fee: g[3].querySelector('input').value,
+        notes: g[4].querySelector('input').value
+      };
+    }
+    var ENDPOINT = 'https://my.croquetwade.com/api/public/come-and-try/club-times';
+    document.getElementById('scrForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      var form = e.currentTarget, btn = document.querySelector('.send');
+      btn.disabled = true; btn.textContent = 'Sending…';
+      var payload = {
+        region: form.getAttribute('data-region'),
+        clubs: [].slice.call(document.querySelectorAll('.club')).map(collectClub)
+      };
+      fetch(ENDPOINT, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) })
+        .then(function(r){ if(!r.ok) throw new Error('bad status'); return r.json(); })
+        .then(function(){
+          document.getElementById('done').style.display = 'block';
+          btn.style.display = 'none';
+          document.getElementById('done').scrollIntoView({behavior:'smooth',block:'center'});
+        })
+        .catch(function(){
+          btn.disabled = false; btn.textContent = 'Send these to CAQ';
+          alert("Sorry, that didn't send. Please try again in a moment.");
+        });
+    });
+  </script>
+</body>
+</html>
