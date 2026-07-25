@@ -1039,11 +1039,14 @@
   <!-- Hero dithered ember-terrain shader -->
   <script src="js/hero-terrain.js" defer></script>
 
-  <!-- Site editor — only activates on ?edit&t=<token>; zero impact otherwise -->
-  <script src="/editor/edit.js"
+  <!-- Site editor — only activates on ?edit&t=<token>; zero impact otherwise.
+       Loaded cross-domain from edit.croquetwade.com, the single source of
+       truth. This used to point at a local /editor/edit.js, which was deleted
+       with the per-site mirrors on 2026-04-30 (c918588e9e) — so from that day
+       the editor 404'd and croquetclaude.com had no editing at all. -->
+  <script src="https://edit.croquetwade.com/edit.js"
           data-stack="git"
           data-site="cc"
-          data-server="https://edit.croquetwade.com"
           defer></script>
 
 </body>
