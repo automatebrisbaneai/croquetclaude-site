@@ -83,8 +83,14 @@ import { Graph, forceAtlas2, Sigma } from '/graph/vendor/libs.js';
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.json();
     })
-    .then(initialise)
-    .catch(err => showError('Could not load graph.json (' + err.message + '). If you opened the file directly, you need to serve it: `python -m http.server` in this folder.'));
+    .catch(err => {
+      showError('Could not load graph.json (' + err.message + '). If you opened the file directly, you need to serve it: `python -m http.server` in this folder.');
+      throw err;
+    })
+    // Separate catch: a failure INSIDE initialise is not a load failure, and
+    // reporting it as one sent us hunting the wrong bug.
+    .then(data => { try { initialise(data); } catch (e) { showError('Could not draw the graph: ' + e.message); } })
+    .catch(() => {});
 
   function initialise(data) {
     // Stats header
@@ -269,7 +275,28 @@ import { Graph, forceAtlas2, Sigma } from '/graph/vendor/libs.js';
     }
   }
 
+  // Sigma throws "Container has no height" if it is constructed before the
+  // stylesheet has applied. That is a real race on a phone: the render-blocking
+  // Google Fonts stylesheet can still be in flight at DOMContentLoaded, when
+  // this deferred module runs, so the container is a few pixels tall and Sigma
+  // dies — which reads to the user as "the graph never opened". Wait for a
+  // container with real height before constructing.
+  function whenContainerReady(cb) {
+    const deadline = Date.now() + 8000;
+    (function poll() {
+      if (sigmaContainer.getBoundingClientRect().height > 40) return cb();
+      if (Date.now() > deadline) {
+        return showError('The graph area never got a size. Try reloading the page.');
+      }
+      requestAnimationFrame(poll);
+    })();
+  }
+
   function renderSigma(graph, data) {
+    whenContainerReady(() => buildSigma(graph, data));
+  }
+
+  function buildSigma(graph, data) {
     loadingOverlay.style.display = 'none';
 
     const renderer = new Sigma(graph, sigmaContainer, {
@@ -289,6 +316,17 @@ import { Graph, forceAtlas2, Sigma } from '/graph/vendor/libs.js';
     });
     window.renderer = renderer;
     window.graph = graph;
+
+    // Sigma sizes its canvases from the container at construction time. On a
+    // phone the container is still settling (fonts, wrapped header), so
+    // re-measure once the layout has landed and on every viewport change.
+    function resize() {
+      try { renderer.resize(); renderer.refresh(); } catch (_) {}
+    }
+    requestAnimationFrame(resize);
+    setTimeout(resize, 300);
+    window.addEventListener('resize', resize);
+    window.addEventListener('orientationchange', () => setTimeout(resize, 200));
 
     let selected = null;
     let hovered = null;

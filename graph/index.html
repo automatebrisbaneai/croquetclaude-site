@@ -49,9 +49,16 @@
     background: var(--bg);
     color: var(--ink);
     overflow: hidden;
+    /* Flex column off the REAL header height. Never assume a fixed header
+       size — on a phone the header wraps to 2-3x its desktop height. */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
   }
 
   header {
+    flex: none;
     padding: 14px 20px;
     background: var(--panel);
     border-bottom: 1px solid var(--hair);
@@ -85,11 +92,35 @@
   main {
     display: grid;
     grid-template-columns: 280px 1fr;
-    height: calc(100vh - 80px);
+    flex: 1;
+    min-height: 0;
   }
   @media (max-width: 720px) {
-    main { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
-    #sidebar { max-height: 220px; border-right: none; border-bottom: 1px solid var(--hair); }
+    /* Graph first, controls under it — the graph is the point of the page. */
+    main { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+    #graph-container { order: -1; min-height: 0; }
+    #sidebar {
+      order: 1;
+      max-height: 38dvh;
+      border-right: none;
+      border-top: 1px solid var(--hair);
+    }
+    /* The header is context, the graph is the point. Reclaim the space:
+       on a 390px screen the blurb alone was 130px of a 664px screen. */
+    header { padding: 10px 16px; }
+    h1 { font-size: 18px; margin-bottom: 2px; }
+    header p { display: none; }
+    #stats {
+      margin-top: 4px;
+      gap: 10px;
+      font-size: 11px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none;
+    }
+    #stats::-webkit-scrollbar { display: none; }
+    .legend { display: none; }
   }
 
   #sidebar {
