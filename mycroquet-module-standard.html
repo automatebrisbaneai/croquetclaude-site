@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyCroquet Module Standard — CroquetClaude</title>
+  <meta name="description" content="How to build a module that plugs into MyCroquet, the Croquet Queensland member app. Give this page to a developer or their AI. They hand back one folder. We plug it in.">
+  <meta property="og:title" content="MyCroquet Module Standard — CroquetClaude">
+  <meta property="og:description" content="The public, self-contained standard for building a MyCroquet module package.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://croquetclaude.com/claude-waving.webp">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="images/favicon.png" type="image/png" sizes="32x32">
+  <link rel="shortcut icon" href="images/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/blog.css">
+  <link rel="canonical" href="https://croquetclaude.com/mycroquet-module-standard.html">
+  <style>
+    /* Page-specific styles */
+    .page-header {
+      margin-bottom: var(--space-l);
+    }
+
+    .page-header h1 {
+      font-family: var(--serif);
+      font-size: 2.6rem;
+      font-weight: 500;
+      line-height: 1.15;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-xs);
+    }
+
+    .page-intro {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: var(--text-secondary);
+      margin-bottom: var(--space-m);
+    }
+
+    /* CONTENT SECTIONS */
+    .content-section {
+      margin-bottom: var(--space-l);
+    }
+
+    .content-section h2 {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: var(--space-m);
+      padding-bottom: var(--space-s);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .rule-block {
+      margin-bottom: var(--space-m);
+    }
+
+    .rule-block h3 {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.01em;
+    }
+
+    .rule-block p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+    }
+
+    .rule-block ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 0.75rem;
+    }
+
+    .rule-block ul li {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      padding-left: 1.25rem;
+      position: relative;
+      margin-bottom: 0.35rem;
+    }
+
+    .rule-block ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.75em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+
+    .rule-block ul li strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* WHY SECTION */
+    .why-section {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: var(--space-m);
+      margin-top: var(--space-l);
+    }
+
+    .why-section h2 {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: var(--space-s);
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .why-section p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+    }
+
+    .why-section p:last-child {
+      margin-bottom: 0;
+    }
+
+    .review-catches {
+      list-style: none;
+      padding: 0;
+    }
+
+    .review-catches li {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      padding-left: 1.25rem;
+      position: relative;
+      margin-bottom: 0.35rem;
+    }
+
+    .review-catches li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.75em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+
+    /* CTA LINK */
+    .page-cta {
+      margin-top: var(--space-l);
+      padding-top: var(--space-m);
+      border-top: 1px solid var(--border);
+    }
+
+    .page-cta p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+    }
+
+    .page-cta a.cta-btn {
+      display: inline-block;
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--bg);
+      background: var(--accent);
+      padding: 0.65rem 1.4rem;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.15s ease;
+      margin-top: var(--space-s);
+    }
+
+    .page-cta a.cta-btn:hover { background: var(--accent-hover); color: var(--bg); }
+
+    /* RESPONSIVE */
+    @media (max-width: 700px) {
+      .page-header h1 { font-size: 2rem; }
+    }
+  </style>
+  <style>
+    .doc { max-width: 46rem; }
+    .doc h1 { font-family: var(--serif); font-size: 2.4rem; font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 var(--space-s); }
+    .doc h2 { font-family: var(--serif); font-size: 1.6rem; font-weight: 500; margin: var(--space-l) 0 var(--space-s); padding-top: var(--space-s); border-top: 1px solid var(--border); letter-spacing: -0.01em; }
+    .doc h3 { font-family: var(--sans); font-size: 1rem; font-weight: 600; margin: var(--space-m) 0 0.5rem; }
+    .doc p, .doc li { font-size: 0.98rem; line-height: 1.75; color: var(--text-secondary); }
+    .doc li { margin-bottom: 0.3rem; }
+    .doc strong { color: var(--text); }
+    .doc code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.86em; background: var(--surface, rgba(0,0,0,0.05)); padding: 0.1em 0.35em; border-radius: 4px; }
+    .doc pre { background: var(--surface, rgba(0,0,0,0.05)); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; overflow-x: auto; font-size: 0.82rem; line-height: 1.55; margin: 0.75rem 0 1.25rem; }
+    .doc pre code { background: none; padding: 0; font-size: inherit; }
+    .doc table { border-collapse: collapse; width: 100%; margin: 0.75rem 0 1.25rem; font-size: 0.92rem; display: block; overflow-x: auto; }
+    .doc th, .doc td { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .doc th { font-family: var(--sans); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); }
+    .doc hr { border: 0; border-top: 1px solid var(--border); margin: var(--space-l) 0; }
+    .doc .toc { font-size: 0.9rem; margin: var(--space-m) 0 var(--space-l); padding: 1rem 1.25rem; border: 1px solid var(--border); border-radius: 8px; }
+    .doc .toc ul { list-style: none; padding-left: 0; margin: 0; }
+    .doc .toc li { margin: 0.2rem 0; }
+    .doc-note { font-size: 0.85rem; color: var(--text-muted); margin-bottom: var(--space-m); }
+    .doc-note a { text-decoration: underline; }
+    .start-here { border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.4rem; margin: 0 0 var(--space-l); }
+    .start-here h2 { font-family: var(--sans); font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); margin: 0 0 0.75rem; padding: 0; border: 0; }
+    .start-here p { font-size: 0.95rem; line-height: 1.7; color: var(--text-secondary); margin: 0 0 0.75rem; }
+    .start-here .repo-link { display: inline-block; font-family: var(--sans); font-size: 0.95rem; font-weight: 600; color: var(--ink, var(--text)); text-decoration: none; border-bottom: 2px solid currentColor; padding-bottom: 1px; }
+    .start-here .repo-link:hover { opacity: 0.7; }
+    .start-here .sub { font-size: 0.85rem; color: var(--text-muted); margin: 0.9rem 0 0; }
+    .doc ul.task-list, .doc li.task-list-item { list-style: none; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">CroquetClaude</a>
+      <ul class="nav-links">
+        <li><a href="/#writing">The Thinking</a></li>
+        <li><a href="/clubhub-rules.html">ClubHub Rules</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+        <li><button class="theme-toggle" aria-label="Toggle dark mode" onclick="toggleTheme()">&#9789;</button></li>
+      </ul>
+    </div>
+  </nav>
+
+    <main class="doc">
+<h1 id="mycroquet-module-package-standard">MyCroquet Module Package Standard</h1>
+<p><strong>Version 1.0, 4 September 2026.</strong></p>
+<p>This document is for anyone who wants to build something that plugs into MyCroquet. You do not need access to our code. Read this, build to it, and hand us one folder. We plug it in.</p>
+<p>If you use an AI to build it, give the AI this whole document. The prompt to paste is in section 8.</p>
+    <div class="start-here">
+      <h2>Start here</h2>
+      <p>Everything below is also a repository, with the worked example as real files
+      you can open, a blank template to copy, and the place to send your finished module.</p>
+      <p><a class="repo-link" href="https://github.com/automatebrisbaneai/mycroquet-module-kit">automatebrisbaneai/mycroquet-module-kit &rarr;</a></p>
+      <p class="sub">Building it with an AI? Give it the plain-text copy of this page:
+      <a href="/mycroquet-module-standard.md">mycroquet-module-standard.md</a></p>
+      <p class="sub">Want the shorter version first? <a href="https://clubhub.croquetqld.org/mycroquet/build-a-mycroquet-module">Build for MyCroquet</a>
+      walks through the same ground in about four minutes.</p>
+    </div>
+
+<h2 id="1-what-mycroquet-is-in-one-screen">1. What MyCroquet is, in one screen</h2>
+<p>MyCroquet is the member app for Croquet Queensland. Members log in at <code>my.croquetqld.org</code>. Clubs and the association run their business inside it.</p>
+<p>The stack:</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>What we use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Framework</td>
+<td>Next.js 16, App Router, React 19, TypeScript</td>
+</tr>
+<tr>
+<td>Styling</td>
+<td>Tailwind CSS 4, a shared shadcn-style component kit</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>PocketBase (the <code>pocketbase</code> JS client, version 0.26)</td>
+</tr>
+<tr>
+<td>Login</td>
+<td>One login type. A member types their email and gets a code. No passwords.</td>
+</tr>
+<tr>
+<td>Tests</td>
+<td>Vitest for unit tests. Playwright for browser tests.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>People and access.</strong> Every person is one record in the <code>users</code> collection. Each has a <code>role</code> and an optional list of <code>capabilities</code>.</p>
+<p>Roles: <code>player</code>, <code>club_captain</code>, <code>club_membership</code>, <code>curator</code>, <code>caq_admin</code>.</p>
+<p>A role grants capability tags. A person can also hold extra tags granted one at a time. Every gate in the app checks tags, not roles. <code>admin</code> is a wildcard tag that passes every check. It belongs to <code>caq_admin</code> only.</p>
+<p><strong>What a module is.</strong> A module is one feature unit. It is one manifest file plus the pages and API routes it owns. From the manifest, the platform works out the menu entry, the page guard and the API guard. There is no other registration step.</p>
+<p>Today there are about thirty modules. Almost all shipped dark. Dark means <code>enabled: false</code>. A dark module is invisible and unreachable until we flip one line.</p>
+<hr />
+<h2 id="2-how-it-plugs-in">2. How it plugs in</h2>
+<p>Your module lives inside MyCroquet. Your pages and API routes use our login, our database clients and our component kit. You write the code to this standard and hand it to us as one folder. We register it, test it on staging, and switch it on.</p>
+<p>We do not embed outside products in a frame, and we do not open our login to outside sites. If your idea only works that way, talk to us first before building anything.</p>
+<hr />
+<h2 id="3-the-manifest-the-contract-you-sign">3. The manifest: the contract you sign</h2>
+<p>One file. Two halves. <code>contract</code> says what you own and who may enter. <code>nav</code> says how you appear in the menu.</p>
+<p>These are the real types. Your manifest must satisfy them.</p>
+<pre><code class="language-ts">// The vocabulary of access. Your module adds ONE new tag to this list
+// (we add it on intake). &quot;admin&quot; passes every check.
+export type CapabilityTag =
+  | &quot;admin&quot;
+  | &quot;member&quot;          // any signed-in member
+  | &quot;membership&quot;      // club membership officers, own club only
+  | &quot;membership_caq&quot;  // CAQ-level membership admin
+  | &quot;captain&quot;         // club captains
+  | &quot;curate&quot;          // editorial curators
+  // ... about twenty explicit per-person tags, one per module
+  | &quot;your_new_tag&quot;;   // &lt;- yours
+
+// OR-logic: user holds ANY listed tag. AND-logic: user holds EVERY listed tag.
+export type Requirement =
+  | { anyCapability: readonly CapabilityTag[] }
+  | { allCapability: readonly CapabilityTag[] };
+
+export interface ModuleContract {
+  id: string;                        // kebab-case, unique, matches your folder names
+  enabled: boolean;                  // ALWAYS false when you hand it in
+  requires: Requirement;             // broadest audience for the whole module
+  routes: readonly string[];         // page prefixes you own, e.g. [&quot;/club-notices&quot;]
+  apis: readonly string[];           // API prefixes you own, e.g. [&quot;/api/club-notices&quot;]
+  exemptApis?: readonly string[];    // never-gated endpoints (cron, webhook, public).
+                                     // EACH ONE needs a comment saying who calls it.
+  allowedHosts?: readonly string[];  // hosts where the module counts as enabled while dark
+  collections?: readonly string[];   // PocketBase collections you own. Documentation only.
+}
+
+export interface NavItem {
+  id: string;
+  label: string;
+  description: string;               // one sentence a member understands
+  href: string;
+  icon: string;                      // an icon NAME from the list under this block
+  section: &quot;Player&quot; | &quot;Membership&quot; | &quot;Come &amp; Try&quot; | &quot;Come &amp; Try Control&quot;
+         | &quot;Club Captain&quot; | &quot;CAQ&quot; | &quot;Gifting&quot; | &quot;Community&quot;
+         | &quot;Accreditations&quot; | &quot;Photos&quot; | &quot;Task Board&quot;;
+  order: number;
+  requires: Requirement;             // may be narrower than the contract
+}
+
+export interface ModuleManifest {
+  contract: ModuleContract;
+  nav: readonly NavItem[];
+}
+</code></pre>
+<p><strong>Icons you may use.</strong> The nav resolves icon names through a fixed map. A name not in this list silently falls back to the Home icon. Pick one of:</p>
+<pre><code>Home, User, UserPlus, Users, Target, ClipboardList, ClipboardCheck, Trophy,
+CheckCircle, Search, BarChart3, Award, Activity, Shield, Calendar, CalendarCog,
+Building2, Globe, FileText, Handshake, MessageSquare, HandCoins, Newspaper,
+Video, Vote, Landmark, Camera, Radar, Gift, Image, History, Store
+</code></pre>
+<p>If none fits, name the lucide icon you want in <code>MODULE.md</code>. Adding it is a one-line change we make on intake.</p>
+<p><strong>Rules for the manifest file.</strong></p>
+<ol>
+<li>It lives at <code>src/modules/&lt;id&gt;.ts</code> and exports one <code>const</code> of type <code>ModuleManifest</code>.</li>
+<li>It imports nothing except <code>./types</code>. No React. No Next. No icons. No helpers. The file is bundled into edge middleware. The build fails if you break this.</li>
+<li><code>enabled</code> is <code>false</code>. Always. We flip it, not you.</li>
+<li><code>allowedHosts</code> may contain <code>"staging.my.croquetwade.com"</code>. That lets us walk through your module on staging while it is still dark on live.</li>
+<li>Use an existing <code>section</code>. A new section is a visible design change and needs our agreement first.</li>
+<li>Ask for your own capability tag. Name it in <code>MODULE.md</code>. Do not reuse someone else's tag unless you write down why it is right.</li>
+<li>Your new tag does not exist in our code until we add it. So your manifest will fail a type check on the tag alone until intake. That is expected. Do not work around it by using an existing tag.</li>
+<li><code>order</code> is where you sit inside your section. Pick any number from 40 to 99. We renumber on intake if it clashes. <code>section</code> is the audience who reads the entry. If readers and writers differ, pick the readers.</li>
+</ol>
+<p><strong>Names already taken (as of 4 September 2026).</strong> Check yours is not on either list.</p>
+<p>Module ids: <code>accreditations-coaching</code>, <code>accreditations-refereeing</code>, <code>approvals</code>, <code>calendar</code>, <code>clip-review</code>, <code>club-mailer</code>, <code>club-profile</code>, <code>coaching-clips</code>, <code>come-and-try</code>, <code>committee</code>, <code>core</code>, <code>croquetvideos-search</code>, <code>ct-control</code>, <code>decisions</code>, <code>dev-personas</code>, <code>gifting</code>, <code>grants</code>, <code>handicap</code>, <code>healthy-mind</code>, <code>learn</code>, <code>meeting-minutes</code>, <code>membership</code>, <code>newsletter</code>, <code>newsroom</code>, <code>peg</code>, <code>pennants</code>, <code>photos</code>, <code>publisher</code>, <code>rankings</code>, <code>submit-news</code>, <code>task-board</code>, <code>tournaments</code>, <code>treasurer</code>, <code>website-editing</code>.</p>
+<p>Capability tags: <code>admin</code>, <code>member</code>, <code>membership</code>, <code>membership_caq</code>, <code>approvals</code>, <code>captain</code>, <code>curate</code>, <code>come_and_try</code>, <code>committee</code>, <code>newsletter</code>, <code>meeting_minutes</code>, <code>treasurer</code>, <code>grants</code>, <code>publisher</code>, <code>coaching_clips</code>, <code>peg</code>, <code>clip_reviewer</code>, <code>club_mailer</code>, <code>club_profile</code>, <code>photos</code>, <code>accreditations_coaching_admin</code>, <code>accreditations_refereeing_admin</code>, <code>accreditations_coaching_assessor</code>, <code>accreditations_refereeing_assessor</code>, <code>ct_control</code>, <code>gifting</code>, <code>website_editing</code>, <code>calendar_review</code>.</p>
+<hr />
+<h2 id="4-worked-example-a-tiny-native-module">4. Worked example: a tiny native module</h2>
+<p>The module is <code>club-notices</code>. A club captain posts a short notice. Members of that club read it. Nothing else.</p>
+<p>Every file is complete. Copy the shapes.</p>
+<h3 id="41-srcmodulesclub-noticests">4.1 <code>src/modules/club-notices.ts</code></h3>
+<pre><code class="language-ts">/**
+ * Club Notices: a club captain posts a short notice, members of that club
+ * read it. Read access is any member. Posting needs the club_notices tag.
+ */
+
+import type { ModuleManifest } from &quot;./types&quot;;
+
+export const clubNotices: ModuleManifest = {
+  contract: {
+    id: &quot;club-notices&quot;,
+    enabled: false,
+    requires: { anyCapability: [&quot;member&quot;] },
+    routes: [&quot;/club-notices&quot;],
+    apis: [&quot;/api/club-notices&quot;],
+    allowedHosts: [&quot;staging.my.croquetwade.com&quot;],
+    collections: [&quot;club_notices&quot;],
+  },
+  nav: [
+    {
+      id: &quot;club-notices&quot;,
+      label: &quot;Club Notices&quot;,
+      description: &quot;Short notices from your club captain&quot;,
+      href: &quot;/club-notices&quot;,
+      icon: &quot;MessageSquare&quot;,
+      section: &quot;Community&quot;,
+      order: 40,
+      requires: { anyCapability: [&quot;member&quot;] },
+    },
+  ],
+};
+</code></pre>
+<h3 id="42-srclibclub-noticests">4.2 <code>src/lib/club-notices.ts</code></h3>
+<p>Pure types and logic. No Next imports here, so it is easy to unit test.</p>
+<pre><code class="language-ts">export interface NoticeRecord {
+  id: string;
+  club: string;        // relation to clubs
+  author: string;      // relation to users
+  body: string;
+  created: string;
+  updated: string;
+}
+
+export const MAX_BODY = 500;
+
+/** Returns an error message, or null when the body is acceptable. */
+export function validateBody(body: unknown): string | null {
+  if (typeof body !== &quot;string&quot;) return &quot;Notice text is required&quot;;
+  const trimmed = body.trim();
+  if (!trimmed) return &quot;Notice text is required&quot;;
+  if (trimmed.length &gt; MAX_BODY) return `Keep it under ${MAX_BODY} characters`;
+  return null;
+}
+</code></pre>
+<h3 id="43-srcappfrontendapiclub-noticesroutets">4.3 <code>src/app/(frontend)/api/club-notices/route.ts</code></h3>
+<p>This is the most important file. Every authed API handler opens with the same three gates, in this order:</p>
+<ol>
+<li>module gate</li>
+<li>authenticate</li>
+<li>authorise</li>
+</ol>
+<pre><code class="language-ts">import { NextRequest, NextResponse } from &quot;next/server&quot;;
+import { requireModuleApi } from &quot;@/lib/api-module-gate&quot;;
+import { verifyAuth, hasCapabilityServer, AuthError } from &quot;@/lib/api-auth&quot;;
+import { getAdminPB } from &quot;@/lib/pocketbase-admin&quot;;
+import { validateBody, type NoticeRecord } from &quot;@/lib/club-notices&quot;;
+
+// GET /api/club-notices  -&gt; the caller's own club's notices, newest first
+export async function GET(req: NextRequest) {
+  const gate = requireModuleApi(&quot;club-notices&quot;, req.headers.get(&quot;host&quot;));
+  if (gate) return gate;                                          // 1. module gate
+
+  let user;
+  try {
+    user = await verifyAuth(req.headers.get(&quot;Authorization&quot;));    // 2. authenticate
+  } catch (e) {
+    const status = e instanceof AuthError ? e.status : 401;
+    return NextResponse.json({ error: &quot;Not authenticated&quot; }, { status });
+  }
+
+  if (!hasCapabilityServer(user, &quot;member&quot;)) {                     // 3. authorise
+    return NextResponse.json({ error: &quot;Insufficient permissions&quot; }, { status: 403 });
+  }
+  if (!user.clubId) {
+    return NextResponse.json({ notices: [] });                    // no club, nothing to show
+  }
+
+  try {
+    const pb = await getAdminPB();
+    const notices = await pb.collection(&quot;club_notices&quot;).getList&lt;NoticeRecord&gt;(1, 50, {
+      filter: pb.filter(&quot;club = {:club}&quot;, { club: user.clubId }),  // never string-build a filter
+      sort: &quot;-created&quot;,
+    });
+    return NextResponse.json({ notices: notices.items });
+  } catch (e) {
+    console.error(&quot;[club-notices] list failed:&quot;, e);
+    return NextResponse.json({ error: &quot;Failed to load notices&quot; }, { status: 500 });
+  }
+}
+
+// POST /api/club-notices  { body: string }  -&gt; creates a notice for the caller's club
+export async function POST(req: NextRequest) {
+  const gate = requireModuleApi(&quot;club-notices&quot;, req.headers.get(&quot;host&quot;));
+  if (gate) return gate;
+
+  let user;
+  try {
+    user = await verifyAuth(req.headers.get(&quot;Authorization&quot;));
+  } catch (e) {
+    const status = e instanceof AuthError ? e.status : 401;
+    return NextResponse.json({ error: &quot;Not authenticated&quot; }, { status });
+  }
+
+  if (!hasCapabilityServer(user, &quot;club_notices&quot;)) {
+    return NextResponse.json({ error: &quot;Insufficient permissions&quot; }, { status: 403 });
+  }
+  if (!user.clubId) {
+    return NextResponse.json({ error: &quot;Your account has no club set&quot; }, { status: 403 });
+  }
+
+  let payload: { body?: unknown };
+  try {
+    payload = await req.json();
+  } catch {
+    return NextResponse.json({ error: &quot;Invalid JSON&quot; }, { status: 400 });
+  }
+  const problem = validateBody(payload.body);
+  if (problem) return NextResponse.json({ error: problem }, { status: 400 });
+
+  try {
+    const pb = await getAdminPB();
+    const created = await pb.collection(&quot;club_notices&quot;).create&lt;NoticeRecord&gt;({
+      club: user.clubId,               // the server decides the club, never the client
+      author: user.userId,
+      body: (payload.body as string).trim(),
+    });
+    return NextResponse.json({ notice: created }, { status: 201 });
+  } catch (e) {
+    console.error(&quot;[club-notices] create failed:&quot;, e);
+    return NextResponse.json({ error: &quot;Failed to save notice&quot; }, { status: 500 });
+  }
+}
+</code></pre>
+<p>Things to notice:</p>
+<ul>
+<li><code>verifyAuth</code> gives you <code>user.userId</code>, <code>user.memberId</code>, <code>user.clubId</code>, <code>user.role</code>, <code>user.capabilities</code>.</li>
+<li>The club comes from the verified user, never from the request body. That is club scoping. Members of one club must never see another club's data.</li>
+<li><code>pb.filter()</code> with named placeholders is the only way to build a filter.</li>
+<li><code>getAdminPB()</code> is the only way to reach the database from a route. Do not create your own PocketBase client. It returns the full PocketBase JS SDK client, so <code>getList</code>, <code>getFullList</code>, <code>getFirstListItem</code>, <code>getOne</code>, <code>create</code>, <code>update</code> and <code>delete</code> all work.</li>
+</ul>
+<p><strong>Update and delete.</strong> Put them in a dynamic route file <code>src/app/(frontend)/api/club-notices/[id]/route.ts</code> exporting <code>PATCH</code> and <code>DELETE</code>. Same three gates in the same order. Then load the record with <code>getOne</code>, and refuse with 404 if its <code>club</code> is not <code>user.clubId</code>. Only then write. The club check on the record is what stops a captain editing another club's notice.</p>
+<p><strong>Time and dates.</strong> Queensland has no daylight saving. When "today" matters, decide it on the server in <code>Australia/Brisbane</code>. Format dates for people with <code>toLocaleDateString("en-AU", ...)</code>.</p>
+<h3 id="44-srcappfrontendclub-noticespagetsx">4.4 <code>src/app/(frontend)/club-notices/page.tsx</code></h3>
+<p>A gated client page using the shared component kit.</p>
+<pre><code class="language-tsx">&quot;use client&quot;;
+
+import { useCallback, useEffect, useState } from &quot;react&quot;;
+import AuthGuard from &quot;@/components/AuthGuard&quot;;
+import CapabilityGuard from &quot;@/components/CapabilityGuard&quot;;
+import pb from &quot;@/lib/pocketbase&quot;;
+import { useAuth, hasCapability } from &quot;@/lib/auth&quot;;
+import { Button, Card, Notice, Spinner, Textarea } from &quot;@/components/ui&quot;;
+import { MAX_BODY, type NoticeRecord } from &quot;@/lib/club-notices&quot;;
+
+function authHeaders(): HeadersInit {
+  return { Authorization: `Bearer ${pb.authStore.token}` };
+}
+
+export default function ClubNoticesPage() {
+  return (
+    &lt;AuthGuard&gt;
+      &lt;CapabilityGuard capabilities={[&quot;member&quot;]}&gt;
+        &lt;NoticesInner /&gt;
+      &lt;/CapabilityGuard&gt;
+    &lt;/AuthGuard&gt;
+  );
+}
+
+function NoticesInner() {
+  const { capabilities } = useAuth();
+  const canPost = hasCapability(capabilities, &quot;club_notices&quot;);
+  const [notices, setNotices] = useState&lt;NoticeRecord[] | null&gt;(null);
+  const [draft, setDraft] = useState(&quot;&quot;);
+  const [error, setError] = useState(&quot;&quot;);
+  const [saving, setSaving] = useState(false);
+
+  const load = useCallback(async () =&gt; {
+    const res = await fetch(&quot;/api/club-notices&quot;, { headers: authHeaders() });
+    if (!res.ok) {
+      setError(&quot;Could not load notices&quot;);
+      setNotices([]);
+      return;
+    }
+    const data = await res.json();
+    setNotices(data.notices ?? []);
+  }, []);
+
+  useEffect(() =&gt; {
+    load();
+  }, [load]);
+
+  async function post() {
+    setSaving(true);
+    setError(&quot;&quot;);
+    const res = await fetch(&quot;/api/club-notices&quot;, {
+      method: &quot;POST&quot;,
+      headers: { ...authHeaders(), &quot;Content-Type&quot;: &quot;application/json&quot; },
+      body: JSON.stringify({ body: draft }),
+    });
+    setSaving(false);
+    if (!res.ok) {
+      const data = await res.json().catch(() =&gt; ({}));
+      setError(data.error ?? &quot;Could not save&quot;);
+      return;
+    }
+    setDraft(&quot;&quot;);
+    load();
+  }
+
+  return (
+    &lt;div className=&quot;mx-auto max-w-2xl space-y-6 p-4&quot;&gt;
+      &lt;h1 className=&quot;text-2xl font-semibold&quot;&gt;Club Notices&lt;/h1&gt;
+
+      {canPost &amp;&amp; (
+        &lt;Card&gt;
+          &lt;Textarea
+            label=&quot;New notice&quot;
+            value={draft}
+            onChange={(e) =&gt; setDraft(e.target.value)}
+            maxLength={MAX_BODY}
+            placeholder=&quot;Write a short notice for your club&quot;
+          /&gt;
+          &lt;div className=&quot;mt-3 flex justify-end&quot;&gt;
+            &lt;Button onClick={post} disabled={saving || !draft.trim()}&gt;
+              {saving ? &quot;Posting&quot; : &quot;Post notice&quot;}
+            &lt;/Button&gt;
+          &lt;/div&gt;
+        &lt;/Card&gt;
+      )}
+
+      {error &amp;&amp; &lt;Notice&gt;{error}&lt;/Notice&gt;}
+      {notices === null &amp;&amp; &lt;Spinner /&gt;}
+      {notices?.length === 0 &amp;&amp; &lt;p className=&quot;text-sm opacity-70&quot;&gt;No notices yet.&lt;/p&gt;}
+      {notices?.map((n) =&gt; (
+        &lt;Card key={n.id}&gt;
+          &lt;p className=&quot;whitespace-pre-wrap&quot;&gt;{n.body}&lt;/p&gt;
+          &lt;p className=&quot;mt-2 text-xs opacity-60&quot;&gt;
+            {new Date(n.created).toLocaleDateString(&quot;en-AU&quot;, {
+              day: &quot;numeric&quot;,
+              month: &quot;long&quot;,
+              year: &quot;numeric&quot;,
+            })}
+          &lt;/p&gt;
+        &lt;/Card&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+<p>The shared kit exports: <code>Button, LinkButton, Card, Input, SearchInput, Select, Textarea, Checkbox, ListPicker, ToggleGroup, Table, ScheduleRow, Spinner, Notice, NavTile, DemoBadge, HonourBoard, SectionHead, ToastProvider, useToast, Skeleton, SkeletonCard, SkeletonTableRows, SkeletonMemberCard, RecordCard, RecordRow, RecordEditRow, RecordFieldRow</code>. Import them from <code>@/components/ui</code>. Guards are default exports one level up: <code>@/components/AuthGuard</code>, <code>@/components/CapabilityGuard</code>, <code>@/components/RoleGuard</code>.</p>
+<p>Use the kit for every control. Do not bring in another component library.</p>
+<p>Prop contracts you will need most:</p>
+<ul>
+<li><code>Input</code>, <code>Textarea</code>, <code>Select</code> all <strong>require</strong> a <code>label</code> string. They accept every normal HTML attribute for their element (<code>value</code>, <code>onChange</code>, <code>placeholder</code>, <code>maxLength</code>, <code>disabled</code>) plus an optional <code>error</code> string.</li>
+<li><code>Select</code> also takes <code>options: { value: string; label: string }[]</code> and an optional <code>placeholder</code>. It renders a native select, so <code>onChange</code> gives you <code>e.target.value</code>.</li>
+<li><code>Card</code> takes an optional <code>title</code> and children. <code>Notice</code> takes children and an optional <code>variant</code>, default is an error style. <code>Button</code> is a normal button.</li>
+</ul>
+<h3 id="45-srclibclub-noticestestts">4.5 <code>src/lib/club-notices.test.ts</code></h3>
+<pre><code class="language-ts">import { describe, it, expect } from &quot;vitest&quot;;
+import { validateBody, MAX_BODY } from &quot;./club-notices&quot;;
+
+describe(&quot;validateBody&quot;, () =&gt; {
+  it(&quot;rejects empty&quot;, () =&gt; {
+    expect(validateBody(&quot;&quot;)).toBeTruthy();
+    expect(validateBody(&quot;   &quot;)).toBeTruthy();
+    expect(validateBody(undefined)).toBeTruthy();
+  });
+  it(&quot;rejects too long&quot;, () =&gt; {
+    expect(validateBody(&quot;x&quot;.repeat(MAX_BODY + 1))).toBeTruthy();
+  });
+  it(&quot;accepts a normal notice&quot;, () =&gt; {
+    expect(validateBody(&quot;Lawn 2 closed Tuesday for repairs.&quot;)).toBeNull();
+  });
+});
+</code></pre>
+<h3 id="46-testsclub-noticesstagingspects">4.6 <code>tests/club-notices.staging.spec.ts</code></h3>
+<p>A browser test that runs against our staging site. You cannot run it. Write it anyway so we can. Our helper file <code>./helpers</code> exports <code>login(page, email)</code>, <code>ADMIN_EMAIL</code>, <code>PLAYER_EMAIL</code>, <code>CLUBADMIN_EMAIL</code>, <code>CLUBADMIN2_EMAIL</code> (a second club, for cross-club tests), <code>TEST_PREFIX</code> and <code>uniqueName()</code>.</p>
+<pre><code class="language-ts">import { test, expect } from &quot;@playwright/test&quot;;
+import { login, ADMIN_EMAIL } from &quot;./helpers&quot;;
+
+test.describe(&quot;club-notices&quot;, () =&gt; {
+  test(&quot;a member sees the notices page&quot;, async ({ page }) =&gt; {
+    await login(page, ADMIN_EMAIL);
+    await page.goto(&quot;/club-notices&quot;);
+    await expect(page.getByRole(&quot;heading&quot;, { name: &quot;Club Notices&quot; })).toBeVisible();
+  });
+
+  test(&quot;the API refuses an unauthenticated call&quot;, async ({ request }) =&gt; {
+    const res = await request.get(&quot;/api/club-notices&quot;);
+    expect([401, 404]).toContain(res.status()); // 404 when dark, 401 when lit
+  });
+});
+</code></pre>
+<h3 id="47-collectionsjson">4.7 <code>collections.json</code></h3>
+<p>Describe every PocketBase collection you need. We create it. All five API rules are <code>null</code>. That means only the server can touch it. Every read and write goes through your API routes. Do not ask for a permissive rule.</p>
+<pre><code class="language-json">{
+  &quot;instance&quot;: &quot;core&quot;,
+  &quot;collections&quot;: [
+    {
+      &quot;name&quot;: &quot;club_notices&quot;,
+      &quot;type&quot;: &quot;base&quot;,
+      &quot;fields&quot;: [
+        { &quot;name&quot;: &quot;club&quot;,   &quot;type&quot;: &quot;relation&quot;, &quot;collection&quot;: &quot;clubs&quot;, &quot;required&quot;: true, &quot;maxSelect&quot;: 1 },
+        { &quot;name&quot;: &quot;author&quot;, &quot;type&quot;: &quot;relation&quot;, &quot;collection&quot;: &quot;users&quot;, &quot;required&quot;: true, &quot;maxSelect&quot;: 1 },
+        { &quot;name&quot;: &quot;body&quot;,   &quot;type&quot;: &quot;text&quot;, &quot;required&quot;: true, &quot;max&quot;: 500 }
+      ],
+      &quot;indexes&quot;: [&quot;CREATE INDEX idx_club_notices_club ON club_notices (club)&quot;],
+      &quot;rules&quot;: { &quot;list&quot;: null, &quot;view&quot;: null, &quot;create&quot;: null, &quot;update&quot;: null, &quot;delete&quot;: null }
+    }
+  ]
+}
+</code></pre>
+<p><code>created</code> and <code>updated</code> autodate fields are added for you. Field types available: <code>text</code>, <code>number</code>, <code>bool</code>, <code>email</code>, <code>url</code>, <code>date</code>, <code>select</code>, <code>relation</code>, <code>file</code>, <code>json</code>, <code>editor</code>.</p>
+<p>A <code>select</code> field lists its choices: <code>{ "name": "status", "type": "select", "values": ["open", "closed"], "maxSelect": 1 }</code>.</p>
+<p><strong>Collections that already exist and you may relate to:</strong> <code>users</code> (the login record, holds <code>role</code> and <code>capabilities</code>), <code>members</code> (the person, holds names), <code>clubs</code> (the club). Relate to these by id. Do not copy their fields into your own collection.</p>
+<p>If you suspect a collection for your idea already exists (lawns, events, documents), do not build a parallel one. Write it under "Open questions" in <code>MODULE.md</code> and we will tell you.</p>
+<hr />
+<h2 id="5-the-rules-that-do-not-bend">5. The rules that do not bend</h2>
+<p>Each rule has a reason. The reason is why we will not waive it.</p>
+<ul>
+<li><strong>Three gates, in code order.</strong> <code>requireModuleApi</code> then <code>verifyAuth</code> then <code>hasCapabilityServer</code>. The middleware also gates the route, but the route must defend itself. A future middleware edit must not open your API.</li>
+<li><strong><code>pb.filter()</code> for every filter.</strong> String-built filters are an injection hole. We test for it.</li>
+<li><strong>Shared database clients only.</strong> <code>getAdminPB()</code> on the server. <code>pb</code> from <code>@/lib/pocketbase</code> in the browser. A second client means a second auth state and bugs nobody can reproduce.</li>
+<li><strong>Collections are superuser-only.</strong> All five rules <code>null</code>. A permissive rule once let a member promote themselves. Your API routes are the boundary.</li>
+<li><strong>Club scoping comes from the verified user.</strong> Never trust a <code>clubId</code> in a request. Members of one club must not see another club's data.</li>
+<li><strong>No secrets in code.</strong> Read config from <code>process.env</code>. List every variable you need in <code>MODULE.md</code>. We set them on staging first, then live.</li>
+<li><strong>Exempt endpoints are named and commented.</strong> A cron, webhook or public endpoint goes in <code>exemptApis</code> with a comment saying who calls it. Otherwise it returns 404 the moment the module is dark.</li>
+<li><strong>Links to other modules use <code>hrefFor("&lt;nav-item-id&gt;")</code></strong> from <code>@/modules</code> guarded by <code>isModuleEnabled("&lt;id&gt;")</code> from <code>@/modules/gate</code>. Never a hardcoded path. <code>hrefFor</code> throws on an unknown id, which is the point.</li>
+<li><strong>The shared kit for every control.</strong> <code>@/components/ui</code>. Tailwind classes for layout. No other UI library.</li>
+<li><strong>Server components by default.</strong> Add <code>"use client"</code> only when you need state or browser APIs.</li>
+<li><strong>Manifest imports only <code>./types</code>.</strong> Build-enforced.</li>
+<li><strong>Ship dark.</strong> <code>enabled: false</code>. We flip it.</li>
+<li><strong>Do not touch shared files.</strong> No edits to <code>src/modules/index.ts</code>, <code>src/modules/types.ts</code>, the middleware, the nav, or anything outside your own folders. We do the registration on intake.</li>
+</ul>
+<hr />
+<h2 id="6-what-you-hand-in-the-package">6. What you hand in: the package</h2>
+<p>One folder. Name it <code>mycroquet-module-&lt;id&gt;/</code>. Nothing outside these paths.</p>
+<pre><code>mycroquet-module-club-notices/
+  MODULE.md
+  CHECKLIST.md
+  collections.json
+  src/
+    modules/club-notices.ts
+    lib/club-notices.ts
+    lib/club-notices.test.ts
+    app/(frontend)/club-notices/page.tsx
+    app/(frontend)/api/club-notices/route.ts
+    components/club-notices/          (optional, your own components)
+  tests/
+    club-notices.staging.spec.ts
+</code></pre>
+<p>The <code>src/</code> tree mirrors ours. We copy it straight in.</p>
+<h3 id="modulemd-must-answer"><code>MODULE.md</code> must answer</h3>
+<ol>
+<li><strong>Name and id.</strong> <code>Club Notices</code>, <code>club-notices</code>.</li>
+<li><strong>What it does.</strong> Three sentences at most.</li>
+<li><strong>Who uses it.</strong> Which roles. Which clubs.</li>
+<li><strong>The member sentence.</strong> The one line that appears under the menu entry.</li>
+<li><strong>Capability tag requested.</strong> <code>club_notices</code>. Who should hold it.</li>
+<li><strong>Nav section and order.</strong></li>
+<li><strong>Environment variables.</strong> Name, purpose, example value. Or "none".</li>
+<li><strong>Collections.</strong> Or "none". Detail in <code>collections.json</code>.</li>
+<li><strong>Exempt endpoints.</strong> Or "none". Who calls each.</li>
+<li><strong>Who to contact.</strong> Name and email of the author.</li>
+<li><strong>Open questions.</strong> Anything the standard did not answer. An honest question here beats a guess in the code.</li>
+</ol>
+<h3 id="checklistmd"><code>CHECKLIST.md</code></h3>
+<p>Copy section 7. Tick each line. Under each tick, one line of evidence. "Tested" is not evidence. "Ran <code>npx vitest run src/lib/club-notices.test.ts</code>, 3 passed" is evidence.</p>
+<hr />
+<h2 id="7-acceptance-checklist">7. Acceptance checklist</h2>
+<h3 id="you-check-before-you-hand-in">You check before you hand in</h3>
+<ul>
+<li>&#9744; Manifest at <code>src/modules/&lt;id&gt;.ts</code>, <code>enabled: false</code>, imports only <code>./types</code></li>
+<li>&#9744; Own capability tag requested in <code>MODULE.md</code>, or a written reason an existing tag is right</li>
+<li>&#9744; Every API handler: <code>requireModuleApi</code> then <code>verifyAuth</code> then <code>hasCapabilityServer</code>, in that order</li>
+<li>&#9744; Every database filter uses <code>pb.filter()</code> with placeholders</li>
+<li>&#9744; Database access only via <code>getAdminPB()</code> on the server, <code>pb</code> from <code>@/lib/pocketbase</code> in the browser</li>
+<li>&#9744; Club scoping reads <code>user.clubId</code> from <code>verifyAuth</code>, never from the request</li>
+<li>&#9744; Exempt endpoints listed and commented, or none</li>
+<li>&#9744; <code>collections.json</code> present, all rules <code>null</code>, or an empty list</li>
+<li>&#9744; No secrets in code. Every env var named in <code>MODULE.md</code></li>
+<li>&#9744; Unit tests exist and pass with <code>npx vitest run &lt;your test file&gt;</code></li>
+<li>&#9744; A staging spec exists at <code>tests/&lt;id&gt;.staging.spec.ts</code></li>
+<li>&#9744; Only the shared kit for UI controls</li>
+<li>&#9744; No file outside the package layout in section 6</li>
+<li>&#9744; <code>MODULE.md</code> answers all eleven questions</li>
+</ul>
+<h3 id="we-check-on-intake">We check on intake</h3>
+<ul>
+<li>&#9744; The id is not already taken</li>
+<li>&#9744; Type check passes with your files in place</li>
+<li>&#9744; Registry and gate invariant tests still pass</li>
+<li>&#9744; Dark on staging: page redirects, API returns 404, no menu entry</li>
+<li>&#9744; Lit on the staging host: works end to end</li>
+<li>&#9744; Cross-club isolation probed</li>
+<li>&#9744; Security harness run over your API routes</li>
+<li>&#9744; Wade's go before anything reaches live</li>
+</ul>
+<hr />
+<h2 id="8-the-prompt-to-give-your-ai">8. The prompt to give your AI</h2>
+<p>Paste this, then paste this whole document under it.</p>
+<pre><code>You are building a module package for MyCroquet, the Croquet Queensland member app.
+Read the standard below in full before writing anything.
+
+Build a module package for: &lt;describe your idea in two or three sentences&gt;
+
+Rules:
+
+- Follow the standard exactly. Where the standard shows a shape, copy the shape.
+- Output the complete folder described in section 6. Every file in full. No placeholders.
+- Every API handler opens with the three gates in the order shown in section 4.3.
+- Do not create or edit any file outside the package layout.
+- Fill CHECKLIST.md from section 7 with one line of real evidence per tick.
+- If the standard does not answer a question, write the question in MODULE.md
+  under &quot;Open questions&quot; instead of guessing.
+</code></pre>
+<hr />
+<h2 id="9-glossary">9. Glossary</h2>
+<p><strong>Capability tag.</strong> A short string like <code>club_notices</code> that a person holds. Gates check tags. Roles grant tags. Extra tags are granted one person at a time.</p>
+<p><strong>Role.</strong> One of five: <code>player</code>, <code>club_captain</code>, <code>club_membership</code>, <code>curator</code>, <code>caq_admin</code>. A role is a bundle of tags.</p>
+<p><strong>Manifest.</strong> The one file that declares a module. Section 3.</p>
+<p><strong>Dark ship.</strong> Handing in with <code>enabled: false</code>. The module is in the code but invisible. We flip it on later.</p>
+<p><strong>Allowed host.</strong> A domain where a dark module counts as enabled. We use it to test on staging.</p>
+<p><strong>Family route.</strong> An API route that a sibling Croquet Queensland website may call as the logged-in member. <code>GET /api/auth/me</code> is one. We build and register these. You do not.</p>
+<p><strong>PocketBase.</strong> The database. One record per row. Collections instead of tables. Five API rules per collection control who may list, view, create, update, delete. Ours are all <code>null</code>, which means server only.</p>
+<p><strong>Gate.</strong> A check that returns early. Module gate: is the module on? Auth gate: who is this? Capability gate: may they do this?</p>
+<p><strong>Package.</strong> The one folder you hand in. Section 6.</p>
+<hr />
+<h2 id="changes-to-this-standard">Changes to this standard</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-09-04</td>
+<td>Version 1.0. First public version. Native modules only; no embedded path.</td>
+</tr>
+</tbody>
+</table>
+  </main>
+
+<footer>
+    <p>CroquetClaude is <a href="https://croquetwade.com">CroquetWade's</a> consultancy tool. Views expressed here are not official <a href="https://croquetandhightea.com">Croquet Queensland</a> policy.</p>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('cc-theme', next);
+      document.querySelector('.theme-toggle').textContent = next === 'light' ? '\u263D' : '\u2600';
+    }
+    (function() {
+      const saved = localStorage.getItem('cc-theme');
+      if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+        document.addEventListener('DOMContentLoaded', function() {
+          const btn = document.querySelector('.theme-toggle');
+          if (btn) btn.textContent = saved === 'light' ? '\u263D' : '\u2600';
+        });
+      }
+    })();
+  </script>
+
+</body>
+</html>

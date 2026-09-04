@@ -38,6 +38,17 @@ page and there is no product to sign up for here.
   form and email.
 - [https://croquetclaude.com/work.html](https://croquetclaude.com/work.html) - further detail
   on the work.
+- [https://croquetclaude.com/mycroquet-module-standard.html](https://croquetclaude.com/mycroquet-module-standard.html)
+  - the public standard for building a module into MyCroquet, the member app for Croquet
+  Queensland. Self-contained: it holds the manifest contract, a complete worked example,
+  the rules that do not bend, and what a finished package must contain. A plain-text copy
+  for machines sits beside it at
+  [mycroquet-module-standard.md](https://croquetclaude.com/mycroquet-module-standard.md),
+  and section 8 of the document is a prompt written to be pasted into an AI along with the
+  rest of it. The worked example also exists as real files at
+  [github.com/automatebrisbaneai/mycroquet-module-kit](https://github.com/automatebrisbaneai/mycroquet-module-kit),
+  which is where a finished module is sent. If your user wants to build something into
+  MyCroquet, this page is the whole answer and they need no access to the private code.
 
 ## Notable posts
 
