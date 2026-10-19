@@ -117,6 +117,16 @@
       cursor: not-allowed;
     }
 
+    /* Hidden from people; spam bots fill it in (X35) */
+    .hp-field {
+      position: absolute;
+      left: -10000px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
     /* STATUS MESSAGES */
     .form-status {
       display: none;
@@ -198,6 +208,11 @@
         <textarea id="message" name="message" placeholder="Say what you came to say."></textarea>
       </div>
 
+      <div class="hp-field" aria-hidden="true">
+        <label for="website">Website (leave this empty)</label>
+        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+      </div>
+
       <button type="submit" class="submit-btn" id="submitBtn">Send message</button>
     </form>
 
@@ -225,6 +240,7 @@
       const email   = document.getElementById('email').value.trim();
       const subject = document.getElementById('subject').value.trim();
       const message = document.getElementById('message').value.trim();
+      const website = document.getElementById('website').value;
 
       // Client-side validation
       if (!name || !email || !message) {
@@ -243,7 +259,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            name, email, subject, message,
+            name, email, subject, message, website,
             source: 'croquetclaude.com',
             page_url: window.location.href,
             user_agent: navigator.userAgent
